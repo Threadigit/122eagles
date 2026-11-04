@@ -3,16 +3,16 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#c4d0d5">
+  <meta name="theme-color" content="#172b36">
   <meta name="description" content="Welcome to Maryland Eagles Eyes. Maryland, USA.">
   <meta property="og:type" content="website">
   <meta property="og:title" content="Maryland Eagles Eyes">
   <meta property="og:description" content="Welcome to Maryland Eagles Eyes.">
   <meta property="og:url" content="https://122eagles.com/">
-  <meta property="og:image" content="https://122eagles.com/assets/social.png">
+  <meta property="og:image" content="https://122eagles.com/assets/social.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="Maryland Eagles Eyes, overlooking an illustrated Chesapeake Bay.">
+  <meta property="og:image:alt" content="Maryland Eagles Eyes overlooking Maryland's Chesapeake Bay Bridge.">
   <meta name="twitter:card" content="summary_large_image">
   <title>Maryland Eagles Eyes</title>
   <link rel="canonical" href="https://122eagles.com/">
@@ -21,6 +21,10 @@
   <link rel="stylesheet" href="/style.css">
 </head>
 <body>
+  <picture class="landscape">
+    <source media="(max-width: 600px)" srcset="/assets/chesapeake-bay-bridge-960.webp">
+    <img src="/assets/chesapeake-bay-bridge-1920.webp" width="1920" height="1756" alt="An aerial view of the twin spans of Maryland's Chesapeake Bay Bridge." fetchpriority="high">
+  </picture>
   <header class="masthead">
     <a class="identity" href="/" aria-label="Maryland Eagles Eyes home">
       <svg class="eagle" width="37" height="25" viewBox="0 0 48 32" fill="none" aria-hidden="true"><path d="m3 7 13 4 8 10 8-10 13-4-9 12-12 7-12-7Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="m20 16 4-6 4 6M24 21v5" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
@@ -32,11 +36,7 @@
     <div class="welcome">
       <h1><span class="eyebrow">Welcome to</span><span>Maryland</span><em>Eagles Eyes</em></h1>
     </div>
-    <img class="landscape" src="/assets/chesapeake.svg" width="1800" height="740" alt="" fetchpriority="high">
-    <div class="birds" aria-hidden="true">
-      <svg viewBox="0 0 90 30"><path d="M4 15q19-12 38 0 18-14 43-5"/></svg>
-    </div>
   </main>
-  <footer><span>122eagles.com</span><span class="coordinates" aria-hidden="true">39° N &nbsp; 76° W</span></footer>
+  <footer><span>122eagles.com</span><a class="landmark" href="https://hdl.loc.gov/loc.pnp/highsm.14292" title="Photograph by Carol M. Highsmith, Library of Congress">Chesapeake Bay Bridge, Maryland <span aria-hidden="true">↗</span></a></footer>
 </body>
 </html>

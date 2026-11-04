@@ -6,9 +6,17 @@ browser sign-ins are available. Do not change unrelated projects or DNS records.
 
 ## Completed
 
-- Static welcome page: “Welcome to Maryland Eagles Eyes”. Original Chesapeake
-  illustration, Lora/Instrument Sans typography and a muted blue-grey palette
-  informed by https://www.join-thebridge.com/. Self-hosted licensed fonts.
+- Static welcome page: “Welcome to Maryland Eagles Eyes”. Lora/Instrument Sans
+  typography informed by https://www.join-thebridge.com/, with self-hosted fonts.
+- Latest refinement replaces the generic illustration with Carol M. Highsmith’s
+  public-domain aerial photograph of Maryland’s Chesapeake Bay Bridge. Warm white
+  type, deep blue palette and simplified spacing; mobile receives a 960px WebP
+  instead of the 1920px desktop image. Source/rights in assets/PHOTO-CREDIT.md.
+  New social preview matches the photographic design.
+- Latest local review passed 320/390/844 landscape/1440/2560px: exact welcome
+  text, image delivery, fonts, no horizontal overflow and no external runtime
+  requests. Throttled Chromium mobile: FCP 0.62s, CLS 0.00082, transfer ~220KB
+  excluding social-preview image. These are local lab results, not field data.
 - Local main commit `e494e5e` contains the deployed site. No JS or runtime packages.
 - Local Chromium checks passed at 320, 390, 844 (short landscape), 1440 and 2560px:
   exact welcome text, fonts loaded, no horizontal overflow, reduced motion and
