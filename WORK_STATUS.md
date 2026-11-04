@@ -45,6 +45,13 @@ scope, current bridge photograph and design. Read before continuing.
 - Five email-forwarding MX records and SPF/TXT match the pre-change public
   baseline. /tmp/122eagles-dns-before.json and /tmp/122eagles-mail-after.json.
 
+- Current mobile cinematic update: commit c9236e1, deployment
+  dpl_DX1dse1hKp4HADzXebS4qjb1wb4h is READY. Actual https://122eagles.com checks
+  passed all three Chromium mobile profiles, including high-density image
+  selection, full camera cycle, touch, rotation/resize continuity and reduced
+  motion. Standard-density phone still chooses the smaller asset. Public
+  motion.js exactly matches source and its first-party CSP permits execution.
+
 ## Hosting
 
 - Vercel project 122eagles / prj_Wmor3GXuz4VGB2Dd77qDhEQdRwY9.
