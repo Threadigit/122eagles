@@ -92,3 +92,19 @@ Setup page was sent to the user, who must reach the actual Advanced DNS page
 then click Save profile and reply Saved. A text-input request is pending for
 that confirmation. Run DNS automation on this exact dedicated profile after
 confirmation; do not keep retrying Default. No secure setup URLs are committed.
+
+## Dedicated-profile result
+
+The user replied Saved for the dedicated profile. Run
+`af237b5a-a542-4f08-be39-ac7b96f884eb` completed on the Namecheap login page.
+No DNS records changed. list_profiles showed domain_count 0 for this dedicated
+profile before the run. Neither Default nor dedicated profile has supplied an
+active Namecheap session to automation after user-confirmed saves. Do not send
+the user through another identical setup/save loop without a concrete new fix.
+
+Direct fallback supplied: Namecheap > 122eagles.com > Advanced DNS > Host Records:
+A @ 216.198.79.1; A @ 64.29.17.1; CNAME www
+6320fd3e556bc659.vercel-dns-017.com; Automatic TTL. Replace only conflicting
+apex parking/URL redirect and www parking records. Preserve mail/other records.
+After the user applies these, verify public DNS, Vercel configuration, HTTPS and
+www-to-apex redirect. Domain and GitHub repository setup remain unfinished.
