@@ -17,13 +17,14 @@ browser sign-ins are available. Do not change unrelated projects or DNS records.
   text, image delivery, fonts, no horizontal overflow and no external runtime
   requests. Throttled Chromium mobile: FCP 0.62s, CLS 0.00082, transfer ~220KB
   excluding social-preview image. These are local lab results, not field data.
-- Local main commit `e494e5e` contains the deployed site. No JS or runtime packages.
+- Site commit `9705d48` contains the current deployed design. No JS or runtime packages.
 - Local Chromium checks passed at 320, 390, 844 (short landscape), 1440 and 2560px:
   exact welcome text, fonts loaded, no horizontal overflow, reduced motion and
   no external resource requests. Reviewed phone/desktop screenshots.
 - Vercel project `122eagles`, id `prj_Wmor3GXuz4VGB2Dd77qDhEQdRwY9`.
 - Team `toluadetuyis-projects`, id `team_1HRMSafo3kjx8ErMiKg6Rlww`.
-- Production deployment `dpl_Fn7ve4eyzhzqWVJMx22HrskhPNg9` is READY.
+- Current production deployment `dpl_6Efjrp4ZeA1anCyTJzc9VHmniTgC` is READY.
+  Live phone/desktop checks passed and served HTML matches commit `9705d48`.
 - Public URL: https://122eagles.vercel.app/. Served HTML exactly matches local;
   live Chromium checks passed at 390 and 1440px, including CSP, fonts and art.
 - Custom domains added in Vercel and ownership verified. `www.122eagles.com`
