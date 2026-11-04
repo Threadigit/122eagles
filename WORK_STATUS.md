@@ -80,11 +80,12 @@ scope, current bridge photograph and design. Read before continuing.
   dpl_2GJphN14Q3fsYZtDLRRH712UkiRc fetched that GitHub commit and is READY on
   122eagles.com. Live mobile cinematic checks still pass. WORK_STATUS.md returns
   HTTP404 publicly because outputDirectory is public.
-- Permanent Git integration is NOT connected yet: get_git_deployment_context
-  has no 122eagles entry. No CLI VERCEL_TOKEN is configured. create_git_project
-  cannot connect an existing unlinked project, so the user was asked to open
-  https://vercel.com/toluadetuyis-projects/122eagles/settings/git and connect
-  Threadigit/122eagles. A Connected text-input request is pending.
+- User connected the repository. get_git_deployment_context now confirms project
+  prj_Wmor3GXuz4VGB2Dd77qDhEQdRwY9 is linked to GitHub Threadigit/122eagles
+  in team toluadetuyis-projects. Source branch main. A verification commit adds
+  only a source-provenance HTML comment plus deployment documentation; the
+  rendered design is unchanged. Its push must trigger Vercel without calling
+  create_deployment.
 - After the user connects, verify the project link, then push a small deployment
   verification commit and inspect the automatically created deployment's GitHub
   SHA/branch/source and READY production status. Do not call create_deployment

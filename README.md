@@ -16,8 +16,8 @@ repository root. Output directory: `public` (also set in `vercel.json`). No buil
 or install command is required. Website files live in `public/`; internal
 continuation notes stay outside the published directory.
 
-Push to `main` to deploy production after the repository is connected to the
-existing Vercel project `122eagles` in `toluadetuyis-projects`.
+Push to `main` to deploy production automatically through the connected Vercel
+project `122eagles` in `toluadetuyis-projects`.
 
 Fonts: Lora and Instrument Sans, distributed under the SIL Open Font License;
 see `public/assets/OFL-*.txt`. Font files are self-hosted.
