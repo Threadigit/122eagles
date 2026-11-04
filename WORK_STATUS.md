@@ -105,7 +105,7 @@ scope, current bridge photograph and design. Read before continuing.
 Local preview: python3 -m http.server 8012 --directory public. No registrar transfer, nameserver
 migration or purchase is needed. Do not change other projects or records.
 
-## Newsletter copy and on-site signup — final checks
+## Newsletter copy and on-site signup — complete
 
 User requested “Maryland, made clear.” plus the policies/projects/programs copy,
 “Five minutes. Free. Every week.” and “Open your eyes” as the subscription action.
@@ -128,8 +128,10 @@ self and parent form-action remains none. Provider scripts run under its own
 frame policy and do not load on the landing page before a reader opens signup.
 A no-script embedded-form fallback is included.
 
-Provider docs explicitly require an iframe for staying on-site; do not call the
-public embed-subscribe endpoint with JavaScript fetch. A trial native form
+For the public signup flow, provider docs recommend an iframe or web component
+when staying on-site, and prohibit JavaScript fetch to embed-subscribe. This
+integration uses the official iframe; a separate private API integration would
+require server-side credentials and was unnecessary for the requested flow. A trial native form
 submission targeting a frame did not work and was removed. An empty submission
 was used for that check; no actual email recipient or subscriber was created.
 Final QA only renders the live provider form and checks invalid/valid syntax
@@ -142,6 +144,9 @@ reads the actual Buttondown form without POST. Test URL env EAGLES_TEST_URL;
 EAGLES_LIVE_FORM=1 enables read-only live form check. Actual CSP local preview is
 /tmp/eagles-csp-server.py at port8013 (reads vercel.json headers).
 
-Merge only after these checks pass, then verify the Git-triggered production
-build and real on-site signup rendering. The existing draft PR is attached to
-the task. User authorized committing, merging and deployment in this session.
+PR #1 is merged at fd0fab818dc9b399dbdc5184479f42f5a647ff99 and attached to
+this task. Git-triggered production deployment dpl_DdLPHA5mTK7RsJ7QaAH6iUQFwN7x
+is READY. Live tests passed at 320/390/844 landscape/1440, including the actual
+Buttondown form render and validity checks with no POST or test subscriber.
+Production HTML exactly matched the merged source. Copy, social preview and
+working on-site signup are now live at https://122eagles.com/.
