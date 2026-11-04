@@ -7,11 +7,13 @@
   const loadForm = () => {
     frame.src = frame.dataset.src;
   };
-  trigger.addEventListener('click', () => {
+  const openSignup = () => {
     dialog.showModal();
     document.body.setAttribute('data-signup-open', '');
     if (!frame.hasAttribute('src')) loadForm();
-  });
+  };
+  trigger.addEventListener('click', openSignup);
+  if (location.hash === '#subscribe') openSignup();
   dialog.querySelector('[data-close-subscribe]').addEventListener('click', () => dialog.close());
   dialog.addEventListener('click', event => {
     if (event.target !== dialog) return;

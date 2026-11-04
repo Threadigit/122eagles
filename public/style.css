@@ -58,18 +58,40 @@ footer{display:flex;justify-content:space-between;align-items:center;gap:24px;ma
 @media(max-height:600px) and (min-width:601px){.welcome{padding-bottom:55px}.newsletter-introduction{margin-top:18px}.newsletter-description{font-size:14px;line-height:1.6}.newsletter-promise{margin:16px 0 12px}}
 @media(prefers-reduced-motion:reduce){.subscribe-button{transition:none}}
 
-.subscribe-dialog{box-sizing:border-box;width:min(460px,calc(100vw - 32px));max-height:calc(100dvh - 32px);padding:38px 32px 30px;border:1px solid #d6d9d4;border-radius:14px;background:#f8f7f1;color:#172b36;box-shadow:0 24px 90px #0005;overflow:auto;color-scheme:light;text-align:left}
+.subscribe-dialog{box-sizing:border-box;width:min(560px,calc(100vw - 24px));max-height:calc(100dvh - 24px);padding:0;border:1px solid #d6d9d4;border-radius:14px;background:#f8f7f1;color:#172b36;box-shadow:0 24px 90px #0005;overflow:auto;color-scheme:light;text-align:left}
 .subscribe-dialog::backdrop{background:rgba(6,17,25,.78);backdrop-filter:blur(4px)}
-.subscribe-close{position:absolute;right:9px;top:9px;display:grid;place-items:center;width:44px;height:44px;border:0;background:transparent;color:#344854;cursor:pointer;border-radius:50%;touch-action:manipulation}
+.subscribe-close{flex-shrink:0;display:grid;place-items:center;width:44px;height:44px;border:0;background:transparent;color:#344854;cursor:pointer;border-radius:50%;touch-action:manipulation}
 .subscribe-close:hover{background:#e9ece5}
 .subscribe-dialog :focus-visible{outline:2px solid #536e7b;outline-offset:4px}
-.subscribe-eyebrow{font-size:11px;letter-spacing:.05em;line-height:1.5;color:#5d6b70;margin:0 0 13px}
+.subscribe-toolbar{position:sticky;top:0;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 12px 8px 28px;background:#f8f7f1;border-bottom:1px solid #e5e7e0}
+.subscribe-content{padding:24px 28px}
+.subscribe-eyebrow{font-size:11px;letter-spacing:.05em;line-height:1.5;color:#5d6b70;margin:0}
 .subscribe-dialog h2{font:400 36px/1.15 Lora,Georgia,serif;letter-spacing:-.04em;margin:0}
 #subscribe-description{font-size:14px;line-height:1.65;color:#526269;margin:14px 0 25px}
-.signup-embed iframe{display:block;box-sizing:border-box;border:1px solid #d4dbd7;border-radius:7px;background:#fff;width:100%;height:230px;max-height:50dvh}
+.signup-embed iframe{display:block;box-sizing:border-box;border:1px solid #d4dbd7;border-radius:7px;background:#fff;width:100%;height:clamp(360px,calc(100dvh - 340px),440px)}
 .signup-consent{font-size:11px;line-height:1.6;color:#626d70;margin:14px 0 0}
 .signup-reload{min-height:44px;padding:10px 0;margin-top:3px;background:transparent;border:0;color:#38515d;font:400 12px/1.5 'Instrument Sans',Arial,sans-serif;cursor:pointer;text-decoration:underline;text-underline-offset:4px}
 .subscribe-fallback{display:block;box-sizing:border-box;margin:18px auto 0;width:100%;max-width:400px;height:240px;border:0;border-radius:8px;background:#fff}
 body[data-signup-open]{overflow:hidden}
 body[data-signup-open] .landscape img,body[data-signup-open] .eagle,body[data-signup-open] .eagle [data-wing]{animation-play-state:paused}
-@media(max-width:400px){.subscribe-dialog{padding:34px 23px 24px}.subscribe-dialog h2{font-size:32px}}
+@media(max-width:400px){.subscribe-content{padding:22px 18px}.subscribe-toolbar{padding-left:18px}.subscribe-dialog h2{font-size:32px}}
+
+.footer-links{display:flex;align-items:center;gap:24px;flex-wrap:wrap}
+.footer-links a{display:inline-flex;align-items:center;min-height:44px;text-decoration:underline;text-underline-offset:4px}
+@media(max-width:600px){.footer-links{gap:0;flex-direction:column;align-items:flex-start}.footer-links a{min-height:36px}footer{align-items:center}}
+/* The provider owns its confirmation UI. Keep enough frame height for its message
+   and actions; the outer dialog scrolls while its close control stays in view. */
+body.information-page{background:#f8f7f1;color:#172b36}
+.information-page::before{display:none}
+.information-page .location,.information-page footer{color:#526269}
+.information-page footer{border-top-color:#d4dbd7}
+.information-page main{display:block;min-height:0;width:min(760px,100%);margin:0 auto;padding:48px var(--gutter) 80px}
+.information-page h1{display:block;font-size:clamp(36px,5vw,54px);text-align:left;line-height:1.15}
+.information-page h2{font:400 27px/1.3 Lora,Georgia,serif;letter-spacing:-.025em;margin:40px 0 14px}
+.information-page p,.information-page li{font-size:16px;line-height:1.8;color:#40545e}
+.information-page .page-intro{font-size:20px;line-height:1.6;margin-top:24px}
+.information-page ul{padding-left:22px}
+.information-page li+li{margin-top:12px}
+.information-page .subscribe-button{background:#172b36;color:#f6f1e6;border-color:#172b36;margin-top:16px}
+.information-page a:focus-visible{outline-color:#172b36}
+@media(max-width:600px){.information-page main{padding-top:30px;padding-bottom:56px}}

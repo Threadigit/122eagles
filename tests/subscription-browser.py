@@ -47,7 +47,7 @@ with sync_playwright() as p:
   page.close()
  if os.environ.get('EAGLES_LIVE_FORM')=='1':
   page=browser.new_page(viewport={'width':390,'height':844},ignore_https_errors=True,reduced_motion='reduce')
-  posts=[];page.on('request',lambda r:posts.append(r.url) if r.method=='POST' else None)
+  posts=[];page.on('request',lambda r:posts.append(r.url) if r.method=='POST' and urlparse(r.url).path!='/cdn-cgi/rum' else None)
   page.goto(URL,wait_until='networkidle')
   trigger=page.locator('[data-open-subscribe]');trigger.click()
   email=page.frame_locator('[data-subscribe-frame]').locator('input[type=email]').first
@@ -62,3 +62,35 @@ with sync_playwright() as p:
   expect(trigger).to_be_focused()
   print('PASS live Buttondown form rendered in place; email validation checked; no subscription/email sent',flush=True)
  browser.close()
+
+# Read-only provider preview: Buttondown exposes confirmation via query state.
+# This displays its real outcome UI without posting an address or sending mail.
+if os.environ.get('EAGLES_LIVE_CONFIRMATION')=='1':
+ with sync_playwright() as p:
+  browser=p.chromium.launch(executable_path=shutil.which('chromium'),args=['--no-sandbox'])
+  for width,height in [(320,740),(390,844),(844,390),(1440,1000)]:
+   page=browser.new_page(viewport={'width':width,'height':height},ignore_https_errors=True,reduced_motion='reduce')
+   posts=[];page.on('request',lambda r:posts.append(r.url) if r.method=='POST' and urlparse(r.url).hostname=='buttondown.com' and urlparse(r.url).path!='/cdn-cgi/rum' else None)
+   page.goto(URL,wait_until='networkidle');page.locator('[data-open-subscribe]').click()
+   page.locator('[data-subscribe-frame]').evaluate("e=>e.src=e.dataset.src+'&state=confirmation_required&email_address=maryland.reader.preview%40gmail.com'")
+   frame=page.frame_locator('[data-subscribe-frame]')
+   message=frame.locator('.subscription-success-message')
+   expect(message).to_be_visible(timeout=30000)
+   gmail=frame.get_by_role('link',name='Take me to Gmail')
+   expect(gmail).to_be_visible(timeout=15000)
+   # Wait for the provider sheet transition before checking its actual geometry.
+   page.wait_for_timeout(400)
+   assert message.evaluate('e=>{const r=e.getBoundingClientRect();const actions=e.parentElement.nextElementSibling.getBoundingClientRect();return r.top>=0&&r.bottom<=actions.top+.5&&actions.bottom<=innerHeight+.5}'), 'Provider confirmation overlaps its actions'
+   assert gmail.evaluate("e=>getComputedStyle(e).backgroundColor")=='rgb(23, 43, 54)', 'Provider brand colour changed'
+   # A short landscape viewport may scroll; closing must remain visible throughout.
+   page.locator('#subscribe-dialog').evaluate('e=>e.scrollTop=e.scrollHeight')
+   close=page.get_by_role('button',name='Close signup');rect=close.bounding_box()
+   assert rect['y']>=0 and rect['y']+rect['height']<=height
+   frame.get_by_role('button',name='Got it').click()
+   expect(message).not_to_be_visible()
+   expect(frame.locator('input[type=email]').first).to_be_visible()
+   close.click();assert not page.locator('#subscribe-dialog').evaluate('e=>e.open')
+   assert not posts,posts
+   print(f'PASS {width}px: actual provider confirmation, full message/actions, navy branding, sticky close, no subscription sent',flush=True)
+   page.close()
+  browser.close()
