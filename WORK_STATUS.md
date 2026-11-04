@@ -108,3 +108,25 @@ A @ 216.198.79.1; A @ 64.29.17.1; CNAME www
 apex parking/URL redirect and www parking records. Preserve mail/other records.
 After the user applies these, verify public DNS, Vercel configuration, HTTPS and
 www-to-apex redirect. Domain and GitHub repository setup remain unfinished.
+
+## Domain progress after user confirmed signed in again
+
+Default-profile run `ba1b581f-fb1d-4444-8e05-cf39b9a2947b` reached authenticated
+Namecheap Advanced DNS. It removed apex URL redirect and www parking CNAME, then
+saved A @ -> 216.198.79.1. The optional second A input failed validation, and www
+CNAME was not added before that run ended. Vercel now reports apex configuredBy
+A, misconfigured false; a second apex IP is unnecessary to serve the site.
+
+https://122eagles.com returned HTTP 200 with valid HTTPS and exact deployed HTML.
+Actual custom-domain browser checks passed at 390 and 1440px: photo, fonts,
+responsive sizing, reduced motion, no overflow and no external runtime requests.
+The five mail-forwarding MX records and SPF/TXT match the public pre-change
+baseline. Before data: /tmp/122eagles-dns-before.json; after mail verification:
+/tmp/122eagles-mail-after.json.
+
+www currently has no CNAME (parking was removed). Active focused repair run
+`61c29eac-73ac-4fc6-8f88-7702dc2b25a3` must add ONLY CNAME www ->
+6320fd3e556bc659.vercel-dns-017.com, Automatic TTL. Preserve the working apex and
+mail. This run is still running at the time of this note and is waiting on a
+Namecheap Cloudflare check; continue with wait_for_run. Do not duplicate an
+active run. GitHub repo creation/linking is still pending its own authentication.
