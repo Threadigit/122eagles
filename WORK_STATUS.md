@@ -32,6 +32,11 @@ browser sign-ins are available. Do not change unrelated projects or DNS records.
 - Standard Vercel protection (`prod_deployment_urls_and_all_previews`) keeps
   preview/deployment URLs protected and the production alias public.
 
+- Final polish: refined letter spacing and consistent phone/tablet type scale,
+  softer image shading, an 850ms entrance (disabled for reduced motion), and an
+  increased-contrast treatment. Seven viewport checks (320–2560px), entrance
+  completion and contrast preference checks pass.
+
 ## Remaining
 
 1. Create a private GitHub repo `adetuyiTolu/122eagles`, empty; then push main.
@@ -62,8 +67,10 @@ records changed and no repository created. GitHub run
 `26bbf298-c654-4853-a11e-17e56cec5129` and Namecheap inspection
 `d2a65b0e-80db-40e5-bff3-850394ecb84c` are completed, not pending.
 
-Asked the user whether to open a secure GitHub sign-in page; waiting for a reply.
-Namecheap also needs a fresh sign-in. Use TinyFish start_profile_setup_session
+User requested the final visual refinement and domain configuration. A secure
+Namecheap profile setup was opened in TinyFish; waiting for the user to sign in,
+click Save profile, and reply saved. Do not run Namecheap automation until saved.
+GitHub still needs a fresh sign-in or user-created empty repository. Use TinyFish start_profile_setup_session
 only after consent, give the setup link and wait until the user signs in and
 saves the profile. Never request passwords or verification codes in chat.
 
