@@ -12,14 +12,21 @@ a:focus-visible{outline:2px solid var(--ink);outline-offset:6px;border-radius:2p
 body::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(ellipse at 50% 29%,rgba(9,24,34,.28),transparent 58%),linear-gradient(180deg,rgba(9,24,34,.77) 0%,rgba(12,30,41,.56) 32%,rgba(15,32,41,.12) 66%,rgba(7,22,31,.72) 100%)}
 .masthead{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:clamp(23px,3.4vh,40px) var(--gutter);z-index:1}
 .identity{display:inline-flex;align-items:center;gap:11px;min-height:44px;font-size:19px;letter-spacing:-.035em}
-.eagle{flex-shrink:0}
+.eagle{flex-shrink:0;overflow:visible;animation:eagle-poise 10s ease-in-out .3s infinite}
+.eagle [data-wing]{transform-box:view-box;transform-origin:50% 66%}
+.eagle [data-wing="left"]{animation:wing-left 10s ease-in-out .3s infinite}
+.eagle [data-wing="right"]{animation:wing-right 10s ease-in-out .3s infinite}
 .location,footer{font-size:11px;letter-spacing:.055em}
 .location{line-height:1.5;color:#e0e3df}
 main{display:grid;min-height:530px;align-items:start;position:relative}
-.welcome{position:relative;text-align:center;padding:clamp(30px,7vh,88px) 24px 240px;animation:arrival .85s cubic-bezier(.2,.7,.25,1) both}
+.welcome{position:relative;text-align:center;padding:clamp(30px,7vh,88px) 24px 240px}
 h1{display:flex;flex-direction:column;align-items:center;gap:0;font-family:Lora,Georgia,serif;font-size:clamp(46px,calc(30px + 4.65vw),104px);font-weight:400;line-height:1.12;letter-spacing:-.045em;margin:0;text-wrap:balance}
 h1 .eyebrow{font-family:'Instrument Sans',Arial,sans-serif;font-size:clamp(13px,1vw,15px);line-height:1.5;letter-spacing:.055em;margin-bottom:25px;color:#e7e8e1}
 h1 em{font-weight:400;letter-spacing:-.05em}
+h1>*{animation:headline-arrive 1.15s cubic-bezier(.19,1,.22,1) both}
+h1>.eyebrow{animation-name:welcome-arrive;animation-duration:.8s;animation-delay:.12s}
+h1>span:not(.eyebrow){animation-delay:.28s}
+h1>em{animation-delay:.5s}
 footer{display:flex;justify-content:space-between;align-items:center;gap:24px;margin:0 var(--gutter);padding:16px 0 20px;border-top:1px solid rgba(246,241,230,.23);color:#e0e3df;z-index:1;line-height:1.6}
 .landmark{min-height:44px;display:inline-flex;align-items:center;gap:10px}
 .landmark:hover{text-decoration:underline;text-underline-offset:5px}
@@ -28,6 +35,10 @@ footer{display:flex;justify-content:space-between;align-items:center;gap:24px;ma
 @media(max-width:360px){.location{font-size:9px}footer{align-items:center}.landmark{max-width:151px;line-height:1.5}}
 @media(max-height:600px) and (min-width:601px){main{min-height:330px}.welcome{padding-top:10px;padding-bottom:140px}h1{font-size:55px}h1 .eyebrow{font-size:12px;margin-bottom:12px}.masthead{padding-block:12px}footer{padding-block:8px}.landscape img{object-position:50% 52%}}
 
-@keyframes arrival{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-@media(prefers-reduced-motion:reduce){.welcome{animation:none}}
+@keyframes headline-arrive{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+@keyframes welcome-arrive{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+@keyframes wing-left{0%,14%,100%{transform:rotate(0)}4%{transform:rotate(-10deg)}7%{transform:rotate(3deg)}10%{transform:rotate(-5deg)}}
+@keyframes wing-right{0%,14%,100%{transform:rotate(0)}4%{transform:rotate(10deg)}7%{transform:rotate(-3deg)}10%{transform:rotate(5deg)}}
+@keyframes eagle-poise{0%,14%,100%{transform:translateY(0)}5%{transform:translateY(-2px)}9%{transform:translateY(-1px)}}
+@media(prefers-reduced-motion:reduce){.welcome h1>*,.identity .eagle,.identity .eagle [data-wing]{animation:none}}
 @media(prefers-contrast:more){body::before{background:rgba(6,18,26,.8)}footer{border-top-color:rgba(246,241,230,.6)}}
