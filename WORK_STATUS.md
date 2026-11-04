@@ -17,14 +17,14 @@ browser sign-ins are available. Do not change unrelated projects or DNS records.
   text, image delivery, fonts, no horizontal overflow and no external runtime
   requests. Throttled Chromium mobile: FCP 0.62s, CLS 0.00082, transfer ~220KB
   excluding social-preview image. These are local lab results, not field data.
-- Site commit `9705d48` contains the current deployed design. No JS or runtime packages.
+- Site commit `c1f0bd8` contains the current deployed design. No JS or runtime packages.
 - Local Chromium checks passed at 320, 390, 844 (short landscape), 1440 and 2560px:
   exact welcome text, fonts loaded, no horizontal overflow, reduced motion and
   no external resource requests. Reviewed phone/desktop screenshots.
 - Vercel project `122eagles`, id `prj_Wmor3GXuz4VGB2Dd77qDhEQdRwY9`.
 - Team `toluadetuyis-projects`, id `team_1HRMSafo3kjx8ErMiKg6Rlww`.
-- Current production deployment `dpl_6Efjrp4ZeA1anCyTJzc9VHmniTgC` is READY.
-  Live phone/desktop checks passed and served HTML matches commit `9705d48`.
+- Current production deployment `dpl_8GGNcGEiWKMSTdPnKHLLdPA9net3` is READY.
+  Live phone/desktop checks passed for the final polish at commit `c1f0bd8`.
 - Public URL: https://122eagles.vercel.app/. Served HTML exactly matches local;
   live Chromium checks passed at 390 and 1440px, including CSP, fonts and art.
 - Custom domains added in Vercel and ownership verified. `www.122eagles.com`
@@ -76,3 +76,13 @@ saves the profile. Never request passwords or verification codes in chat.
 
 Local preview: `python3 -m http.server 8012`. Font/art/social files are committed.
 No purchase, registrar transfer or nameserver migration is required.
+
+## Latest Namecheap attempt
+
+The user replied Saved after the secure Default-profile setup. Automation run
+`6a06d4eb-dfbd-4af3-a9bb-59cfd2e4012b` nevertheless opened signed out; the run
+completed without changing DNS. Default profile domain count increased to 10 but
+signed_in_sites remains empty. A dedicated Namecheap profile is being created
+with the Advanced DNS URL so the authenticated app page can load before saving.
+Public DNS baseline is /tmp/122eagles-dns-before.json; five email-forwarding MX
+records and the forwarding SPF TXT must remain unchanged.
