@@ -104,3 +104,44 @@ scope, current bridge photograph and design. Read before continuing.
 
 Local preview: python3 -m http.server 8012 --directory public. No registrar transfer, nameserver
 migration or purchase is needed. Do not change other projects or records.
+
+## Newsletter copy and on-site signup — final checks
+
+User requested “Maryland, made clear.” plus the policies/projects/programs copy,
+“Five minutes. Free. Every week.” and “Open your eyes” as the subscription action.
+They supplied https://buttondown.com/eagles/ and want readers to sign up on the
+website rather than navigate to that hosted newsletter page.
+
+Branch feat/maryland-newsletter-signup / PR https://github.com/Threadigit/122eagles/pull/1
+adds the exact copy under the existing animated publication name, tighter
+responsive heading spacing, updated metadata, and an active warm-white CTA.
+It opens a branded native dialog; subscribe.js lazily loads Buttondown's official
+https://buttondown.com/eagles?as_embed=true form inside it. Readers stay on our
+URL, while Buttondown owns validation, CAPTCHA and confirmation. No API key,
+server-side credential, custom subscriber store or paid integration is needed.
+No fake success is shown by our page. The visible close button remains available;
+Escape works while focus is in the parent document (cross-origin frame key events
+do not bubble to the parent). Closing restores CTA focus and resumes the camera.
+
+Only frame-src https://buttondown.com was added to the CSP; script-src remains
+self and parent form-action remains none. Provider scripts run under its own
+frame policy and do not load on the landing page before a reader opens signup.
+A no-script embedded-form fallback is included.
+
+Provider docs explicitly require an iframe for staying on-site; do not call the
+public embed-subscribe endpoint with JavaScript fetch. A trial native form
+submission targeting a frame did not work and was removed. An empty submission
+was used for that check; no actual email recipient or subscriber was created.
+Final QA only renders the live provider form and checks invalid/valid syntax
+without submitting an address or sending mail.
+
+Tests: tests/subscription-browser.py covers 320/390/844 landscape/1440px using a
+provider-frame fixture: lazy load, native email validity, same-page display,
+modal close/focus, cached reopen, reload and reduced motion. Optional live mode
+reads the actual Buttondown form without POST. Test URL env EAGLES_TEST_URL;
+EAGLES_LIVE_FORM=1 enables read-only live form check. Actual CSP local preview is
+/tmp/eagles-csp-server.py at port8013 (reads vercel.json headers).
+
+Merge only after these checks pass, then verify the Git-triggered production
+build and real on-site signup rendering. The existing draft PR is attached to
+the task. User authorized committing, merging and deployment in this session.
