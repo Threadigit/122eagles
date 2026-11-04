@@ -105,44 +105,43 @@ scope, current bridge photograph and design. Read before continuing.
 Local preview: python3 -m http.server 8012 --directory public. No registrar transfer, nameserver
 migration or purchase is needed. Do not change other projects or records.
 
-## Newsletter copy and subscription CTA — in progress
+## Newsletter copy and on-site signup — final checks
 
-User requested the exact new copy:
-“Maryland, made clear.” / “Our eyes stay on the policies, projects and programs
-shaping the state, so you see what’s coming and what it means for your money,
-your home and your business.” / “Five minutes. Free. Every week.” / CTA “Open
-your eyes”, which must subscribe readers.
+User requested “Maryland, made clear.” plus the policies/projects/programs copy,
+“Five minutes. Free. Every week.” and “Open your eyes” as the subscription action.
+They supplied https://buttondown.com/eagles/ and want readers to sign up on the
+website rather than navigate to that hosted newsletter page.
 
-Local feature branch feat/maryland-newsletter-signup adds this beneath the
-animated publication name, tighter responsive heading/spacing to fit, updated
-meta descriptions and a single warm-white CTA. Reviewed 320/390/844 landscape/
-1440px with no horizontal overflow; the CTA is visible above the fold on phones.
-Button is deliberately disabled ONLY in the unpublished draft until a real
-signup destination is connected. Do not merge or publish a disabled/fake signup.
-No newsletter environment variables or integrations exist in this Vercel project.
+Branch feat/maryland-newsletter-signup / PR https://github.com/Threadigit/122eagles/pull/1
+adds the exact copy under the existing animated publication name, tighter
+responsive heading spacing, updated metadata, and an active warm-white CTA.
+It opens a branded native dialog; subscribe.js lazily loads Buttondown's official
+https://buttondown.com/eagles?as_embed=true form inside it. Readers stay on our
+URL, while Buttondown owns validation, CAPTCHA and confirmation. No API key,
+server-side credential, custom subscriber store or paid integration is needed.
+No fake success is shown by our page. The visible close button remains available;
+Escape works while focus is in the parent document (cross-origin frame key events
+do not bubble to the parent). Closing restores CTA focus and resumes the camera.
 
-User asked for help setting up a newsletter service. Official beehiiv pricing
-currently says free forever up to2500 subscribers, unlimited sends and free
-external signup forms (https://www.beehiiv.com/pricing and
-https://www.beehiiv.com/features/subscribe-forms). Recommended that free plan.
-A preference question is pending: new free beehiiv account or existing account.
-After they choose, open a secure provider signup/sign-in setup session, wait for
-user save, then configure Maryland Eagles Eyes and obtain its actual signup
-form/link. No paid plan, paid trial or billing details should be selected.
-Use the real form to wire CTA and verify success/confirmation behavior without
-sending unsolicited test emails. Signup must work before merging to main.
+Only frame-src https://buttondown.com was added to the CSP; script-src remains
+self and parent form-action remains none. Provider scripts run under its own
+frame policy and do not load on the landing page before a reader opens signup.
+A no-script embedded-form fallback is included.
 
-## Simpler newsletter platform requested
+Provider docs explicitly require an iframe for staying on-site; do not call the
+public embed-subscribe endpoint with JavaScript fetch. A trial native form
+submission targeting a frame did not work and was removed. An empty submission
+was used for that check; no actual email recipient or subscriber was created.
+Final QA only renders the live provider form and checks invalid/valid syntax
+without submitting an address or sending mail.
 
-User wants less setup than beehiiv. Recommended Buttondown: free first100 active
-subscribers, no credit card required at signup. Register at
-https://buttondown.com/register (Google sign-up available). Only the public
-newsletter URL/username is needed to integrate its native external HTML form;
-no API token or additional saved-browser authentication is required. User has
-not supplied a Buttondown newsletter URL yet. Do not create fake subscriber
-success or publish the disabled CTA while waiting for the actual destination.
+Tests: tests/subscription-browser.py covers 320/390/844 landscape/1440px using a
+provider-frame fixture: lazy load, native email validity, same-page display,
+modal close/focus, cached reopen, reload and reduced motion. Optional live mode
+reads the actual Buttondown form without POST. Test URL env EAGLES_TEST_URL;
+EAGLES_LIVE_FORM=1 enables read-only live form check. Actual CSP local preview is
+/tmp/eagles-csp-server.py at port8013 (reads vercel.json headers).
 
-Draft PR: https://github.com/Threadigit/122eagles/pull/1, attached to the task.
-Branch feat/maryland-newsletter-signup. Keep it draft until a working subscription
-flow is connected and verified, then merge through the existing Git deployment.
-Provider docs: https://docs.buttondown.com/building-your-subscriber-base.
+Merge only after these checks pass, then verify the Git-triggered production
+build and real on-site signup rendering. The existing draft PR is attached to
+the task. User authorized committing, merging and deployment in this session.

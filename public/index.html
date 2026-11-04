@@ -10,7 +10,7 @@
   <meta property="og:title" content="Maryland Eagles Eyes">
   <meta property="og:description" content="Maryland, made clear. Five minutes. Free. Every week.">
   <meta property="og:url" content="https://122eagles.com/">
-  <meta property="og:image" content="https://122eagles.com/assets/social.jpg">
+  <meta property="og:image" content="https://122eagles.com/assets/social-newsletter.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Maryland Eagles Eyes overlooking Maryland's Chesapeake Bay Bridge.">
@@ -21,6 +21,7 @@
   <link rel="preload" href="/assets/lora-regular.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/style.css">
   <script src="/motion.js" defer></script>
+  <script src="/subscribe.js" defer></script>
 </head>
 <body>
   <picture class="landscape">
@@ -41,10 +42,22 @@
         <h2>Maryland, made clear.</h2>
         <p class="newsletter-description">Our eyes stay on the policies, projects and programs shaping the state, so you see what’s coming and what it means for your money, your home and your business.</p>
         <p class="newsletter-promise">Five minutes. Free. Every week.</p>
-        <button class="subscribe-button" type="button" aria-label="Open your eyes — subscribe to the free weekly newsletter" disabled>Open your eyes <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6"/></svg></button>
+        <button class="subscribe-button" type="button" data-open-subscribe aria-haspopup="dialog" aria-controls="subscribe-dialog" aria-label="Open your eyes — subscribe to the free weekly newsletter">Open your eyes <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6"/></svg></button>
+        <noscript><iframe class="subscribe-fallback" src="https://buttondown.com/eagles?as_embed=true" title="Subscribe to Maryland Eagles Eyes" loading="lazy"></iframe></noscript>
       </div>
     </div>
   </main>
   <footer><span>122eagles.com</span><a class="landmark" href="https://hdl.loc.gov/loc.pnp/highsm.14292" title="Photograph by Carol M. Highsmith, Library of Congress">Chesapeake Bay Bridge, Maryland <span aria-hidden="true">↗</span></a></footer>
+  <dialog id="subscribe-dialog" class="subscribe-dialog" aria-labelledby="subscribe-title" aria-describedby="subscribe-description">
+    <button class="subscribe-close" type="button" aria-label="Close signup" data-close-subscribe><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button>
+    <p class="subscribe-eyebrow">Maryland Eagles Eyes</p>
+    <h2 id="subscribe-title">Open your eyes.</h2>
+    <p id="subscribe-description">Maryland, made clear.<br>Five minutes. Free. Every week.</p>
+    <div class="signup-embed">
+      <iframe data-subscribe-frame data-src="https://buttondown.com/eagles?as_embed=true" title="Email signup for Maryland Eagles Eyes" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+      <p class="signup-consent">Receive Maryland Eagles Eyes by email. Unsubscribe at any time.</p>
+      <button class="signup-reload" type="button">Reload signup form</button>
+    </div>
+  </dialog>
 </body>
 </html>
