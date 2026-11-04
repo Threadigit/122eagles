@@ -56,7 +56,8 @@ scope, current bridge photograph and design. Read before continuing.
 
 - Vercel project 122eagles / prj_Wmor3GXuz4VGB2Dd77qDhEQdRwY9.
 - Team toluadetuyis-projects / team_1HRMSafo3kjx8ErMiKg6Rlww.
-- Static HTML/CSS, framework Other/null, no install/build commands, repo root.
+- Static HTML/CSS/JS, framework Other/null, no install/build commands, repo root,
+  output directory public/.
 - Text/eagle animation deployment dpl_JB3mRJ5igcWqcbumNYysnrhVo4ZR was READY.
   Actual apex checks passed normal and reduced motion; www HTTPS redirect passed.
   Prior cinematic deployment dpl_AMM8EUYzNw5VoVs6Lg4tg4Un6yyW is READY
@@ -66,31 +67,26 @@ scope, current bridge photograph and design. Read before continuing.
 - Standard Vercel protection prod_deployment_urls_and_all_previews; production
   aliases/custom domains public, previews/deployment URLs protected.
 
-## GitHub and Git deployment migration — in progress
+## GitHub and automatic deployment — complete
 
-- User supplied the empty private repository https://github.com/Threadigit/122eagles.
-  GitHub repository id 1445253846; permissions include push/admin. Remote confirmed
-  empty with git ls-remote. Local origin now points to this exact repository.
-- Website files have moved byte-for-byte to public/ for Git deployments. Root
-  vercel.json declares outputDirectory public, framework Other/null; no build or
-  install command required. Runtime URLs stay unchanged. Internal notes remain
-  outside the published directory. Mobile cinematic checks still pass.
-- main has been pushed successfully to Threadigit/122eagles; migration commit
-  422728bb53237995809480388f88252b28020aca. Production deployment
-  dpl_2GJphN14Q3fsYZtDLRRH712UkiRc fetched that GitHub commit and is READY on
-  122eagles.com. Live mobile cinematic checks still pass. WORK_STATUS.md returns
-  HTTP404 publicly because outputDirectory is public.
-- User connected the repository. get_git_deployment_context now confirms project
-  prj_Wmor3GXuz4VGB2Dd77qDhEQdRwY9 is linked to GitHub Threadigit/122eagles
-  in team toluadetuyis-projects. Source branch main. A verification commit adds
-  only a source-provenance HTML comment plus deployment documentation; the
-  rendered design is unchanged. Its push must trigger Vercel without calling
-  create_deployment.
-- After the user connects, verify the project link, then push a small deployment
-  verification commit and inspect the automatically created deployment's GitHub
-  SHA/branch/source and READY production status. Do not call create_deployment
-  for that verification: the point is to prove the push triggers it. Preserve
-  current domain configuration and deployed design.
+- Private repository: https://github.com/Threadigit/122eagles, id1445253846.
+  Local origin points to this repository; production branch main.
+- Existing Vercel project prj_Wmor3GXuz4VGB2Dd77qDhEQdRwY9 in team
+  toluadetuyis-projects is permanently linked to GitHub Threadigit/122eagles.
+- Website files live in public/. Root vercel.json sets outputDirectory public;
+  no install/build command is needed. Runtime URLs and rendered design remain
+  unchanged. Internal continuation notes are not published (HTTP404 verified).
+- Automatic deployment was proven by git push alone, without create_deployment:
+  verification commit d4144ad021b425e5384259b73542556d2a16a55d triggered
+  dpl_5HqKCEfUPH5NCREYPfAcsozForLw, source git, branch main, target production,
+  state READY. Its GitHub metadata matched the exact SHA/org/repo, and aliases
+  included 122eagles.com and www.122eagles.com.
+- Live HTTPS HTML and motion.js exactly matched the pushed source, and www
+  returned308 to the apex. Mobile cinematic checks passed after the Git layout
+  migration; all runtime files had moved byte-for-byte.
+- Future work: edit public/ and git push origin main. Vercel builds and deploys
+  automatically. No manual upload, GitHub Actions secrets or extra project is
+  required. All requested GitHub/domain/deployment setup is complete.
 
 ## Browser history / avoid duplicate work
 
