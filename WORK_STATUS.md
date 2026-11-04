@@ -10,13 +10,28 @@ scope, current bridge photograph and design. Read before continuing.
 - Exact heading: Welcome to Maryland Eagles Eyes.
 - Public-domain photograph of Maryland's Chesapeake Bay Bridge, Carol M.
   Highsmith / Library of Congress. See assets/PHOTO-CREDIT.md. Responsive WebP
-  assets and self-hosted Lora/Instrument Sans fonts; no JS, tracking or packages.
+  assets and self-hosted Lora/Instrument Sans fonts; no tracking or packages.
+  motion.js is a tiny first-party deferred script that starts the camera after
+  the photo loads and decodes; include it in deployment files. CSP script-src
+  permits self only. Page content remains visible if the script cannot run.
 - User requested motion: staggered welcome/Maryland/Eagles Eyes entrance plus
   gentle mirrored wing movement and slight lift on the eagle every 10 seconds.
   Most of the cycle rests. All animation uses opacity/transform and is disabled
   for reduced motion. User subsequently requested cinematic bridge motion: the
-  photograph now has a slow 28-second alternating camera pan/zoom. The bridge
-  structure does not deform, text stays steady, and no image edge is exposed.
+  photograph now has a clearly visible 4.5-second opening push-in followed by
+  a wider 20-second alternating diagonal pan/zoom. The opening starts when the
+  photo appears, including slow mobile downloads. The bridge structure does not
+  deform, text stays steady, and no image edge is exposed.
+- Mobile source now offers 1x/2x assets: high-density phones get the 1920px photo
+  while standard-density phones retain the smaller 960px image. Chromium mobile
+  profiles (iPhone SE, iPhone 13, Pixel 7) pass touch/DPR, complete camera cycle,
+  rotation and viewport-resize continuity, edge coverage, playback and reduced
+  motion checks. Delayed-image test confirms the camera waits for decode.
+  Opening-frame checks at 320/390/844 landscape/1440/2560 confirm a visible
+  first-second push-in and stable text.
+- Native iOS hardware is unavailable. WebKit download succeeded but this host
+  lacks its system libraries, so these are Chromium mobile emulations, not a
+  claim of real-device Safari testing.
 - Motion checks verified staggered progress, full final text visibility and
   mirrored wing transforms. Seven responsive/reduced-motion layouts passed:
   320,390,600,601,844 short landscape,1440,2560px. No overflow, fonts/photo load,
@@ -37,7 +52,7 @@ scope, current bridge photograph and design. Read before continuing.
 - Static HTML/CSS, framework Other/null, no install/build commands, repo root.
 - Text/eagle animation deployment dpl_JB3mRJ5igcWqcbumNYysnrhVo4ZR was READY.
   Actual apex checks passed normal and reduced motion; www HTTPS redirect passed.
-  Current cinematic deployment dpl_AMM8EUYzNw5VoVs6Lg4tg4Un6yyW is READY
+  Prior cinematic deployment dpl_AMM8EUYzNw5VoVs6Lg4tg4Un6yyW is READY
   (site commit d90188f). Live mobile/desktop checks verify actual camera movement
   and reduced-motion behaviour. Local checks at 320/390/1440/2560 verify all
   pan/zoom positions cover the frame and the heading geometry remains fixed.
