@@ -37,7 +37,10 @@ scope, current bridge photograph and design. Read before continuing.
 - Static HTML/CSS, framework Other/null, no install/build commands, repo root.
 - Text/eagle animation deployment dpl_JB3mRJ5igcWqcbumNYysnrhVo4ZR was READY.
   Actual apex checks passed normal and reduced motion; www HTTPS redirect passed.
-  Cinematic bridge movement is the current change awaiting deployment.
+  Current cinematic deployment dpl_AMM8EUYzNw5VoVs6Lg4tg4Un6yyW is READY
+  (site commit d90188f). Live mobile/desktop checks verify actual camera movement
+  and reduced-motion behaviour. Local checks at 320/390/1440/2560 verify all
+  pan/zoom positions cover the frame and the heading geometry remains fixed.
 - Standard Vercel protection prod_deployment_urls_and_all_previews; production
   aliases/custom domains public, previews/deployment URLs protected.
 
