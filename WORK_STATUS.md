@@ -75,10 +75,21 @@ scope, current bridge photograph and design. Read before continuing.
   vercel.json declares outputDirectory public, framework Other/null; no build or
   install command required. Runtime URLs stay unchanged. Internal notes remain
   outside the published directory. Mobile cinematic checks still pass.
-- Next: push main, connect EXISTING Vercel project 122eagles to Threadigit/122eagles,
-  deploy from Git, then verify automatic deployment by a subsequent push. Do not
-  claim automatic deployment until Git linkage and a push-triggered build are
-  confirmed. Preserve the current domain configuration and deployed design.
+- main has been pushed successfully to Threadigit/122eagles; migration commit
+  422728bb53237995809480388f88252b28020aca. Production deployment
+  dpl_2GJphN14Q3fsYZtDLRRH712UkiRc fetched that GitHub commit and is READY on
+  122eagles.com. Live mobile cinematic checks still pass. WORK_STATUS.md returns
+  HTTP404 publicly because outputDirectory is public.
+- Permanent Git integration is NOT connected yet: get_git_deployment_context
+  has no 122eagles entry. No CLI VERCEL_TOKEN is configured. create_git_project
+  cannot connect an existing unlinked project, so the user was asked to open
+  https://vercel.com/toluadetuyis-projects/122eagles/settings/git and connect
+  Threadigit/122eagles. A Connected text-input request is pending.
+- After the user connects, verify the project link, then push a small deployment
+  verification commit and inspect the automatically created deployment's GitHub
+  SHA/branch/source and READY production status. Do not call create_deployment
+  for that verification: the point is to prove the push triggers it. Preserve
+  current domain configuration and deployed design.
 
 ## Browser history / avoid duplicate work
 
