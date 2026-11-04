@@ -104,3 +104,30 @@ scope, current bridge photograph and design. Read before continuing.
 
 Local preview: python3 -m http.server 8012 --directory public. No registrar transfer, nameserver
 migration or purchase is needed. Do not change other projects or records.
+
+## Newsletter copy and subscription CTA — in progress
+
+User requested the exact new copy:
+“Maryland, made clear.” / “Our eyes stay on the policies, projects and programs
+shaping the state, so you see what’s coming and what it means for your money,
+your home and your business.” / “Five minutes. Free. Every week.” / CTA “Open
+your eyes”, which must subscribe readers.
+
+Local feature branch feat/maryland-newsletter-signup adds this beneath the
+animated publication name, tighter responsive heading/spacing to fit, updated
+meta descriptions and a single warm-white CTA. Reviewed 320/390/844 landscape/
+1440px with no horizontal overflow; the CTA is visible above the fold on phones.
+Button is deliberately disabled ONLY in the unpublished draft until a real
+signup destination is connected. Do not merge or publish a disabled/fake signup.
+No newsletter environment variables or integrations exist in this Vercel project.
+
+User asked for help setting up a newsletter service. Official beehiiv pricing
+currently says free forever up to2500 subscribers, unlimited sends and free
+external signup forms (https://www.beehiiv.com/pricing and
+https://www.beehiiv.com/features/subscribe-forms). Recommended that free plan.
+A preference question is pending: new free beehiiv account or existing account.
+After they choose, open a secure provider signup/sign-in setup session, wait for
+user save, then configure Maryland Eagles Eyes and obtain its actual signup
+form/link. No paid plan, paid trial or billing details should be selected.
+Use the real form to wire CTA and verify success/confirmation behavior without
+sending unsolicited test emails. Signup must work before merging to main.
