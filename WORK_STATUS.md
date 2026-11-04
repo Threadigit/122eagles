@@ -131,3 +131,18 @@ user save, then configure Maryland Eagles Eyes and obtain its actual signup
 form/link. No paid plan, paid trial or billing details should be selected.
 Use the real form to wire CTA and verify success/confirmation behavior without
 sending unsolicited test emails. Signup must work before merging to main.
+
+## Simpler newsletter platform requested
+
+User wants less setup than beehiiv. Recommended Buttondown: free first100 active
+subscribers, no credit card required at signup. Register at
+https://buttondown.com/register (Google sign-up available). Only the public
+newsletter URL/username is needed to integrate its native external HTML form;
+no API token or additional saved-browser authentication is required. User has
+not supplied a Buttondown newsletter URL yet. Do not create fake subscriber
+success or publish the disabled CTA while waiting for the actual destination.
+
+Draft PR: https://github.com/Threadigit/122eagles/pull/1, attached to the task.
+Branch feat/maryland-newsletter-signup. Keep it draft until a working subscription
+flow is connected and verified, then merge through the existing Git deployment.
+Provider docs: https://docs.buttondown.com/building-your-subscriber-base.
