@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="740" viewBox="0 0 1800 740" fill="none">
+  <defs>
+    <linearGradient id="water" x1="900" y1="305" x2="900" y2="740" gradientUnits="userSpaceOnUse"><stop stop-color="#b9cac9"/><stop offset="1" stop-color="#99adb0"/></linearGradient>
+    <linearGradient id="far" x1="900" y1="170" x2="900" y2="400" gradientUnits="userSpaceOnUse"><stop stop-color="#9caeaa"/><stop offset="1" stop-color="#90a39c"/></linearGradient>
+    <linearGradient id="land" x1="1600" y1="390" x2="1800" y2="740" gradientUnits="userSpaceOnUse"><stop stop-color="#7c9381"/><stop offset="1" stop-color="#506e60"/></linearGradient>
+  </defs>
+  <!-- An original, simplified view of the Chesapeake: wooded shores and twin spans. -->
+  <path d="M0 347c118-9 150-25 240-22 90 4 152-14 252-7 122 10 224-9 343-1 159 10 237-20 357-9 167 15 367-4 608 13v419H0Z" fill="url(#water)"/>
+  <path d="M0 330c86-18 155-18 204-22 97-8 140 7 193 0 109-14 172-9 247-10 85-2 178 14 264 10 67-3 124-15 187-10 91 7 135-16 231-9 175 14 296-4 474 19v41c-172-11-294-2-447-4-189-3-323 6-502-2-215-11-405 15-573 9-114-5-195 18-278 16Z" fill="url(#far)"/>
+  <g stroke="#dce2d8" stroke-linecap="round" opacity=".48"><path d="M267 399h70m332-11h138m249 28h88m210-38h132M52 491h136m245-34h83m371 25h182m233 59h94M227 613h127m340-68h79m222 101h183m211-54h88M464 696h126m-541-74h66m637 33h96"/></g>
+  <!-- Receding bridge deck and suspension cables, distinct from the source scene. -->
+  <g stroke="#6d8080" stroke-linejoin="round">
+    <path d="m-40 453 1840-101" stroke-width="12"/>
+    <path d="m-40 472 1840-113" stroke="#8c9b94" stroke-width="7"/>
+    <path d="M285 431V199h23v231M888 397V244h17v151M1317 372V283h12v88" stroke-width="5"/>
+    <path d="M285 223h23m-23 30h23m-23 30h23M888 267h17m-17 24h17M1317 301h12" stroke-width="3"/>
+    <path d="M-40 391Q113 398 296 205q302 315 600 44 212 185 427 39 252 95 477 63" stroke-width="2.5"/>
+    <g stroke-width="1.2" opacity=".85"><path d="M25 385.2V449.4 M65 373.6V447.2 M105 356.2V445.0 M145 333.5V442.8 M185 305.8V440.6 M225 273.3V438.5 M265 236.5V436.3 M305 214.3V434.1 M345 252.3V431.9 M385 285.2V429.7 M425 312.9V427.5 M465 335.6V425.3 M505 353.0V423.1 M545 365.3V420.9 M585 372.4V418.7 M625 374.3V416.5 M665 371.0V414.3 M705 362.4V412.1 M745 348.6V409.9 M785 329.5V407.7 M825 305.2V405.5 M865 275.6V403.3 M905 256.7V401.1 M945 287.3V398.9 M985 312.0V396.7 M1025 330.8V394.5 M1065 343.8V392.3 M1105 350.9V390.1 M1145 352.2V388.0 M1185 347.7V385.8 M1225 337.4V383.6 M1265 321.4V381.4 M1305 299.6V379.2 M1345 296.1V377.0 M1385 309.6V374.8 M1425 321.6V372.6 M1465 332.0V370.4 M1505 340.8V368.2 M1545 347.9V366.0 M1585 353.3V363.8 M1625 357.0V361.6 M1665 358.8V359.4 M1705 358.8V357.2 M1745 356.9V355.0"/></g>
+    <g stroke-width="8" opacity=".7"><path d="M296 449v52m602-93v37m425-62v27M114 462v42m377-61v40m216-53v32m405-51v29m415-54v25m153-38v20"/></g>
+  </g>
+  <path d="M1800 405c-93 9-146 36-170 63-35 40-105 41-149 74-43 32-22 57-111 85-43 14-68 59-137 72l-131 41h698Z" fill="url(#land)"/>
+  <path d="M1800 435c-87 6-107 32-141 47-24 10-48 17-58 32 83-15 143-39 199-38Z" fill="#a6b39a" opacity=".7"/>
+  <path d="M0 606c99-8 143 13 215 42 67 27 84 52 158 66l103 26H0Z" fill="#728b77"/>
+  <path d="M0 646c78 3 134 24 211 57l88 37H0Z" fill="#587664"/>
+  <g fill="#4f6c5c"><path d="m1695 449-19-49 4-16-11-22-10 24 4 15-15 49Zm39-11-15-42 3-15-8-19-10 20 3 12-14 48Zm53-12-18-57 3-20-10-29-12 30 4 18-19 64Z"/><path d="m1532 573-16-43 3-16-10-22-10 23 3 14-17 49Zm62-40-16-46 3-15-9-24-10 24 3 14-15 54Z"/></g>
+  <!-- A small sailboat keeps the scale of the open bay. -->
+  <g transform="translate(1058 493)"><path d="m-25 23 58-3-9 9h-38Z" fill="#596f70"/><path d="M5 19V-48" stroke="#718683" stroke-width="2"/><path d="m1-40-28 58H1Z" fill="#e4e5d8"/><path d="m10-24 22 41H10Z" fill="#d5dcd2"/><path d="m-35 35 77-2" stroke="#d6ddd2" stroke-width="2" opacity=".7"/></g>
+</svg>
