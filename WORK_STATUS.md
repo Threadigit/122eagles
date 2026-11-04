@@ -14,7 +14,9 @@ scope, current bridge photograph and design. Read before continuing.
 - User requested motion: staggered welcome/Maryland/Eagles Eyes entrance plus
   gentle mirrored wing movement and slight lift on the eagle every 10 seconds.
   Most of the cycle rests. All animation uses opacity/transform and is disabled
-  for reduced motion. No background movement or flashing.
+  for reduced motion. User subsequently requested cinematic bridge motion: the
+  photograph now has a slow 28-second alternating camera pan/zoom. The bridge
+  structure does not deform, text stays steady, and no image edge is exposed.
 - Motion checks verified staggered progress, full final text visibility and
   mirrored wing transforms. Seven responsive/reduced-motion layouts passed:
   320,390,600,601,844 short landscape,1440,2560px. No overflow, fonts/photo load,
@@ -33,8 +35,9 @@ scope, current bridge photograph and design. Read before continuing.
 - Vercel project 122eagles / prj_Wmor3GXuz4VGB2Dd77qDhEQdRwY9.
 - Team toluadetuyis-projects / team_1HRMSafo3kjx8ErMiKg6Rlww.
 - Static HTML/CSS, framework Other/null, no install/build commands, repo root.
-- Prior live deployment dpl_8GGNcGEiWKMSTdPnKHLLdPA9net3 (visual polish).
-  Animated update is being deployed; record its new ID after verification.
+- Text/eagle animation deployment dpl_JB3mRJ5igcWqcbumNYysnrhVo4ZR was READY.
+  Actual apex checks passed normal and reduced motion; www HTTPS redirect passed.
+  Cinematic bridge movement is the current change awaiting deployment.
 - Standard Vercel protection prod_deployment_urls_and_all_previews; production
   aliases/custom domains public, previews/deployment URLs protected.
 
