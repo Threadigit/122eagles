@@ -35,3 +35,17 @@ Run `python3 tests/subscription-browser.py` against a local preview. Set
 load the real Buttondown form and check email validation; this test does not
 submit a subscription or send confirmation email. The other cases use a small
 provider-frame fixture to exercise the website's modal behavior independently.
+
+Set `EAGLES_LIVE_CONFIRMATION=1` for a read-only check of Buttondown's actual
+confirmation preview, including message/action separation and navy buttons.
+The provider owns colours inside its cross-origin frame: Settings → Design,
+Custom CSS `:root { --color-action: #172b36; }`. No paid plan was enabled.
+The responsive frame has enough height for confirmation; the parent dialog
+scrolls on short screens with a sticky close toolbar. No outcome is auto-dismissed.
+
+SEO: `/about` explains the Maryland focus in indexable HTML. Both pages have
+canonical URLs, descriptions, social metadata and JSON-LD; `/sitemap.xml` lists
+both. Run `python3 tests/seo.py` to check these links and metadata. Vercel clean
+URLs serve `about.html` as `/about`; a basic Python preview uses `/about.html`.
+Search Console verification and sitemap submission require the owner's Google
+account. Metadata alone does not guarantee indexing or search rankings.

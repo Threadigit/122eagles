@@ -150,3 +150,32 @@ is READY. Live tests passed at 320/390/844 landscape/1440, including the actual
 Buttondown form render and validity checks with no POST or test subscriber.
 Production HTML exactly matched the merged source. Copy, social preview and
 working on-site signup are now live at https://122eagles.com/.
+
+## Signup confirmation and Maryland SEO — November 4, 2026
+
+Branch fix/signup-branding-maryland-seo fixes the provider's confirmation being
+clipped inside the original 230px iframe. A responsive 360–440px frame and wider
+560px maximum dialog leave room for its full message and both Gmail/Got it
+actions. On short screens the outer dialog scrolls; its close toolbar remains
+sticky. Provider state is preserved across close/reopen. No automatic dismissal
+was added. The user chose to update Buttondown branding themselves and received
+Settings → Design instructions with `--color-action: #172b36`. Read-only live
+provider checks now observe matching navy buttons; no account settings, paid
+plans or email configuration were changed by this agent.
+
+SEO: Maryland newsletter title/description, full OG/Twitter metadata, Organization,
+WebSite, WebPage and Periodical JSON-LD, plus an indexable /about page describing
+policies/projects/programs and the weekly free offer. Homepage footer links to
+About; its signup link opens /#subscribe. Sitemap lists both canonical pages with
+lastmod. No invented reporting, local addresses, reviews or keyword city pages.
+Original hero, typography and camera remain. Search Console ownership verification
+and sitemap submission still require the owner's Google account; no rankings or
+indexing are promised.
+
+Checks: 320/390/844 landscape/1440px signup fixture flow passes. Actual Buttondown
+form validation and confirmation preview pass at those widths without posting a
+subscription: full message above actions, navy button, Got it dismissal and sticky
+parent close. Provider analytics POST /cdn-cgi/rum is excluded from the no-signup
+POST assertion. CSP browser checks pass both pages, no JS/console errors or
+horizontal overflow, JSON-LD present and About signup deep link works. Static SEO
+checks validate canonicals, metadata, structured JSON, internal links and sitemap.
