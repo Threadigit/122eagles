@@ -9,7 +9,7 @@ scope, current bridge photograph and design. Read before continuing.
 - Site: https://122eagles.com/ ; Vercel alias https://122eagles.vercel.app/.
 - Exact heading: Welcome to Maryland Eagles Eyes.
 - Public-domain photograph of Maryland's Chesapeake Bay Bridge, Carol M.
-  Highsmith / Library of Congress. See assets/PHOTO-CREDIT.md. Responsive WebP
+  Highsmith / Library of Congress. See public/assets/PHOTO-CREDIT.md. Responsive WebP
   assets and self-hosted Lora/Instrument Sans fonts; no tracking or packages.
   motion.js is a tiny first-party deferred script that starts the camera after
   the photo loads and decodes; include it in deployment files. CSP script-src
@@ -66,16 +66,19 @@ scope, current bridge photograph and design. Read before continuing.
 - Standard Vercel protection prod_deployment_urls_and_all_previews; production
   aliases/custom domains public, previews/deployment URLs protected.
 
-## GitHub — still blocked
+## GitHub and Git deployment migration — in progress
 
-- Intended private repo: adetuyiTolu/122eagles. Local main has all source commits.
-- GitHub app/gh cannot create repositories: GraphQL and REST returned403 Resource
-  not accessible by integration. The app can push existing authorized repos.
-- Latest browser creation attempt 7e995fd7-27d6-4bd0-b2d8-dc71b8194d27 completed
-  at GitHub login. No repo created. Needs a saved GitHub sign-in or user-created
-  empty repository before push/linking. Do not ask for passwords in chat.
-- Once repo exists, push main then connect the EXISTING Vercel project in its Git
-  settings. create_git_project does not reconnect an existing unlinked project.
+- User supplied the empty private repository https://github.com/Threadigit/122eagles.
+  GitHub repository id 1445253846; permissions include push/admin. Remote confirmed
+  empty with git ls-remote. Local origin now points to this exact repository.
+- Website files have moved byte-for-byte to public/ for Git deployments. Root
+  vercel.json declares outputDirectory public, framework Other/null; no build or
+  install command required. Runtime URLs stay unchanged. Internal notes remain
+  outside the published directory. Mobile cinematic checks still pass.
+- Next: push main, connect EXISTING Vercel project 122eagles to Threadigit/122eagles,
+  deploy from Git, then verify automatic deployment by a subsequent push. Do not
+  claim automatic deployment until Git linkage and a push-triggered build are
+  confirmed. Preserve the current domain configuration and deployed design.
 
 ## Browser history / avoid duplicate work
 
@@ -91,5 +94,5 @@ scope, current bridge photograph and design. Read before continuing.
   updates; subsequent Vercel, HTTP, redirect and mail checks all passed.
 - No DNS work remains. Do not repeat the old sign-in/setup loops.
 
-Local preview: python3 -m http.server 8012. No registrar transfer, nameserver
+Local preview: python3 -m http.server 8012 --directory public. No registrar transfer, nameserver
 migration or purchase is needed. Do not change other projects or records.
