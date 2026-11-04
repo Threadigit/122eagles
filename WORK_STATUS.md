@@ -179,3 +179,12 @@ parent close. Provider analytics POST /cdn-cgi/rum is excluded from the no-signu
 POST assertion. CSP browser checks pass both pages, no JS/console errors or
 horizontal overflow, JSON-LD present and About signup deep link works. Static SEO
 checks validate canonicals, metadata, structured JSON, internal links and sitemap.
+
+PR #2 https://github.com/Threadigit/122eagles/pull/2 is merged at
+2a0291d7b676b84017bb08dcc38992a0e4b1c66e. Automatic Git production deployment
+dpl_EwYx5ih99Eebgro9FX9ru16Z1dk3 is READY. Public HTTPS homepage, About, CSS,
+subscribe.js, sitemap and robots match merged source byte-for-byte. Live signup
+fixture and actual provider form/confirmation checks pass at all four viewport
+sizes, including Gmail actions, navy colour and sticky closing; no subscription
+or confirmation email was sent. All implementation work for this request is
+published. Owner-account Search Console verification/submission remains pending.
