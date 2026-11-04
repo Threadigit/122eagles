@@ -86,3 +86,9 @@ signed_in_sites remains empty. A dedicated Namecheap profile is being created
 with the Advanced DNS URL so the authenticated app page can load before saving.
 Public DNS baseline is /tmp/122eagles-dns-before.json; five email-forwarding MX
 records and the forwarding SPF TXT must remain unchanged.
+
+Dedicated retry profile: `prof_91ba5a2dbbf740e2`, name Namecheap — 122eagles.
+Setup page was sent to the user, who must reach the actual Advanced DNS page
+then click Save profile and reply Saved. A text-input request is pending for
+that confirmation. Run DNS automation on this exact dedicated profile after
+confirmation; do not keep retrying Default. No secure setup URLs are committed.
