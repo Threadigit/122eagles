@@ -1,6 +1,6 @@
 # Maryland Eagles Eyes
 
-The welcome page for **mdeagles.com**, a publication exploring challenges facing
+The publication and practical guide for **mdeagles.com**, a publication exploring challenges facing
 Marylanders and practical ways to help solve them. See `EDITORIAL_DIRECTION.md`
 for the Maryland Brief format, coverage areas and publishing workflow.
 
@@ -51,3 +51,21 @@ both. Run `python3 tests/seo.py` to check these links and metadata. Vercel clean
 URLs serve `about.html` as `/about`; a basic Python preview uses `/about.html`.
 Search Console verification and sitemap submission require the owner's Google
 account. Metadata alone does not guarantee indexing or search rankings.
+
+
+## Resource guide publishing
+
+The homepage prioritizes search and browsing. `/guides` searches eight initial
+resource guides by keywords and topic; URL query parameters preserve a search.
+All guides are static, crawlable pages and can be browsed without JavaScript.
+No external search service, account, database or tracking is required.
+
+Edit `content/guides.json` after checking the provider source, then run
+`python3 scripts/build-guides.py` to rebuild the directory, guide pages and sitemap.
+The generator uses About's shared head/identity. Review the homepage's curated
+links separately when adding categories or changing titles/counts. The checked
+date records an actual source review; don't advance it merely because of a build.
+Run `python3 tests/seo.py` and `python3 tests/discovery-browser.py`. Set
+`EAGLES_TEST_URL` for the preview or live site and `EAGLES_BROWSER` for a local
+Chrome executable. The preview must support clean URLs and production CSP.
+CSP permits same-origin GET search forms; Buttondown remains an isolated frame.

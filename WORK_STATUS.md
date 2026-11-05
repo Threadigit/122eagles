@@ -251,4 +251,50 @@ SEO and signup regression checks pass. Public DNS and Vercel config confirm both
 new domains are correctly configured; five MX records and SPF remain unchanged.
 Issued auto-renewing TLS certificate cert_F9fVkMZfawpE2vGK2ksSsCVg for apex/www.
 HTTPS apex returns 200 and www redirects 308 to apex. Old-host redirects are
-included in vercel.json. Production migration push and final verification pending.
+included in vercel.json. Commit 9180376 pushed to main; Git deployment
+ dpl_FZSuWRFF8RHhQ5SCCdLAjKz3NbLi is READY in production.
+Live files match source: homepage, About, CSS, robots, sitemap and social image.
+Old apex/www and new www redirects preserve /about and query strings, ending at
+https://mdeagles.com with HTTP200. Both page layouts and About signup navigation
+pass at 320/390/844 landscape/1440px; signup regression checks pass at all widths.
+The primary site is now https://mdeagles.com/; 122eagles.com is a redirect.
+Repository and Vercel project identifiers remain 122eagles to preserve integration.
+No further DNS setup is needed. This verification record is retained locally.
+
+## Problem-led discovery — November 4, 2026
+
+User explicitly expanded the welcome-page scope into a useful searchable Maryland
+publication, prioritizing finding help over subscribing. This supersedes earlier
+welcome-only scope; preserve bridge photography, type and restrained design.
+
+Homepage now provides search, eight need-based tiles and three editorial starter
+guide links. Subscription is a secondary section below content. `/guides` supports
+keyword/topic filtering, common synonyms, shareable query URLs, reset, no-results
+and full no-JavaScript browsing. Eight crawlable guides live under `/guides/`.
+Each includes audience, geographic scope, provider action, suggested steps, a
+question to ask, limitations, review date, source and related guides.
+
+Content sources: Maryland DHS OHEP, DHCD renter resources, Labor job centers,
+Maryland Family Network LOCATE, Maryland SBDC, USM essential resources, Maryland
+Health Connection, and Maryland Access Point. Sources reviewed November 4, 2026.
+These are introductory resource guides, not original reporting or guarantees of
+assistance. USM scope is explicit; no invented county-level filter or availability.
+MHC source readable via web tool but direct browser receives provider anti-bot 403;
+its verified consumer phone route is included as an alternative. Other provider
+links return 200 in curl or Chrome (USM requires Chrome's certificate trust).
+
+Data: content/guides.json. Run scripts/build-guides.py to regenerate directory,
+guide HTML and sitemap. Homepage curated content is separately maintained.
+README and EDITORIAL_DIRECTION explain maintenance and future Brief integration.
+CSP form-action now allows self for local GET search; external subscription still
+uses the existing isolated Buttondown iframe. No external search service, subscriber
+send, analytics or server-side store added.
+
+Local discovery tests pass at 320/390/844 landscape/1440px: search submission under
+CSP, terms, topic/reset/reload, empty state, provider actions, no-JS, all guide
+routes, no overflow/errors. Signup regression and reduced motion pass after
+removing residual headline animation from the new hero in reduced-motion mode.
+SEO/sitemap/internal links pass; homepage, directory and guide screenshots reviewed.
+Final natural-language queries and reduced-motion checks pass across all four
+viewports. Prefix/word search avoids matching rent inside parent. Production
+push and live verification pending.

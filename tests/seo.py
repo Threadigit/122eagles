@@ -3,6 +3,7 @@ import json
 from pathlib import Path
 from html.parser import HTMLParser
 import xml.etree.ElementTree as ET
+from urllib.parse import urlsplit
 root=Path(__file__).resolve().parents[1]/'public'
 class Page(HTMLParser):
  def __init__(self,source):
@@ -15,7 +16,9 @@ class Page(HTMLParser):
  def handle_endtag(self,tag):
   if tag=='script':self.in_json=False
 urls=[]
-for file,path in [('index.html','/'),('about.html','/about')]:
+for target in sorted(root.rglob('*.html')):
+ file=str(target.relative_to(root))
+ path='/' if file=='index.html' else '/'+file[:-5]
  page=Page((root/file).read_text())
  assert sum(t=='h1' for t,a in page.tags)==1
  assert any(t=='link' and a.get('rel')=='canonical' and a.get('href')=='https://mdeagles.com'+path for t,a in page.tags)
@@ -23,7 +26,7 @@ for file,path in [('index.html','/'),('about.html','/about')]:
  assert page.json
  for tag,attrs in page.tags:
   for field in ['src','href']:
-   val=attrs.get(field,'').split('#')[0]
+   val=urlsplit(attrs.get(field,'')).path if attrs.get(field,'').startswith('/') else ''
    if val.startswith('/') and not val.startswith('//'):
     local=root/val.lstrip('/')
     assert val=='/' or local.is_file() or local.with_suffix('.html').is_file(),val

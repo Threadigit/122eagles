@@ -1,0 +1,220 @@
+[
+  {
+    "slug": "utility-bills",
+    "topic": "money",
+    "category": "Bills & essentials",
+    "need": "I need help with bills",
+    "title": "Find help with an energy bill",
+    "summary": "Where to begin with Maryland’s energy assistance application and your local office.",
+    "audience": "Maryland households looking for help with heating or electricity costs.",
+    "scope": "Maryland · local offices",
+    "keywords": "electric electricity gas power heating utilities shutoff shut off low income money bills assistance behind payment",
+    "intro": "Maryland’s Office of Home Energy Programs (OHEP) is a starting point for utility assistance. Its application page explains the available submission routes and the current income guidelines.",
+    "steps": [
+      "Check the current guidelines on OHEP’s application page, then choose an online, telephone, mail or local-office route.",
+      "Review the document checklist before applying. It includes identification, household income information and utility bills.",
+      "If a deadline or shutoff notice is involved, tell the local office and your utility when you contact them."
+    ],
+    "ask": "Which application route should I use, and what information is still needed for my household?",
+    "limit": "Eligibility and assistance are determined by the program. Submitting an application does not itself confirm an award or stop a shutoff.",
+    "source": "Maryland Department of Human Services",
+    "url": "https://dhs.maryland.gov/office-of-home-energy-programs/apply-energy-assistance/",
+    "action": "See OHEP application options",
+    "checked": "2026-11-04",
+    "related": [
+      "rental-housing",
+      "student-essentials"
+    ]
+  },
+  {
+    "slug": "rental-housing",
+    "topic": "housing",
+    "category": "Housing",
+    "need": "I need a place to live",
+    "title": "Start your search for rental housing support",
+    "summary": "State resources for finding a rental, exploring assistance and locating renter information.",
+    "audience": "Maryland renters and people looking for rental housing.",
+    "scope": "Maryland · local programs vary",
+    "keywords": "rent rental apartment home housing affordable landlord tenant voucher eviction homeless deposit place live",
+    "intro": "Maryland’s housing department brings rental listings, assistance programs and tenant information together on its renter resources page. The right route depends on whether you need a property, financial support or information about a tenancy.",
+    "steps": [
+      "Use the state’s renter resources page to choose the issue closest to yours.",
+      "For a rental search, follow MD Housing Search. For voucher information, use the local public housing authority route described on the page.",
+      "Ask the relevant provider about current availability, eligibility, application steps and waiting lists."
+    ],
+    "ask": "Does this service cover my county, and is it accepting applications or referrals now?",
+    "limit": "A listing or referral is not a housing offer. Program availability varies. For a legal notice or deadline, seek qualified help promptly rather than relying on a general housing search.",
+    "source": "Maryland Department of Housing and Community Development",
+    "url": "https://dhcd.maryland.gov/housing/renter-landlord-resources",
+    "action": "Explore Maryland renter resources",
+    "checked": "2026-11-04",
+    "related": [
+      "utility-bills",
+      "caregiving-support"
+    ]
+  },
+  {
+    "slug": "career-support",
+    "topic": "work",
+    "category": "Work & training",
+    "need": "I’m looking for better work",
+    "title": "Talk to someone about your next job",
+    "summary": "Find free job-search support and training referrals through a Maryland American Job Center.",
+    "audience": "Job seekers, career changers and Marylanders exploring training.",
+    "scope": "Maryland · county directory",
+    "keywords": "job jobs career work training resume résumé laid off layoff unemployment employment apprenticeship multiple shifts interview better",
+    "intro": "Maryland’s American Job Centers offer free employment services, including résumé help, career exploration and referrals to training. The Department of Labor’s directory lets you find a center by county.",
+    "steps": [
+      "Find the center serving your county in the official directory.",
+      "Check its contact details and ask whether you need an appointment for the service you want.",
+      "Explain your work experience, goals and scheduling constraints. Ask which training or job-search options fit."
+    ],
+    "ask": "I need to keep earning while I look for better work. Which services or training routes could fit my schedule?",
+    "limit": "A referral is not a job offer or a promise of training funding. Confirm the requirements and costs of any course before enrolling.",
+    "source": "Maryland Department of Labor",
+    "url": "https://www.labor.maryland.gov/county/",
+    "action": "Find your county’s job center",
+    "checked": "2026-11-04",
+    "related": [
+      "child-care",
+      "health-coverage"
+    ]
+  },
+  {
+    "slug": "child-care",
+    "topic": "children",
+    "category": "Child care",
+    "need": "I’m looking for child care",
+    "title": "Look for child care that fits your schedule",
+    "summary": "Use Maryland Family Network’s referral service to begin a search around your family’s needs.",
+    "audience": "Parents and caregivers searching for regulated child care in Maryland.",
+    "scope": "Maryland · search by location",
+    "keywords": "childcare child care daycare day care children kids parent family babysitting shift after school infant toddler",
+    "intro": "LOCATE: Child Care is Maryland Family Network’s free, confidential referral service. It helps families search for care using considerations such as location, schedule and cost.",
+    "steps": [
+      "Open LOCATE and use its online search or contact the referral service.",
+      "Prepare your child’s age, the hours you need, your travel area and your budget.",
+      "Contact providers directly to ask about openings, hours, fees and the next step in visiting or applying."
+    ],
+    "ask": "Do you have an opening for my child’s age, and can you cover my actual work and travel hours?",
+    "limit": "The referral service is free; child care itself may have fees. Search results do not guarantee an opening, affordability or a particular fit for your child.",
+    "source": "Maryland Family Network",
+    "url": "https://marylandfamilynetwork.org/our-work/locate-child-care/",
+    "action": "Search with LOCATE: Child Care",
+    "checked": "2026-11-04",
+    "related": [
+      "career-support",
+      "utility-bills"
+    ]
+  },
+  {
+    "slug": "business-advice",
+    "topic": "business",
+    "category": "Business",
+    "need": "I need help with my business",
+    "title": "Get another set of eyes on your business",
+    "summary": "Find confidential, no-cost business consulting through the Maryland SBDC.",
+    "audience": "Prospective founders and existing small business owners in Maryland.",
+    "scope": "Maryland · regional support",
+    "keywords": "business founder startup start up entrepreneur sales customers cash flow cashflow invoices marketing financing company self employed",
+    "intro": "The Maryland Small Business Development Center offers no-cost, confidential consulting to prospective and existing business owners. It can be a useful place to discuss a business plan, market questions or a growth challenge.",
+    "steps": [
+      "Visit the SBDC consulting page and follow its process for requesting assistance.",
+      "Write down the decision you need help making and the main constraint facing your business.",
+      "Ask what information to bring, which advisor is appropriate and when an appointment is available."
+    ],
+    "ask": "What should I examine first to understand why this part of my business is not working?",
+    "limit": "Consulting does not guarantee customers, financing or a particular business outcome. Confirm any separate training or third-party costs before committing.",
+    "source": "Maryland Small Business Development Center",
+    "url": "https://www.marylandsbdc.org/consulting",
+    "action": "Explore SBDC consulting",
+    "checked": "2026-11-04",
+    "related": [
+      "career-support",
+      "health-coverage"
+    ]
+  },
+  {
+    "slug": "student-essentials",
+    "topic": "education",
+    "category": "College & essentials",
+    "need": "I’m studying and stretched thin",
+    "title": "Find your university’s basic-needs resources",
+    "summary": "A starting point for campus food and essential-resource support across the University System of Maryland.",
+    "audience": "Students at University System of Maryland institutions.",
+    "scope": "USM institutions · campus eligibility",
+    "keywords": "student students university college campus food pantry hungry groceries tuition studying school education emergency essentials",
+    "intro": "The University System of Maryland maintains an essential-resources directory with links to campus food pantries and other support. Use the listing for your institution to find the current local service.",
+    "steps": [
+      "Find your university in the USM essential-resources directory.",
+      "Open the campus resource page and check who can use the service, its hours and any registration requirements.",
+      "If your college is outside USM, ask its student affairs office which basic-needs services it offers."
+    ],
+    "ask": "What support can I use now, and is there a separate contact for needs this service does not cover?",
+    "limit": "This directory focuses on USM institutions, not every Maryland college. Availability and eligibility are set by each campus; a listed resource is not a guarantee of funding.",
+    "source": "University System of Maryland",
+    "url": "https://www.usmd.edu/essential-resources",
+    "action": "Find your campus resource",
+    "checked": "2026-11-04",
+    "related": [
+      "career-support",
+      "rental-housing"
+    ]
+  },
+  {
+    "slug": "health-coverage",
+    "topic": "health",
+    "category": "Health coverage",
+    "need": "I need help with health coverage",
+    "title": "Find someone to explain your coverage options",
+    "summary": "Get enrollment assistance from Maryland Health Connection and its local navigators.",
+    "audience": "Marylanders looking for help understanding or applying for health coverage.",
+    "scope": "Maryland · navigators in every county",
+    "keywords": "health healthcare insurance coverage medical medicaid navigator enrollment benefits lost insurance uninsured doctor",
+    "intro": "Maryland Health Connection’s help page connects residents with enrollment assistance. Local navigators offer free help with coverage options and questions about eligibility.",
+    "steps": [
+      "Open the official Find Help page and choose a local navigator or another listed assistance route.",
+      "Explain whether you are applying, changing coverage or trying to understand an existing application.",
+      "Ask about enrollment timing, required documents and the costs of any coverage you are considering."
+    ],
+    "ask": "Which options can I apply for in my situation, and what would I pay for the coverage and care?",
+    "limit": "Free enrollment assistance does not mean every health plan is free. Eligibility, enrollment windows and costs depend on your circumstances. This guide concerns coverage, not medical treatment.",
+    "source": "Maryland Health Connection",
+    "url": "https://www.marylandhealthconnection.gov/find-help/",
+    "action": "Find local enrollment help",
+    "checked": "2026-11-04",
+    "related": [
+      "career-support",
+      "caregiving-support"
+    ],
+    "phone": "1-855-642-8572",
+    "telephone": "+18556428572"
+  },
+  {
+    "slug": "caregiving-support",
+    "topic": "care",
+    "category": "Aging & caregiving",
+    "need": "I’m caring for someone",
+    "title": "Find a local starting point for care and support",
+    "summary": "Connect with Maryland Access Point for aging, disability and caregiver resources.",
+    "audience": "Older adults, people with disabilities and their caregivers in Maryland.",
+    "scope": "Maryland · local MAP offices",
+    "keywords": "caregiver caregiving elderly older senior seniors disability disabled aging ageing parent mother father care transport meals independent living",
+    "intro": "Maryland Access Point helps older adults, people with disabilities and caregivers identify services and plan for support. The Department of Aging lists local offices and explains the available assistance.",
+    "steps": [
+      "Find the MAP office for the person’s county on the Department of Aging page.",
+      "Describe the practical support needed, such as meals, transportation or help planning care.",
+      "Ask about options counseling, local referrals and the application requirements for any suggested service."
+    ],
+    "ask": "Which local services fit these needs, and who should we contact to understand cost and availability?",
+    "limit": "A referral does not guarantee immediate care or a funded place. Individual programs may have their own eligibility rules, costs and waiting lists.",
+    "source": "Maryland Department of Aging",
+    "url": "https://aging.maryland.gov/programs-and-services/maryland-access-point",
+    "action": "Find your local MAP office",
+    "checked": "2026-11-04",
+    "related": [
+      "health-coverage",
+      "rental-housing"
+    ]
+  }
+]

@@ -1,7 +1,7 @@
 # Maryland Eagles Eyes: editorial direction
 
-Publication first; email is how readers keep up. Preserve the welcome page and
-bridge identity until there are reported stories ready to publish.
+Publication first; email is how readers keep up. The user has expanded the site from a welcome page into a searchable resource
+publication. Retain the bridge, typography and restrained editorial identity.
 
 ## Signature format: The Maryland Brief
 
@@ -69,3 +69,33 @@ For each new story or meaningful follow-up:
 Offer free publication updates without a fixed weekly cadence. Future automation
 should trigger on an explicit editorial release, deduplicate sends and keep
 provider credentials server-side.
+
+
+## Discovery structure and maintenance
+
+The homepage is a front door organized by a reader's need, with search first,
+eight topic routes and a small editorial selection of starter guides. Email
+subscription comes after the useful content. The directory supports keyword and
+topic search with shareable URLs and an honest no-results state.
+
+Resource guides are distinct from reported Maryland Briefs. They identify the
+audience, service area, immediate provider action, suggested next steps, a useful
+question to ask, limits, provider source and date checked. Never describe a referral
+as a solution already delivered, imply eligibility or claim funding is available
+without evidence. Campus-specific scope must remain visible.
+
+Current launch content is eight introductory guides. Add depth based on reader
+needs and source quality, rather than creating empty sections. A future county
+filter requires verified county-level coverage data; current guides link to the
+providers' local-office or location-search routes instead.
+
+Before publishing or revising a guide: check its official source, working link,
+coverage, fees and application conditions. Record the review date only when the
+review happens. Check time-sensitive information before each promotion and
+recheck this starter directory monthly as an editorial responsibility; no
+automated review or email schedule has been configured. If a service closes,
+remove it from recommended routes and explain the change on its guide.
+
+Future reported Briefs should link to relevant practical guides. New evidence
+and reported outcomes belong in dated follow-ups. Do not fill the homepage with
+fabricated reporting, testimonials, popularity counts or unverified programs.
