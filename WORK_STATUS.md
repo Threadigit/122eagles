@@ -439,3 +439,21 @@ Instrument GitHub repo) and four public-domain Highsmith photos from loc.gov
   8:35 PM), greeting and county memory (home to guides), mobile menu open state, no
   horizontal overflow at 390/320, hero fits one viewport at 1440x900, film edge coverage
   (previous check). Playwright tests NOT run (not installed here); real-device Safari untested.
+
+## Logo animation, county detection, coral accent, polish audit — November 5, 2026
+
+Published to main (commit: Animate the nav logo, detect county on-device, coral accent, polish).
+- Removed the floating eagle from the hero; the nav logo mark itself now animates (draws on once
+  on the homepage, wings beat every 10s, extra beat on hover).
+- County auto-detect: "Use my location" (hero clock panel, tile map, /guides) plus silent detection when
+  location is already allowed. On-device point-in-polygon against 26 KB of simplified Census shapes;
+  no coordinates leave the browser. Verified: 24/24 sample towns map to the right county, six out-of-state
+  points return none, success/outside/denied flows update greeting, dropdown and tile map.
+- Accent changed from muted amber to steamed-crab coral (#ff6b4a on dark, #c23a1b ink on light);
+  one token set at the top of style.css (--hot, --hot-rgb, --hot-hover, --hot-ink). Amber was the
+  assistant's own choice; user asked for something that pops.
+- Audit: non-breaking hyphen (missing from both fonts) replaced; county names use typographic
+  apostrophes; photo credits align to the content edge; county tile text sized to fit. Measured left/right
+  edges of every major block at 1440 (all on the grid), and no clipped text or horizontal overflow
+  at 1440/1024/390 on the home, problems, brief, guides and about pages. Surface polish added
+  (inner highlights, glows, shadows). Playwright tests (incl. new detection test) NOT run here.

@@ -117,6 +117,76 @@
     }, { passive: true });
   }
 
+
+  /* ---- detect the county from the device's location ----
+     The coordinates are compared with the county shapes inside this browser and are
+     never sent or stored; only the county name is remembered. */
+  const detectButtons = [...document.querySelectorAll('[data-detect-county]')];
+  const detect = (() => {
+    let shapes = null;
+    const load = async () => {
+      if (!shapes) shapes = (await (await fetch('/assets/md-counties.json')).json()).counties;
+      return shapes;
+    };
+    const inRing = (x, y, ring) => {
+      let inside = false;
+      for (let i = 0, j = ring.length - 2; i < ring.length; j = i, i += 2) {
+        const xi = ring[i], yi = ring[i + 1], xj = ring[j], yj = ring[j + 1];
+        if ((yi > y) !== (yj > y) && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi) inside = !inside;
+      }
+      return inside;
+    };
+    const inPolygon = (polygon, x, y) => inRing(x, y, polygon[0]) && !polygon.slice(1).some(hole => inRing(x, y, hole));
+    const find = (lon, lat, list) => {
+      for (const c of list) {
+        const [x0, y0, x1, y1] = c.b;
+        if (lon < x0 || lon > x1 || lat < y0 || lat > y1) continue;
+        if (c.p.some(polygon => inPolygon(polygon, lon, lat))) return c.n;
+      }
+      // The shapes are simplified, so allow about a kilometre of slack at the edge.
+      const kx = Math.cos((lat * Math.PI) / 180) * 111.32;
+      let best = null, bestDistance = 1.5;
+      for (const c of list) for (const polygon of c.p) {
+        const ring = polygon[0];
+        for (let i = 0; i < ring.length; i += 2) {
+          const d = Math.hypot((ring[i] - lon) * kx, (ring[i + 1] - lat) * 110.57);
+          if (d < bestDistance) { bestDistance = d; best = c.n; }
+        }
+      }
+      return best;
+    };
+    const say = text => document.querySelectorAll('[data-detect-status]').forEach(el => { el.textContent = text; });
+    const busy = on => detectButtons.forEach(b => (on ? b.setAttribute('aria-busy', 'true') : b.removeAttribute('aria-busy')));
+    const run = ({ silent = false } = {}) => new Promise(resolve => {
+      if (!('geolocation' in navigator)) { if (!silent) say('This browser cannot share its location. Choose your county instead.'); return resolve(null); }
+      busy(true);
+      if (!silent) say('Looking up your county…');
+      navigator.geolocation.getCurrentPosition(async position => {
+        try {
+          const name = find(position.coords.longitude, position.coords.latitude, await load());
+          if (name) {
+            county.set(name);
+            window.dispatchEvent(new Event('mde:county'));
+            say(`Detected ${county.label(name)}. Not right? Choose another.`);
+          } else if (!silent) say('Your location looks to be outside Maryland, or out on the water. Choose your county instead.');
+          resolve(name);
+        } catch { if (!silent) say('Could not check your location. Choose your county instead.'); resolve(null); }
+        finally { busy(false); }
+      }, error => {
+        busy(false);
+        if (!silent) say(error.code === 1 ? 'Location is blocked for this site. Choose your county instead.' : 'Could not find your location. Choose your county instead.');
+        resolve(null);
+      }, { enableHighAccuracy: false, timeout: 12000, maximumAge: 600000 });
+    });
+    return { run, find: async (lon, lat) => find(lon, lat, await load()) };
+  })();
+  window.mdeDetect = detect;
+  detectButtons.forEach(button => button.addEventListener('click', () => detect.run()));
+  // Detect automatically when the reader has already allowed location for this site.
+  if (detectButtons.length && !county.get() && navigator.permissions && navigator.permissions.query) {
+    navigator.permissions.query({ name: 'geolocation' }).then(result => { if (result.state === 'granted') detect.run({ silent: true }); }).catch(() => {});
+  }
+
   /* ---- the county tile map ---- */
   const tiles = [...document.querySelectorAll('[data-county]')];
   const caption = document.querySelector('[data-tile-caption]');

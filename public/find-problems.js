@@ -54,6 +54,7 @@
   query.addEventListener('input',update);
   topic.addEventListener('change',update);
   if (county) county.addEventListener('change',update);
+  window.addEventListener('mde:county', () => { if (county && window.mdeCounty) { county.value = window.mdeCounty.get(); update(); } });
   document.querySelector('#clear-search').addEventListener('click',event => {
     event.preventDefault(); query.value=''; topic.value=''; if (county) county.value=''; update(); query.focus();
   });

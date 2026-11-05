@@ -35,7 +35,7 @@ product site: heavy sans headlines, gold accents, boxes inside boxes, one photog
 ## Decisions
 
 1. **Warm, not techy.** Parchment for reading, harbor navy for the collection and hero,
-   sunlit amber as the only accent. Fewer boxes: hairline rows and large type carry the page.
+   a steamed-crab coral as the only accent (changed from a muted amber, which did not pop). Fewer boxes: hairline rows and large type carry the page.
 2. **Type.** Instrument Serif for display (with italic for one emphasis per screen),
    Instrument Sans for interface and body.
 3. **The page knows what time it is.** A welcome greets the visitor by their local time and

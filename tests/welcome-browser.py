@@ -43,4 +43,19 @@ with sync_playwright() as p:
         assert not errors, errors
         page.close()
         print(f'PASS {width}px: greeting, phases, sun times, county memory, menu')
+    # On-device county detection: Playwright grants the location, the page maps it to a county.
+    for lat, lon, county in [(39.2037, -76.8610, 'Howard'), (38.3607, -75.5994, 'Wicomico'), (39.4087, -79.4067, 'Garrett')]:
+        context = browser.new_context(geolocation={'latitude': lat, 'longitude': lon}, permissions=['geolocation'])
+        page = context.new_page()
+        page.goto(BASE + '/', wait_until='networkidle')
+        page.locator('[data-detect-county]').first.click()
+        expect(page.locator('[data-detect-status]').first).to_contain_text(f'Detected {county} County')
+        expect(page.locator('[data-county-pick]')).to_have_value(county)
+        context.close()
+    outside = browser.new_context(geolocation={'latitude': 39.9526, 'longitude': -75.1652}, permissions=['geolocation'])  # Philadelphia
+    page = outside.new_page()
+    page.goto(BASE + '/', wait_until='networkidle')
+    page.locator('[data-detect-county]').first.click()
+    expect(page.locator('[data-detect-status]').first).to_contain_text('outside Maryland')
+    print('PASS: county detection (3 counties, outside Maryland)')
     browser.close()

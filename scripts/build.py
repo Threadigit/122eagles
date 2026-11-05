@@ -8,7 +8,7 @@ the resource guides, the search script for the collection, and the sitemap.
 import json
 import zipfile
 
-from layout import PLACES, PUBLIC, ROOT, SITE, band, county_options, e, eagle, page, place_img
+from layout import PLACES, PUBLIC, ROOT, SITE, band, county_options, e, eagle, page, place_img, typo
 
 TOPICS = {'families': 'Children and families', 'business': 'Small business', 'work': 'Work and careers'}
 REVIEWED = 'November 5, 2026'
@@ -22,6 +22,13 @@ guide_by_slug = {g['slug']: g for g in guides}
 def write(path, text):
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(text)
+
+
+def detect_button():
+    return ('<button class="detect" type="button" data-detect-county><svg viewBox="0 0 20 20" width="15" height="15" fill="none" '
+            'stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="10" cy="10" r="4.5"/>'
+            '<path d="M10 1.5v3M10 15.5v3M1.5 10h3M15.5 10h3"/></svg>Use my location</button>'
+            '<p class="detect-status" data-detect-status role="status" aria-live="polite"></p>')
 
 
 def arrow():
@@ -173,11 +180,12 @@ TILES = {
 def tile_map():
     tiles = ''.join(
         f'<li class="tile c{c} r{r}"><a href="/guides?county={e(name).replace(chr(39), "%27")}" data-county="{e(name)}">'
-        f'<span class="tile-name">{e(name)}</span></a></li>' for name, (c, r) in TILES.items())
+        f'<span class="tile-name">{e(typo(name))}</span></a></li>' for name, (c, r) in TILES.items())
     return (
         '<div class="tilemap-scroll"><div class="tilemap">'
         '<div class="tilemap-intro"><p class="tilemap-title">Where are you?</p>'
-        '<p class="tilemap-caption" data-tile-caption>Choose your county or Baltimore City to see local help.</p></div>'
+        '<p class="tilemap-caption" data-tile-caption>Choose your county or Baltimore City to see local help.</p>'
+        + detect_button() + '<p class="detect-note">Your location stays on your device.</p></div>'
         '<p class="tilemap-bay" aria-hidden="true">Chesapeake Bay</p>'
         f'<ul class="tilemap-grid" aria-label="Maryland counties">{tiles}</ul></div></div>'
     )
@@ -188,7 +196,6 @@ def build_home():
     film = f"""<section class="film night" data-film aria-labelledby="film-title">
 <div class="film-frame"><div class="film-camera"><img class="film-img" src="/assets/bay-bridge-film-1920.webp" srcset="/assets/bay-bridge-film-960.webp 960w, /assets/bay-bridge-film-1920.webp 1920w" sizes="max(100vw, 110vh)" width="1920" height="1756" fetchpriority="high" decoding="async" alt="Aerial view of the two Chesapeake Bay Bridge spans crossing the open water."></div></div>
 <div class="film-tone" aria-hidden="true"></div><div class="film-shade"></div><div class="film-grain" aria-hidden="true"></div>
-{eagle("eagle film-eagle", "1.15")}
 <div class="film-grid"><div class="film-copy">
 <p class="welcome" data-welcome><span class="welcome-greeting" data-greeting>Welcome, neighbor.</span> <span class="welcome-sub" data-greeting-sub>Pull up a chair.</span></p>
 <h1 id="film-title"><span class="line"><span>Fix what’s missing.</span></span> <span class="line line-2"><span>Find what already works.</span></span></h1>
@@ -204,7 +211,7 @@ def build_home():
 <svg class="sun-arc" viewBox="0 0 240 70" aria-hidden="true" focusable="false"><path class="sun-track" d="M16 60 A104 52 0 0 1 224 60"/><line class="sun-horizon" x1="4" y1="60" x2="236" y2="60"/><circle class="sun-dot" data-sun-dot cx="16" cy="60" r="7"/></svg>
 <dl class="sun-times"><div><dt>Sunrise</dt><dd data-sunrise>--</dd></div><div><dt>Sunset</dt><dd data-sunset>--</dd></div></dl>
 <p class="clock-you" data-you hidden>Where you are: <time data-you-time></time></p>
-<div class="clock-county"><label for="county-pick">Your county</label><select id="county-pick" data-county-pick>{county_options('Choose to personalize')}</select></div>
+<div class="clock-county"><label for="county-pick">Your county</label><select id="county-pick" data-county-pick>{county_options('Choose to personalize')}</select>{detect_button()}</div>
 </aside></div>
 <p class="film-credit"><a href="https://hdl.loc.gov/loc.pnp/highsm.14292">Chesapeake Bay Bridge · Carol M. Highsmith, Library of Congress</a></p>
 </section>"""
@@ -213,7 +220,7 @@ def build_home():
              (str(len(guides)), 'resource guides'), ('24', 'places: 23 counties and Baltimore City')]
     hello = f"""<section class="hello" aria-labelledby="hello-title"><div class="wrap hello-grid">
 <div class="hello-copy"><p class="label">Welcome to the neighborhood</p>
-<h2 id="hello-title">Maryland is twenty‑four places with the same everyday questions. <em>How do we get by, and how do we make it better?</em></h2>
+<h2 id="hello-title">Maryland is <span class="nb">twenty-four</span> places with the same everyday questions. <em>How do we get by, and how do we make it better?</em></h2>
 <p>Some gaps are still open. Some problems already have an answer. We keep track of both, so you can build what is missing or find what works, wherever you live.</p>
 <ul class="stats">{''.join(f'<li><strong>{n}</strong><span>{t}</span></li>' for n, t in stats)}</ul></div>
 <div class="hello-photos" aria-label="Photographs of Maryland places">
@@ -365,7 +372,7 @@ def build_guides():
                 '<p class="band-note">Looking to work on a gap that is still open? Explore the <a href="/problems">problem collection</a>.</p>',
                 pos=1, place='annapolis')
     body = f'''<div class="page"><div class="wrap">
-<form class="directory-search guide-search" role="search" action="/guides" method="get"><div><label for="guide-query">Search the guides</label><input id="guide-query" name="q" type="search" placeholder="Try “electric bill” or “child care”" maxlength="160" autocomplete="off"></div><div><label for="guide-county">Your county</label><select id="guide-county" name="county">{county_options('Anywhere in Maryland')}</select></div><div><label for="guide-topic">What you need</label><select id="guide-topic" name="topic"><option value="">All needs</option>{options}</select></div><button class="button" type="submit">Search</button></form>
+<form class="directory-search guide-search" role="search" action="/guides" method="get"><div><label for="guide-query">Search the guides</label><input id="guide-query" name="q" type="search" placeholder="Try “electric bill” or “child care”" maxlength="160" autocomplete="off"></div><div><label for="guide-county">Your county</label><select id="guide-county" name="county">{county_options('Anywhere in Maryland')}</select>{detect_button()}</div><div><label for="guide-topic">What you need</label><select id="guide-topic" name="topic"><option value="">All needs</option>{options}</select></div><button class="button" type="submit">Search</button></form>
 <noscript><p>Search filters need JavaScript. All {len(guides)} guides are listed below for you to browse.</p></noscript>
 <div class="results-heading"><p id="result-count" role="status" aria-live="polite" aria-atomic="true">{len(guides)} guides</p><a id="clear-search" href="/guides">Clear filters</a></div>
 <div id="guide-results" class="guide-list">{''.join(guide_row(g) for g in guides)}</div>

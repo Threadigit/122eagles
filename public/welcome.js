@@ -151,7 +151,7 @@
       render();
     });
   }
-  window.addEventListener('mde:county', () => { if (pick) pick.value = county.get(); });
+  window.addEventListener('mde:county', () => { if (pick) pick.value = county.get(); render(); });
   render();
   setInterval(render, 1000);
 })();

@@ -44,9 +44,14 @@ COUNTIES = [
 ]
 
 
+def typo(text):
+    """Typographic apostrophes for display (values and URLs keep the plain character)."""
+    return text.replace("'", '\u2019')
+
+
 def county_options(placeholder='Choose your county'):
     return f'<option value="">{placeholder}</option>' + ''.join(
-        f'<option value="{e(c)}">{e(c)}</option>' for c in COUNTIES)
+        f'<option value="{e(c)}">{e(typo(c))}</option>' for c in COUNTIES)
 
 
 # Public-domain photographs by Carol M. Highsmith (Library of Congress), see PHOTO-CREDIT.md.
