@@ -570,3 +570,15 @@ map intro, directory notes), and final polish (branded 404 page, print styles fo
   duplicate ids or missing alt text; no console errors. Touch targets raised to 44 px on phones/touch (logo, menu button, location button,
   "Read the full brief", "Clear filters", footer links).
 - Not done: real-device testing, Playwright suite (not installed here), external provider link check, real-font licensing (america.gov fonts).
+
+## Transparent favicon — November 5, 2026 (published to main)
+
+User asked for a transparent favicon background so the bird is the only thing showing. favicon.ico (16/32/48, RGBA, corner alpha 0) and
+assets/favicon.svg are now just the gold eagle with a thin near-black edge (so it stays readable on light and dark tab bars) and fill the
+tab icon more. Apple touch icon (180) and manifest icons (192/512) keep the solid near-black background because iOS/Android fill transparency
+themselves. ICON_VERSION bumped to 3 (links and manifest icons use ?v=3) so browsers drop the cached icon. Checked: rendered ICO sizes on light and
+dark backgrounds, SVG in the browser. Not seen in a real browser tab; browsers cache favicons hard.
+
+Footer/About wording (published to main): per the user, removed "The colors are a tribute to the state flag." from the footer note
+and the matching "Its colors are a tribute to the Maryland flag, not a sign of official status." from the About page's Independent section. The
+non-affiliation statements remain ("Independent, and not affiliated with or endorsed by the State of Maryland." and the About paragraph).

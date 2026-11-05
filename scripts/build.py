@@ -368,7 +368,7 @@ def build_about():
         ('Evidence before promises',
          '<p>Each brief links its sources and says where the evidence applies. These first briefs draw on existing reports, not interviews with residents, so local conversations should shape any project before it starts.</p>'),
         ('Independent',
-         '<p>MD Eagles is not affiliated with, endorsed by or operated by the State of Maryland or any agency. Its colors are a tribute to the Maryland flag, not a sign of official status. We link to the agency that runs each service.</p>'),
+         '<p>MD Eagles is not affiliated with, endorsed by or operated by the State of Maryland or any agency. We link to the agency that runs each service.</p>'),
         ('Stay in touch',
          '<p><a href="/#subscribe">Subscribe for updates</a>. We write when something new is published.</p>'),
     ]

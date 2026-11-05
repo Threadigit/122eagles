@@ -12,7 +12,7 @@ PUBLIC = ROOT / 'public'
 SITE = 'https://mdeagles.com'
 SOCIAL_IMAGE = SITE + '/assets/social-mdeagles.jpg'
 # Browsers cache favicons very hard. Bump this whenever an icon changes so they fetch the new one.
-ICON_VERSION = '2'
+ICON_VERSION = '3'
 
 
 def e(value):
@@ -122,7 +122,7 @@ def footer():
         '<p class="footer-line">Twenty-four places. One Maryland.</p>'
         '<p>Maryland Eagles Eyes is an independent publication. We document the gaps in everyday Maryland life, '
         'and point residents to the help that already exists.</p>'
-        '<p class="footer-note">Independent, and not affiliated with or endorsed by the State of Maryland. The colors are a tribute to the state flag.</p></div>'
+        '<p class="footer-note">Independent, and not affiliated with or endorsed by the State of Maryland.</p></div>'
         '<nav class="footer-col" aria-label="Explore"><h2>Explore</h2><a href="/problems">Problem collection</a>'
         '<a href="/guides">Resource guides</a><a href="/about">About</a><a href="/#subscribe">Email updates</a></nav>'
         f'<nav class="footer-col" aria-label="Resource guides by need"><h2>Find help with</h2>{help_links}</nav>'
