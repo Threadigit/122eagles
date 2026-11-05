@@ -11,37 +11,37 @@ with sync_playwright() as p:
   page=browser.new_page(viewport={'width':width,'height':height},reduced_motion='reduce')
   errors=[];page.on('pageerror',lambda e:errors.append(str(e)))
   page.goto(BASE+'/',wait_until='networkidle');page.evaluate('document.fonts.ready')
-  assert page.locator('.home-hero [data-open-subscribe]').count()==0
-  assert page.locator('.guide-result').count()==3
+  assert page.locator('.film [data-open-subscribe]').count()==0
+  assert page.locator('[data-entry]').count()==3
   assert page.evaluate('document.documentElement.scrollWidth<=innerWidth')
   assert page.evaluate('document.getAnimations().length')==0
   page.screenshot(path=f'/tmp/md-home-{width}.png',full_page=True)
   page.goto(BASE+'/guides')
   page.get_by_label('Search the guides',exact=True).fill('electric bill')
   page.get_by_role('button',name='Search',exact=True).click()
-  expect(page.locator('.guide-result:visible')).to_have_count(1)
-  assert 'utility-bills' in page.locator('.guide-result:visible h2 a').get_attribute('href')
-  page.reload();expect(page.locator('.guide-result:visible')).to_have_count(1)
+  expect(page.locator('[data-entry]:visible')).to_have_count(1)
+  assert 'utility-bills' in page.locator('[data-entry]:visible h2 a').get_attribute('href')
+  page.reload();expect(page.locator('[data-entry]:visible')).to_have_count(1)
   page.get_by_role('link',name='Clear filters').click()
-  expect(page.locator('.guide-result:visible')).to_have_count(8)
+  expect(page.locator('[data-entry]:visible')).to_have_count(8)
   for query,slug in [('daycare','child-care'),('laid off','career-support'),('cashflow','business-advice'),('résumé','career-support'),("I can't pay rent",'rental-housing')]:
    page.get_by_label('Search the guides',exact=True).fill(query)
-   expect(page.locator('.guide-result:visible')).to_have_count(1)
-   assert slug in page.locator('.guide-result:visible h2 a').get_attribute('href')
+   expect(page.locator('[data-entry]:visible')).to_have_count(1)
+   assert slug in page.locator('[data-entry]:visible h2 a').get_attribute('href')
   page.get_by_label('Search the guides',exact=True).fill('<img src=x onerror=alert(1)>')
   expect(page.locator('#no-results')).to_be_visible()
   assert page.locator('#guide-results img').count()==0
   page.get_by_role('link',name='Clear filters').click()
   page.get_by_label('Browse by need').select_option('care')
-  expect(page.locator('.guide-result:visible')).to_have_count(1)
+  expect(page.locator('[data-entry]:visible')).to_have_count(1)
   page.screenshot(path=f'/tmp/md-directory-{width}.png',full_page=True)
-  page.locator('.guide-result:visible h2 a').click()
+  page.locator('[data-entry]:visible h2 a').click()
   expect(page.locator('h1')).to_contain_text('local starting point')
   assert page.locator('.resource-action').get_attribute('href').startswith('https://aging.maryland.gov/')
   page.screenshot(path=f'/tmp/md-guide-{width}.png',full_page=True)
   assert page.evaluate('document.documentElement.scrollWidth<=innerWidth')
   page.goto(BASE+'/guides?topic=missing&q=',wait_until='networkidle')
-  expect(page.locator('.guide-result:visible')).to_have_count(8)
+  expect(page.locator('[data-entry]:visible')).to_have_count(8)
   assert page.evaluate('document.documentElement.scrollWidth<=innerWidth')
   assert not errors,errors
   print(f'PASS {width}px: home search, synonym matches, filter/reset, reload, empty state, guide action, no overflow/errors',flush=True)
@@ -57,7 +57,7 @@ with sync_playwright() as p:
  page.close()
  context=browser.new_context(java_script_enabled=False)
  page=context.new_page();page.goto(BASE+'/guides?q=jobs')
- assert page.locator('.guide-result:visible').count()==8
+ assert page.locator('[data-entry]:visible').count()==8
  assert page.locator('noscript').is_visible()
  print('PASS all guide routes, provider links and no-JavaScript browsing',flush=True)
  context.close();browser.close()

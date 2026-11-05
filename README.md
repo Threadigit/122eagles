@@ -2,9 +2,20 @@
 
 The primary entry point is `/problems`. Evidence-backed briefs distinguish published findings from proposed local projects, with a first conversation, existing services and a downloadable worksheet. `/guides` remains secondary support for people seeking help today. Subscription is secondary.
 
-Design combines clear service-directory navigation with MD Eagles’ editorial identity: warm paper, deep blue and copper, Lora headlines, Instrument Sans text, an eagle masthead and restrained Chesapeake imagery. Problem discovery remains primary; avoid copying another site’s visual identity or returning to decorative card grids.
+Design: an editorial identity (warm paper, deep Chesapeake navy, copper, Lora headlines, Instrument Sans text) built around a cinematic homepage film of the Chesapeake Bay Bridge. The eagle mark is inline SVG so it can take any colour and animate. Problem discovery stays primary; avoid decorative card grids and slogan copy.
 
-Edit `content/problems.json`, then run `python3 scripts/build-problems.py` and `python3 scripts/build-guides.py`. Problem proposals are untested, not active projects or promised partnerships.
+## Building and previewing
+
+```
+python3 scripts/build.py     # regenerates every page, worksheet and the sitemap from content/*.json
+python3 scripts/serve.py     # http://127.0.0.1:8012 with clean URLs and the production CSP
+python3 scripts/grade-photo.py        # only when the bridge photograph or its grade changes
+python3 scripts/make-social-card.py   # only when the social preview changes
+```
+
+Edit `content/problems.json` or `content/guides.json`, then run `build.py`. Shared page furniture (head, masthead, footer, signup dialog, eagle mark) lives in `scripts/layout.py`; page templates are in `scripts/build.py`. `public/style.css` is hand-written and is the only stylesheet. Problem proposals are untested, not active projects or promised partnerships.
+
+The homepage film is CSS-only motion (transform and opacity). `public/cinema.js` only starts it after the photograph decodes and pauses it off screen; without it the photograph is simply still. `prefers-reduced-motion` turns all of it off. The ungraded photograph master is `content/source/`.
 
 # Maryland Eagles Eyes
 
@@ -12,15 +23,12 @@ The publication and practical guide for **mdeagles.com**, a publication explorin
 Marylanders and practical ways to help solve them. See `EDITORIAL_DIRECTION.md`
 for the Maryland Brief format, coverage areas and publishing workflow.
 
-Static HTML and CSS with a public-domain photograph of the Chesapeake Bay Bridge. A tiny first-party
-script starts the camera after the photograph decodes. No framework or
+Static HTML and CSS with a public-domain photograph of the Chesapeake Bay Bridge. No framework or
 first-party tracking scripts. Signup loads Buttondown only after a reader opens
 the on-site dialog. Visual direction
 inspired by The Bridge's muted landscape, serif typography and open composition;
 its code and branding are not reused. The photograph is by Carol M. Highsmith,
 Library of Congress; see `public/assets/PHOTO-CREDIT.md`.
-
-Preview with `python3 -m http.server 8012 --directory public`.
 
 Vercel framework preset: Other. Production branch: `main`. Root directory:
 repository root. Output directory: `public` (also set in `vercel.json`). No build

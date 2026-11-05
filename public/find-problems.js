@@ -4,7 +4,7 @@
   if (!form) return;
   const query = form.querySelector('[name=q]');
   const topic = form.querySelector('[name=topic]');
-  const cards = [...document.querySelectorAll('.guide-result')];
+  const cards = [...document.querySelectorAll('[data-entry]')];
   const normalize = value => value.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9\s]/g, ' ').replace(/\s+/g, ' ').trim();
   const stopwords = new Set(['i','im','a','an','the','and','for','to','my','with','need','help','me','in','maryland','how','can','do','get','am','is','of','find','near','where','what','which','cant','cannot','t','want','about','looking','someone','pay','paying','afford']);
   const render = () => {
