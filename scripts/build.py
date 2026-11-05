@@ -8,6 +8,7 @@ the resource guides, the search script for the collection, and the sitemap.
 import json
 import math
 import re
+import urllib.parse
 import zipfile
 
 import layout
@@ -307,22 +308,21 @@ def build_home():
 <p class="film-credit"><a href="https://hdl.loc.gov/loc.pnp/highsm.14292">Chesapeake Bay Bridge · Carol M. Highsmith, Library of Congress</a></p>
 </section>"""
 
-    stats = [(str(len(problems)), 'open problems documented', '/problems'), (str(ideas), 'possible solutions to test', '/problems'),
-             (str(len(guides)), 'resource guides', '/guides'), ('24', 'places: 23 counties and Baltimore City', '#help')]
-    places = [('baltimore', 'a', 'Baltimore City', 'Inner Harbor', '(max-width: 760px) 90vw, 28vw'),
-              ('annapolis', 'b', 'Anne Arundel County', 'Annapolis harbor', '(max-width: 760px) 45vw, 18vw'),
-              ('farm', 'c', 'Queen Anne’s County', 'A working farm', '(max-width: 760px) 45vw, 18vw')]
-    figures = ''.join(
-        f'<figure class="ph ph-{k}"><div class="ph-frame">{place_img(key, "ph-img", sizes)}</div>'
-        f'<figcaption><span class="ph-county">{county}</span> <span class="ph-name">{name}</span></figcaption></figure>'
-        for key, k, county, name, sizes in places)
-    ledger = ''.join(f'<li><a href="{href}"><strong>{n}</strong><span>{t}</span>{arrow()}</a></li>' for n, t, href in stats)
-    hello = f"""<section class="hello" aria-labelledby="hello-title"><div class="wrap hello-grid">
-<div class="hello-copy"><p class="label" data-hello-label>Welcome to the neighborhood</p>
-<h2 id="hello-title">Maryland is <span class="nb">twenty-four</span> places with the same everyday questions. <em>How do we get by, and how do we make it better?</em></h2>
-<p>Some gaps are still open. Some problems already have an answer. We track both.</p>
-<ul class="ledger" aria-label="The collection so far">{ledger}</ul></div>
-<div class="hello-photos" role="group" aria-label="Photographs of Maryland places">{figures}</div></div></section>"""
+    # Three places, each a way in: the photograph links to the guides with that county chosen (no availability is claimed).
+    places = [('baltimore', 'a', 'Baltimore City', 'Baltimore City', 'Inner Harbor', '(max-width: 900px) 70vw, 30vw'),
+              ('annapolis', 'b', 'Anne Arundel', 'Anne Arundel County', 'Annapolis harbor', '(max-width: 900px) 80vw, 36vw'),
+              ('farm', 'c', 'Queen Anne\'s', 'Queen Anne’s County', 'A working farm', '(max-width: 900px) 90vw, 40vw')]
+    plates = ''.join(
+        f'<li class="place place-{k}"><a href="/guides?county={urllib.parse.quote(value)}" data-county="{e(value)}" '
+        f'aria-label="Find help in {label}: {name}"><span class="place-frame">{place_img(key, "place-img", sizes)}</span>'
+        f'<span class="place-cap"><span class="place-text"><span class="place-county">{label}</span>'
+        f'<span class="place-name">{name}</span></span><span class="place-go" aria-hidden="true">{arrow()}</span></span></a></li>'
+        for key, k, value, label, name, sizes in places)
+    hello = f"""<section class="hello" aria-labelledby="hello-title"><div class="wrap">
+<div class="hello-head"><div><p class="label" data-hello-label>Welcome to the neighborhood</p>
+<h2 id="hello-title">Maryland is <a class="hello-link nb" href="#help">twenty-four</a> places with the same everyday questions. <em>How do we get by, and how do we make it better?</em></h2></div>
+<p class="hello-lead">Some gaps are still open, and some problems already have an answer. We track both: <a href="/problems">{len(problems)} open problems</a> with {ideas} possible solutions to test, and <a href="/guides">{len(guides)} guides</a> to the help that already exists.</p></div>
+<ul class="places" aria-label="Find help by place">{plates}</ul></div></section>"""
 
     includes = ['The evidence', 'Possible solutions', 'A first step', 'Who to involve', 'What to measure', 'A worksheet']
     collection = f"""<section class="collection night" id="problems" aria-labelledby="collection-title"><div class="wrap">

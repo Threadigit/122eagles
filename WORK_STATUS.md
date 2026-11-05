@@ -626,3 +626,19 @@ photos with thick borders and gradient caption overlays, parallax drift, a "by t
 - Removed the .stats styles and drift animations; photos use the existing scroll reveal. Removed the thick gold marker underline on "twenty-four" (too stock).
 Checked in the browser pane at desktop and 375 px: no horizontal overflow, ledger link targets exist, heading order unchanged, county label works. tests/seo.py passes.
 Not checked: real-device Safari, reduced-motion in a real browser (CSS disables the reveal), Playwright (not installed).
+
+## Welcome section, second redesign — November 5, 2026 (built locally, not committed)
+
+User said the section was still too long and not high quality, and asked for a smooth experience. Rebuilt from scratch (section was 1097 px at 1024 wide; now 792 px
+desktop and 791 px at 375 px, so it fits roughly one screen):
+- Headline (8 columns) with the lead paragraph beside it (4 columns, bottom-aligned). "twenty-four" links to the county map (#help); the lead carries the counts
+  as inline links (open problems, guides) instead of a numbers block or ledger.
+- One equal-height strip of three places (widths proportional to each photo's ratio, so heights match exactly). Each photo is a link to /guides?county=<county>
+  (find-guides.js already honours the param; the page says only "ask which office serves"), with a circular arrow that fills on hover/focus and a slow 0.9 s zoom.
+- Phones/tablets (<= 900 px): the strip becomes a swipeable row with scroll snap and the next photo peeking (same pattern as the map pan). Keyboard focus scrolls it into view.
+- Loading: per-photo average colour placeholders (#406281, #4a5d71, #818379), and photos fade in once decoded (site.js; they stay visible if JS does not run).
+- A remembered county greets in the eyebrow ("Welcome to Anne Arundel County") and marks that place "· your county".
+- Staggered scroll reveal (view() timelines, off for reduced motion). Removed the previous ledger/plates CSS. Added a .sr-only helper.
+- Bug found and fixed while testing: a duplicate `places` constant in site.js made the whole script fail (SyntaxError) in the browser. Every public/*.js now passes `node --check`.
+Checked in the browser pane at desktop and 375 px: no page overflow, hover state, keyboard focus scroll, county marker, fade, menu still works. tests/seo.py passes.
+Not checked: real-device Safari/iPhone swipe, Playwright (not installed).

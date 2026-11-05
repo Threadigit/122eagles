@@ -99,13 +99,24 @@
     }
     if (menuCounty) menuCounty.textContent = county.get() ? county.label(county.get()) : '';
   };
-  /* the home page's "Welcome to the neighborhood" label greets a remembered county; it never claims local availability */
+  /* the "Welcome to the neighborhood" label greets a remembered county and marks that place's photograph; it never claims local availability */
   const helloLabel = document.querySelector('[data-hello-label]');
+  const placeLinks = [...document.querySelectorAll('.place a[data-county]')];
   const renderHello = () => {
-    if (helloLabel) helloLabel.textContent = county.get() ? `Welcome to ${county.label(county.get())}` : 'Welcome to the neighborhood';
+    const chosen = county.get();
+    if (helloLabel) helloLabel.textContent = chosen ? `Welcome to ${county.label(chosen)}` : 'Welcome to the neighborhood';
+    placeLinks.forEach(link => { if (chosen && link.dataset.county === chosen) link.setAttribute('data-yours', ''); else link.removeAttribute('data-yours'); });
   };
   renderHello();
   window.addEventListener('mde:county', renderHello);
+  /* photographs fade in once decoded, so a slow connection never shows a blank hole (they stay visible if this script does not run) */
+  document.querySelectorAll('.place-img').forEach(img => {
+    if (img.complete) return;
+    img.setAttribute('data-fade', 'pending');
+    const show = () => img.removeAttribute('data-fade');
+    img.addEventListener('load', show, { once: true });
+    img.addEventListener('error', show, { once: true });
+  });
   renderMenuFoot();
   setInterval(renderMenuFoot, 30000);
   window.addEventListener('mde:county', renderMenuFoot);
