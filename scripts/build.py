@@ -54,7 +54,7 @@ def worksheet_docx(x, path):
     from docx.oxml.ns import qn
     from docx.shared import Inches, Pt, RGBColor
 
-    INK, MUTED = RGBColor(0x0F, 0x24, 0x31), RGBColor(0x5D, 0x6B, 0x70)
+    INK, MUTED = RGBColor(0x23, 0x1F, 0x20), RGBColor(0x6C, 0x65, 0x67)
     doc = Document()
     for section in doc.sections:
         section.left_margin = section.right_margin = Inches(0.9)
@@ -73,7 +73,7 @@ def worksheet_docx(x, path):
         h.set(qn('r:id'), rid)
         r = OxmlElement('w:r')
         rpr = OxmlElement('w:rPr')
-        color = OxmlElement('w:color'); color.set(qn('w:val'), '8A5A1F'); rpr.append(color)
+        color = OxmlElement('w:color'); color.set(qn('w:val'), 'C8122C'); rpr.append(color)
         under = OxmlElement('w:u'); under.set(qn('w:val'), 'single'); rpr.append(under)
         r.append(rpr)
         tx = OxmlElement('w:t'); tx.text = text or url; r.append(tx)
@@ -251,7 +251,7 @@ def county_map():
         rotate = f' transform="rotate(-90 {x:.1f} {y:.1f})"' if mode == 'v' else ''
         anchor = ' text-anchor="end"' if mode == 'r' else ''
         texts += f'<text class="map-context" x="{x:.1f}" y="{y:.1f}"{anchor}{rotate}>{label}</text>'
-    bx, by = project(-76.33, 38.14)
+    bx, by = project(-76.3, 37.98)
     bay = f'<text class="map-bay" x="{bx:.1f}" y="{by:.1f}" text-anchor="middle">Chesapeake Bay</text>'
 
     names = sorted(TILE_NAMES)
@@ -360,6 +360,8 @@ def build_about():
          '<p>We label our proposals as ideas to test. They are not proven interventions, funded projects or open roles. Named organizations are sources or possible places to learn, not partners unless we explicitly say so.</p>'),
         ('Evidence before promises',
          '<p>Each brief links to its sources and explains where the evidence applies. We distinguish published research from our own proposals. These first briefs are based on existing reports; they are not original interviews with residents. Local conversations should shape any project before it starts.</p>'),
+        ('Independent',
+         '<p>MD Eagles is an independent publication. It is not affiliated with, endorsed by or operated by the State of Maryland or any government agency. Its colors are a tribute to the Maryland flag, not a sign of official status. Where we point to a public service, we link to the agency that runs it.</p>'),
         ('Stay in touch',
          '<p><a href="/#subscribe">Subscribe for publication updates</a>. We send a note when a new problem or follow-up is published.</p>'),
     ]

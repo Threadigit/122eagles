@@ -474,3 +474,21 @@ county tile region into a map of Maryland. Research is summarized in DESIGN_DIRE
   list is two columns. Guides page: the location button moved out of the filter row so fields align.
 - Verified in the browser pane at 1440, 1024 (earlier audit) and 390: map renders and reveals, list
   hover highlights the map county, no horizontal overflow. Playwright tests not run.
+
+## Maryland brand colors and no italics — November 5, 2026 (published to main)
+
+User asked to adopt Maryland government colors and minimize italics. State brand colors (digital.maryland.gov brand
+sheet and Health Dept logo standards, via search summaries; PDFs 404 for fetch, so unverified against the
+originals; flag Pantone sheet is slightly different: PMS 201 red, PMS 124 gold): red #c8122c, gold #ffc838,
+near-black #231f20, white.
+- Tokens: --hot = gold (dark-surface highlight), --hot-ink/--red = red (light-surface highlight and every button),
+  dark surfaces = near-black (#231f20, cards #2d2829, footer #171415), inks warm near-black. Teal removed everywhere
+  (favicon is now near-black + gold; social card regenerated; worksheet link colour red). Map: white land on warm paper,
+  selected county gold with a pin, hover near-black.
+- Italics: none left except the quoted question on guide pages; headline emphasis is tonal (muted second clause);
+  hero second line and greeting are gold roman.
+- Added independence statements (footer and About: not affiliated with or endorsed by the State of Maryland; colors are
+  a tribute to the flag) because the palette looks official. No state seal or logo used.
+- Checked in the pane: hero, welcome, collection, map, subscribe band and footer at 1440; 19 sampled text colours all
+  >= 4.5:1; zero italic elements on the homepage. Mobile and 1024 not re-screenshotted after the recolour (layout
+  unchanged). Playwright tests not run.

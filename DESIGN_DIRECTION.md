@@ -34,8 +34,13 @@ product site: heavy sans headlines, gold accents, boxes inside boxes, one photog
 
 ## Decisions
 
-1. **Warm, not techy.** Parchment for reading, harbor navy for the collection and hero,
-   Chesapeake sea-glass teal (#4fdcc4 on dark, #0a6b5e ink on light) as the only accent. Amber looked washed out and coral read as an alarm against the navy; research favoured navy with a restrained cool accent, and sea glass is the bay's own colour. Fewer boxes: hairline rows and large type carry the page.
+1. **Maryland's own colors.** The state brand sheet's palette (reported by search from digital.maryland.gov and
+   the Health Department's logo standards; the PDFs themselves could not be opened here, so confirm against
+   them): red #c8122c, gold #ffc838, near-black #231f20, white. Near-black is the dark surface, gold the
+   highlight on dark, red the highlight on light and the colour of every action; parchment stays for
+   reading. History: a muted amber looked washed out, coral read as an alarm and sea-glass teal was
+   tasteful but unrelated to the state, so the official palette won. Because the colors are official-looking,
+   the footer and About page say the publication is independent and not affiliated with the State.
 2. **Type.** Instrument Serif for display (with italic for one emphasis per screen),
    Instrument Sans for interface and body.
 3. **The page knows what time it is.** A welcome greets the visitor by their local time and
@@ -54,10 +59,10 @@ product site: heavy sans headlines, gold accents, boxes inside boxes, one photog
 7. **Honest data.** County choice never invents local availability; it reminds people to
    ask which office serves them. The time-of-day greeting never claims weather.
 
-## Emphasis and italics (reviewed November 5, 2026)
+## Emphasis and italics (revised November 5, 2026)
 
-Typography guidance ([Cambridge brand guide](https://brand.cambridge.org/guide/typography), [Practical Typography](https://practicaltypography.com/bold-or-italic.html))
-says display italics are fine when used sparingly, in a true italic, and that colour is wasted on
-headlines. So: italics only for one phrase in a headline (ink colour, not accent), the homepage
-greeting, the hero's second line, the Bay label on the map and quoted questions. Numerals, markers,
-the footer tagline and the menu are roman.
+Italics are now a bare minimum: only quoted questions on guide pages. Emphasis inside headlines is tonal:
+the emphasized clause drops to the muted ink colour (a two-tone headline), and the hero's second line is
+set in gold. The greeting, map label, numerals and markers are roman. Rationale: display italics are fine
+sparingly ([Cambridge brand guide](https://brand.cambridge.org/guide/typography),
+[Practical Typography](https://practicaltypography.com/bold-or-italic.html)), and the owner asked for fewer.

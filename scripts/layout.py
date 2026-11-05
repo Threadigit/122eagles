@@ -119,7 +119,8 @@ def footer():
         f'<div class="footer-brand"><a class="identity" href="/">{eagle("identity-mark")}<span>MD Eagles</span></a>'
         '<p class="footer-line">Twenty-four places. One Maryland.</p>'
         '<p>Maryland Eagles Eyes is an independent publication. We document the gaps in everyday Maryland life, '
-        'and point residents to the help that already exists.</p></div>'
+        'and point residents to the help that already exists.</p>'
+        '<p class="footer-note">Independent, and not affiliated with or endorsed by the State of Maryland. The colors are a tribute to the state flag.</p></div>'
         '<nav class="footer-col" aria-label="Explore"><h2>Explore</h2><a href="/problems">Problem collection</a>'
         '<a href="/guides">Resource guides</a><a href="/about">About</a><a href="/#subscribe">Email updates</a></nav>'
         f'<nav class="footer-col" aria-label="Resource guides by need"><h2>Find help with</h2>{help_links}</nav>'
@@ -184,7 +185,7 @@ def page(title, desc, path, body, *, current=None, body_class='', scripts=(), ki
     head = (
         '<!DOCTYPE html><html lang="en-US"><head><meta charset="utf-8">'
         '<meta name="viewport" content="width=device-width, initial-scale=1">'
-        '<meta name="theme-color" content="#0c1f2a">'
+        '<meta name="theme-color" content="#231f20">'
         f'<title>{e(full_title)}</title><meta name="description" content="{e(desc)}">'
         f'<link rel="canonical" href="{SITE}{path}">'
         f'<meta property="og:title" content="{e(full_title)}"><meta property="og:description" content="{e(desc)}">'
