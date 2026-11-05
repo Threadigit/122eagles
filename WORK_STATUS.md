@@ -547,3 +547,13 @@ for page titles, big statements, numerals and the wordmark; Hanken Grotesk (alre
 Schibsted Grotesk and its licence removed. Social card regenerated. No italics. Option to buy the real fonts remains (swap the two woff2
 files). Checked: hero fits at 1440x900 and reads well on a phone; no overflow or clipped text at 390 on home/problems/brief/guides/about;
 glyph coverage of both fonts complete. Not re-checked at 1024; Playwright tests not run.
+
+## Mobile map fix — November 5, 2026 (local only, NOT committed or pushed)
+
+On phones the map was a 320 px wide speck (Howard 32x21 px, names hidden). Now below 760 px the SVG is 900 px wide inside a swipeable
+wrapper (edge fade, names visible, starts centred on the chosen county, hint "Swipe the map, then tap a county"); on touch devices the
+first tap previews a county (highlight + "See local help in X County" button) instead of leaving the page. Desktop unchanged. Verified in the
+390 px emulation: Howard is now 89x59 px, tap preview works. Not verified on a real phone; Playwright tests not run.
+
+STILL TO DO (requested, not started): end-to-end walkthrough of the platform, trimming over-long UI copy (hero lead, doors, hello, About,
+map intro, directory notes), and final polish (branded 404 page, print styles for guides/briefs, accessibility pass).

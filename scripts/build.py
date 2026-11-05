@@ -257,7 +257,8 @@ def county_map():
     names = sorted(TILE_NAMES)
     links = ''.join(f'<li><a href="/guides?county={e(n).replace(chr(39), "%27")}" data-county="{e(n)}">{e(typo(n))}</a></li>' for n in names)
     return (
-        '<div class="mapcard"><svg class="mdmap" viewBox="0 0 1000 %.0f" aria-hidden="true" focusable="false">%s<g class="county-layer">%s</g>%s</svg>'
+        '<div class="mapcard"><div class="map-pan" data-map-pan><svg class="mdmap" viewBox="0 0 1000 %.0f" aria-hidden="true" focusable="false">%s<g class="county-layer">%s</g>%s</svg></div>'
+        '<p class="map-hint" aria-hidden="true">Swipe the map, then tap a county</p>'
         '<div class="map-intro"><p class="map-title">Where are you?</p>'
         '<p class="map-caption" data-tile-caption>Choose your county or Baltimore City to see local help.</p>'
         % (height, texts, ''.join(groups), bay)

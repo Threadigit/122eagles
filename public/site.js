@@ -215,6 +215,38 @@
     markSelected();
     window.addEventListener('mde:county', markSelected);
 
+    // On phones the map is wider than the screen: start centred, drop the hint after the first swipe,
+    // and make the first tap preview a county (with a clear button) instead of leaving the page by accident.
+    const pan = document.querySelector('[data-map-pan]');
+    const hint = document.querySelector('.map-hint');
+    if (pan) {
+      const centre = () => {
+        const chosen = document.querySelector('.county[aria-current]');
+        const target = chosen ? chosen.getBoundingClientRect().left - pan.getBoundingClientRect().left + pan.scrollLeft + chosen.getBoundingClientRect().width / 2 : pan.scrollWidth / 2;
+        pan.scrollLeft = Math.max(0, target - pan.clientWidth / 2);
+      };
+      centre();
+      window.addEventListener('resize', centre);
+      window.addEventListener('mde:county', centre);
+      pan.addEventListener('scroll', () => hint && hint.classList.add('is-gone'), { once: true, passive: true });
+      if (window.matchMedia('(hover: none)').matches && caption) {
+        pan.addEventListener('click', event => {
+          const hit = event.target.closest('.county');
+          if (!hit) return;
+          event.preventDefault();
+          places.forEach(el => el.classList.remove('is-pick'));
+          same(hit.dataset.county).forEach(el => el.classList.add('is-pick'));
+          caption.textContent = '';
+          const go = document.createElement('a');
+          go.className = 'map-go';
+          go.href = hit.getAttribute('href');
+          go.textContent = `See local help in ${county.label(hit.dataset.county)}`;
+          go.addEventListener('click', () => county.set(hit.dataset.county));
+          caption.append(`${county.label(hit.dataset.county)}`, document.createElement('br'), go);
+        });
+      }
+    }
+
     // The counties settle into place the first time the map scrolls into view.
     const card = document.querySelector('.mapcard');
     if (card && 'IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
