@@ -307,18 +307,22 @@ def build_home():
 <p class="film-credit"><a href="https://hdl.loc.gov/loc.pnp/highsm.14292">Chesapeake Bay Bridge · Carol M. Highsmith, Library of Congress</a></p>
 </section>"""
 
-    stats = [(str(len(problems)), 'open problems documented'), (str(ideas), 'possible solutions to test'),
-             (str(len(guides)), 'resource guides'), ('24', 'places: 23 counties and Baltimore City')]
+    stats = [(str(len(problems)), 'open problems documented', '/problems'), (str(ideas), 'possible solutions to test', '/problems'),
+             (str(len(guides)), 'resource guides', '/guides'), ('24', 'places: 23 counties and Baltimore City', '#help')]
+    places = [('baltimore', 'a', 'Baltimore City', 'Inner Harbor', '(max-width: 760px) 90vw, 28vw'),
+              ('annapolis', 'b', 'Anne Arundel County', 'Annapolis harbor', '(max-width: 760px) 45vw, 18vw'),
+              ('farm', 'c', 'Queen Anne’s County', 'A working farm', '(max-width: 760px) 45vw, 18vw')]
+    figures = ''.join(
+        f'<figure class="ph ph-{k}"><div class="ph-frame">{place_img(key, "ph-img", sizes)}</div>'
+        f'<figcaption><span class="ph-county">{county}</span> <span class="ph-name">{name}</span></figcaption></figure>'
+        for key, k, county, name, sizes in places)
+    ledger = ''.join(f'<li><a href="{href}"><strong>{n}</strong><span>{t}</span>{arrow()}</a></li>' for n, t, href in stats)
     hello = f"""<section class="hello" aria-labelledby="hello-title"><div class="wrap hello-grid">
-<div class="hello-copy"><p class="label">Welcome to the neighborhood</p>
+<div class="hello-copy"><p class="label" data-hello-label>Welcome to the neighborhood</p>
 <h2 id="hello-title">Maryland is <span class="nb">twenty-four</span> places with the same everyday questions. <em>How do we get by, and how do we make it better?</em></h2>
 <p>Some gaps are still open. Some problems already have an answer. We track both.</p>
-<ul class="stats">{''.join(f'<li><strong>{n}</strong><span>{t}</span></li>' for n, t in stats)}</ul></div>
-<div class="hello-photos" aria-label="Photographs of Maryland places">
-<figure class="ph ph-a">{place_img('baltimore', 'ph-img', '(max-width: 760px) 60vw, 28vw')}<figcaption>Baltimore’s Inner Harbor</figcaption></figure>
-<figure class="ph ph-b">{place_img('annapolis', 'ph-img', '(max-width: 760px) 70vw, 30vw')}<figcaption>Harbor at Annapolis</figcaption></figure>
-<figure class="ph ph-c">{place_img('farm', 'ph-img', '(max-width: 760px) 70vw, 30vw')}<figcaption>A working farm in Queen Anne’s County</figcaption></figure>
-</div></div></section>"""
+<ul class="ledger" aria-label="The collection so far">{ledger}</ul></div>
+<div class="hello-photos" role="group" aria-label="Photographs of Maryland places">{figures}</div></div></section>"""
 
     includes = ['The evidence', 'Possible solutions', 'A first step', 'Who to involve', 'What to measure', 'A worksheet']
     collection = f"""<section class="collection night" id="problems" aria-labelledby="collection-title"><div class="wrap">

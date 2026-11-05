@@ -612,3 +612,17 @@ User asked for advanced SEO so Marylanders can find the site. Done in code:
 - SEO_PLAYBOOK.md: owner steps (Search Console, Bing, IndexNow, links from local organizations), content roadmap, honest limits.
 - Not done / needs the owner: Search Console and Bing verification and sitemap submission (account-bound), running indexnow.py --send after deploy, real
   outreach, a named editor/contact on About. No ranking guarantee. Rich-result validator and production crawl not run yet.
+
+## "Welcome to the neighborhood" redesign — November 5, 2026 (built locally, not committed)
+
+User asked for a better welcome section and, mid-task, that it avoid the usual vibe-coded look. A first draft (glow-dot eyebrow, shadowed rounded
+photos with thick borders and gradient caption overlays, parallax drift, a "by the numbers" strip) was thrown out as generic. Final version:
+- Photos are three plates on a plain grid (one tall Baltimore Inner Harbor, Annapolis and a Queen Anne's farm road at their natural landscape ratios), 6 px radius,
+  no shadow, no overlay, no parallax. Captions are printed beneath: county in ink, place in grey (Baltimore City, Anne Arundel County, Queen Anne's County).
+  Same grid on phones, with the tall photo going full width and the other two side by side.
+- The four numbers (3 problems, 6 possible solutions, 8 guides, 24 places) became a ledger of links to /problems, /guides and the map (#help), numerals in Newsreader.
+  Tap rows are 65 px+ high; gold underline on hover/focus, 2 px focus outline.
+- The eyebrow reads "Welcome to <county>" once a visitor has chosen a county (site.js, uses the existing mde-county memory); it never claims local availability.
+- Removed the .stats styles and drift animations; photos use the existing scroll reveal. Removed the thick gold marker underline on "twenty-four" (too stock).
+Checked in the browser pane at desktop and 375 px: no horizontal overflow, ledger link targets exist, heading order unchanged, county label works. tests/seo.py passes.
+Not checked: real-device Safari, reduced-motion in a real browser (CSS disables the reveal), Playwright (not installed).

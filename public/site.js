@@ -99,6 +99,13 @@
     }
     if (menuCounty) menuCounty.textContent = county.get() ? county.label(county.get()) : '';
   };
+  /* the home page's "Welcome to the neighborhood" label greets a remembered county; it never claims local availability */
+  const helloLabel = document.querySelector('[data-hello-label]');
+  const renderHello = () => {
+    if (helloLabel) helloLabel.textContent = county.get() ? `Welcome to ${county.label(county.get())}` : 'Welcome to the neighborhood';
+  };
+  renderHello();
+  window.addEventListener('mde:county', renderHello);
   renderMenuFoot();
   setInterval(renderMenuFoot, 30000);
   window.addEventListener('mde:county', renderMenuFoot);
