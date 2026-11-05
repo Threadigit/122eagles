@@ -74,9 +74,11 @@
   const dateFormat = new Intl.DateTimeFormat('en-US', { timeZone: TZ, weekday: 'long', month: 'long', day: 'numeric' });
   const zoneFormat = new Intl.DateTimeFormat('en-US', { timeZone: TZ, timeZoneName: 'short' });
   const visitorZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  const clockTime = (minute) => {
-    const h = Math.floor(minute / 60);
-    const m = Math.floor(minute % 60);
+  // Published tables shrink the daylight window to whole minutes: sunrise rounds up, sunset down.
+  const clockTime = (minute, round) => {
+    const total = round(minute);
+    const h = Math.floor(total / 60) % 24;
+    const m = total % 60;
     const period = h >= 12 ? 'PM' : 'AM';
     return `${h % 12 || 12}:${String(m).padStart(2, '0')} ${period}`;
   };
@@ -106,8 +108,8 @@
     if (dayKey !== lastDay) {
       lastDay = dayKey;
       sun = sunTimes(date);
-      $('[data-sunrise]').textContent = clockTime(sun.rise);
-      $('[data-sunset]').textContent = clockTime(sun.set);
+      $('[data-sunrise]').textContent = clockTime(sun.rise, Math.ceil);
+      $('[data-sunset]').textContent = clockTime(sun.set, Math.floor);
       $('[data-md-date]').textContent = `${dateFormat.format(date)} · ${zoneFormat.formatToParts(date).find(x => x.type === 'timeZoneName').value}`;
     }
     const parts = clock.formatToParts(date);
