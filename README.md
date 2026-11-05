@@ -14,7 +14,7 @@ python3 scripts/serve.py     # http://127.0.0.1:8012 with clean URLs and the pro
 python3 scripts/grade-photo.py        # only when the bridge photograph or its grade changes
 python3 scripts/prepare-photos.py     # only when the Maryland place photographs change
 python3 scripts/prepare-counties.py  # only when the county boundary source changes
-python3 scripts/make-favicons.py     # only when the logo or favicon colours change
+python3 scripts/make-favicons.py     # only when the logo or favicon colours change (then bump ICON_VERSION in scripts/layout.py and the ?v= in site.webmanifest, or browsers keep showing the old icon)
 python3 scripts/make-social-card.py   # only when the social preview changes
 ```
 

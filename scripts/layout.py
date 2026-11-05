@@ -11,6 +11,8 @@ ROOT = Path(__file__).resolve().parents[1]
 PUBLIC = ROOT / 'public'
 SITE = 'https://mdeagles.com'
 SOCIAL_IMAGE = SITE + '/assets/social-mdeagles.jpg'
+# Browsers cache favicons very hard. Bump this whenever an icon changes so they fetch the new one.
+ICON_VERSION = '2'
 
 
 def e(value):
@@ -195,10 +197,10 @@ def page(title, desc, path, body, *, current=None, body_class='', scripts=(), ki
         '<meta name="twitter:card" content="summary_large_image">'
         f'<meta name="twitter:title" content="{e(full_title)}"><meta name="twitter:description" content="{e(desc)}">'
         f'<meta name="twitter:image" content="{SOCIAL_IMAGE}">'
-        '<link rel="icon" href="/favicon.ico" sizes="48x48">'
-        '<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">'
-        '<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">'
-        '<link rel="manifest" href="/site.webmanifest">'
+        f'<link rel="icon" href="/favicon.ico?v={ICON_VERSION}" sizes="48x48">'
+        f'<link rel="icon" href="/assets/favicon.svg?v={ICON_VERSION}" type="image/svg+xml">'
+        f'<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v={ICON_VERSION}">'
+        f'<link rel="manifest" href="/site.webmanifest?v={ICON_VERSION}">'
         '<link rel="preload" href="/assets/schibsted-grotesk.woff2" as="font" type="font/woff2" crossorigin>'
         '<link rel="preload" href="/assets/hanken-grotesk.woff2" as="font" type="font/woff2" crossorigin>'
         '<link rel="stylesheet" href="/style.css">'

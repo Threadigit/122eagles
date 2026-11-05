@@ -530,3 +530,10 @@ nestpay.co (inspected live): headings Schibsted Grotesk 600/700, body and UI Han
   scale was retuned because grotesk is wider than the old serif. Social card regenerated with the new fonts (variable axis pinned).
 - Checked: hero fits one viewport at 1440x900, no horizontal overflow or clipped text at 390 on home/problems/brief/guides/about,
   fixed the band photo credit starting at the screen edge on phones. Not re-screenshotted at 1024; Playwright tests not run.
+
+## Favicon cache fix — November 5, 2026 (published to main)
+
+User saw a green (teal) favicon. All live icon files are gold (verified byte-for-byte and by sampled pixel colour); the teal one was
+live only briefly (ffa81c2) and is cached by the browser under the same URLs. Icon links and the manifest icons now carry ?v=2
+(ICON_VERSION in scripts/layout.py) so browsers fetch fresh files. A browser that cached the old icon may still need its cache cleared
+or the site re-bookmarked once; Safari and iOS home-screen icons are the stickiest.
