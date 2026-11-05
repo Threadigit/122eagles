@@ -1,5 +1,8 @@
 """Colour-grade the Bay Bridge photograph for the cinematic homepage film.
 
+The grade is a bright, slightly muted daylight base. The homepage tints it to the
+current Maryland time of day (dawn, day, golden hour, dusk, night) with CSS overlays.
+
 The ungraded master is content/source/chesapeake-bay-bridge-1920.webp (public-domain
 Library of Congress photograph, see PHOTO-CREDIT.md). The grade is baked into the
 files so the browser needs no filters or blend modes while the camera moves.
@@ -21,19 +24,19 @@ def luma(a):
 
 # 1. Mute the saturated blue and pull it toward a cooler teal-slate.
 y = luma(rgb)
-a = y + (rgb - y) * 0.52
+a = y + (rgb - y) * 0.66
 a = a * np.array([0.90, 1.00, 1.03], dtype=np.float32)
 
 # 2. Darker mids with a firm S-curve: moody water, bright steel.
-a = np.clip(a, 0, 1) ** 1.38
+a = np.clip(a, 0, 1) ** 1.12
 s = a * a * (3 - 2 * a)
-a = a * 0.45 + s * 0.55
+a = a * 0.55 + s * 0.45
 
 # 3. Split tone: navy in the shadows, warm daylight in the highlights.
 y = luma(a)
 navy = np.array([0.012, 0.050, 0.078], dtype=np.float32)
 warm = np.array([1.00, 0.90, 0.74], dtype=np.float32)
-a = a + (1 - y) ** 2.2 * navy * 0.9
+a = a + (1 - y) ** 2.2 * navy * 0.6
 a = a * (1 - y ** 2.5 * 0.22) + a * warm * y ** 2.5 * 0.22
 a = np.clip(a, 0, 1)
 

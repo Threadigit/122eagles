@@ -49,16 +49,59 @@ def county_options(placeholder='Choose your county'):
         f'<option value="{e(c)}">{e(c)}</option>' for c in COUNTIES)
 
 
+# Public-domain photographs by Carol M. Highsmith (Library of Congress), see PHOTO-CREDIT.md.
+PLACES = {
+    'bridge': ('Chesapeake Bay Bridge', 'https://hdl.loc.gov/loc.pnp/highsm.14292'),
+    'baltimore': ('Baltimore’s Inner Harbor', 'https://www.loc.gov/pictures/collection/highsm/item/2011634087/'),
+    'annapolis': ('Harbor at Annapolis', 'https://www.loc.gov/pictures/collection/highsm/item/2011634876/'),
+    'farm': ('A working farm in Queen Anne’s County', 'https://www.loc.gov/pictures/collection/highsm/item/2018697913/'),
+    'sunset': ('Chesapeake Bay sunset', 'https://www.loc.gov/pictures/collection/highsm/item/2011630543/'),
+}
+PLACE_FILES = {
+    'baltimore': 'baltimore-inner-harbor', 'annapolis': 'annapolis-harbor',
+    'farm': 'eastern-shore-farm-road', 'sunset': 'chesapeake-sunset',
+}
+
+
+def place_img(key, css_class, sizes='100vw', eager=False):
+    """An <img> for one of the place photographs (key in PLACE_FILES)."""
+    from PIL import Image  # build-time only
+    slug = PLACE_FILES[key]
+    files = sorted((PUBLIC / 'assets' / 'places').glob(f'{slug}-*.webp'), key=lambda f: int(f.stem.rsplit('-', 1)[1]))
+    widths = [int(f.stem.rsplit('-', 1)[1]) for f in files]
+    with Image.open(files[-1]) as im:
+        w, h = im.size
+    srcset = ', '.join(f'/assets/places/{slug}-{width}.webp {width}w' for width in widths)
+    loading = '' if eager else ' loading="lazy"'
+    return (f'<img class="{css_class}" src="/assets/places/{slug}-{widths[0]}.webp" srcset="{srcset}" '
+            f'sizes="{sizes}" width="{w}" height="{h}" alt=""{loading} decoding="async">')
+
+
 def masthead(current=None):
     links = ''.join(
-        '<a href="%s"%s><span class="nav-long">%s</span><span class="nav-short" aria-hidden="true">%s</span></a>'
-        % (href, ' aria-current="page"' if key == current else '', long, short)
+        '<a href="%s"%s>%s</a>' % (href, ' aria-current="page"' if key == current else '', long)
         for key, href, long, short in NAV
     )
+    menu_links = ''.join(
+        '<a href="%s"%s><span class="menu-title">%s</span><span class="menu-note">%s</span></a>'
+        % (href, ' aria-current="page"' if key == current else '', long, note)
+        for (key, href, long, short), note in zip(NAV, [
+            'Open problems, with possible solutions',
+            'Help that already exists, by county or need',
+            'How we choose and source our briefs'])
+    )
     return (
-        '<header class="masthead"><div class="masthead-inner">'
+        '<header class="masthead" data-masthead><div class="island">'
         f'<a class="identity" href="/">{eagle("identity-mark")}<span>MD Eagles</span></a>'
-        f'<nav aria-label="Main navigation">{links}</nav>'
+        f'<nav class="island-nav" aria-label="Main navigation" data-island-nav><span class="island-pill" aria-hidden="true"></span>{links}</nav>'
+        '<a class="island-cta" href="/#subscribe">Email updates</a>'
+        '<button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-menu" data-menu-toggle>'
+        '<span class="menu-toggle-label">Menu</span><span class="menu-toggle-icon" aria-hidden="true"><i></i><i></i></span></button>'
+        '</div>'
+        '<div class="menu" id="site-menu" data-menu hidden>'
+        f'<nav class="menu-nav" aria-label="Mobile">{menu_links}<a href="/#subscribe"><span class="menu-title">Email updates</span>'
+        '<span class="menu-note">A note when a new problem is published</span></a></nav>'
+        '<p class="menu-foot"><time data-md-clock>Maryland</time><span data-menu-county></span></p>'
         '</div></header>'
     )
 
@@ -66,29 +109,36 @@ def masthead(current=None):
 def footer():
     guides = json.loads((ROOT / 'content/guides.json').read_text())
     help_links = ''.join(f'<a href="/guides/{g["slug"]}">{e(g["category"])}</a>' for g in guides)
+    credits = ' '.join(f'<a href="{url}">{e(name)}</a>' for key, (name, url) in PLACES.items())
     return (
         '<footer class="site-footer night"><div class="footer-inner">'
         f'<div class="footer-brand"><a class="identity" href="/">{eagle("identity-mark")}<span>MD Eagles</span></a>'
+        '<p class="footer-line">Twenty-four places. One Maryland.</p>'
         '<p>Maryland Eagles Eyes is an independent publication. We document the gaps in everyday Maryland life, '
         'and point residents to the help that already exists.</p></div>'
         '<nav class="footer-col" aria-label="Explore"><h2>Explore</h2><a href="/problems">Problem collection</a>'
         '<a href="/guides">Resource guides</a><a href="/about">About</a><a href="/#subscribe">Email updates</a></nav>'
         f'<nav class="footer-col" aria-label="Resource guides by need"><h2>Find help with</h2>{help_links}</nav>'
-        '<p class="footer-credit">Bay Bridge photograph by Carol M. Highsmith, Library of Congress, public domain. '
-        '<a href="https://hdl.loc.gov/loc.pnp/highsm.14292">Source record</a></p>'
+        '<p class="footer-credit">Photographs by Carol M. Highsmith, Library of Congress, public domain: '
+        f'{credits}.</p>'
         '</div></footer>'
     )
 
 
-def band(title, lead='', crumb='', pos=1, extra=''):
-    """A dark, still crop of the bridge that opens every inner page."""
+def band(title, lead='', crumb='', pos=1, extra='', place='bridge'):
+    """A dark, still crop of a Maryland photograph that opens every inner page."""
+    if place == 'bridge':
+        image = ('<img class="band-img" src="/assets/bay-bridge-film-960.webp" '
+                 'srcset="/assets/bay-bridge-film-960.webp 960w, /assets/bay-bridge-film-1920.webp 1920w" '
+                 'sizes="100vw" width="960" height="878" alt="" decoding="async">')
+    else:
+        image = place_img(place, 'band-img', eager=True)
+    name, url = PLACES[place]
     return (
-        f'<section class="band night band-pos-{pos}">'
-        '<img class="band-img" src="/assets/bay-bridge-film-960.webp" '
-        'srcset="/assets/bay-bridge-film-960.webp 960w, /assets/bay-bridge-film-1920.webp 1920w" '
-        'sizes="100vw" width="960" height="878" alt="" decoding="async">'
+        f'<section class="band night band-pos-{pos}">{image}'
         '<div class="band-shade"></div><div class="band-inner">'
-        f'{crumb}<h1>{title}</h1>{lead}{extra}</div></section>'
+        f'{crumb}<h1>{title}</h1>{lead}{extra}</div>'
+        f'<p class="photo-credit"><a href="{url}">{e(name)} · Carol M. Highsmith, Library of Congress</a></p></section>'
     )
 
 
@@ -128,11 +178,11 @@ def schema_graph(title, desc, path, kind='WebPage', home=False):
 def page(title, desc, path, body, *, current=None, body_class='', scripts=(), kind='WebPage',
          home=False, dialog=False):
     full_title = f'{title} | MD Eagles'
-    script_tags = ''.join(f'<script src="{s}" defer></script>' for s in scripts)
+    script_tags = ''.join(f'<script src="{src}" defer></script>' for src in ('/site.js',) + tuple(scripts))
     head = (
         '<!DOCTYPE html><html lang="en-US"><head><meta charset="utf-8">'
         '<meta name="viewport" content="width=device-width, initial-scale=1">'
-        '<meta name="theme-color" content="#07141b">'
+        '<meta name="theme-color" content="#0c1f2a">'
         f'<title>{e(full_title)}</title><meta name="description" content="{e(desc)}">'
         f'<link rel="canonical" href="{SITE}{path}">'
         f'<meta property="og:title" content="{e(full_title)}"><meta property="og:description" content="{e(desc)}">'
@@ -142,7 +192,10 @@ def page(title, desc, path, body, *, current=None, body_class='', scripts=(), ki
         '<meta name="twitter:card" content="summary_large_image">'
         f'<meta name="twitter:title" content="{e(full_title)}"><meta name="twitter:description" content="{e(desc)}">'
         f'<meta name="twitter:image" content="{SOCIAL_IMAGE}">'
-        '<link rel="icon" href="/assets/eagle.svg"><link rel="stylesheet" href="/style.css">'
+        '<link rel="icon" href="/assets/eagle.svg">'
+        '<link rel="preload" href="/assets/instrument-serif.woff2" as="font" type="font/woff2" crossorigin>'
+        '<link rel="preload" href="/assets/instrument-sans.woff2" as="font" type="font/woff2" crossorigin>'
+        '<link rel="stylesheet" href="/style.css">'
         f'<script type="application/ld+json">{schema_graph(title, desc, path, kind, home)}</script></head>'
     )
     classes = f' class="{body_class}"' if body_class else ''

@@ -15,3 +15,20 @@ Library of Congress, Prints and Photographs Division.
   treatment and overlays; the bridge geometry is the original photograph.
 
 The footer's landmark link points to the Library of Congress source record.
+
+## Maryland place photographs (homepage and inner-page bands)
+
+All by Carol M. Highsmith, Library of Congress, Prints and Photographs Division;
+public domain (Highsmith stipulated her photographs are free of copyright). 1024px
+reference files from tile.loc.gov are resized and compressed to WebP.
+
+- Baltimore Inner Harbor, "View of revitalized Inner Harbor, Baltimore, Maryland":
+  https://www.loc.gov/pictures/collection/highsm/item/2011634087/
+- Annapolis, "Harbor at Maryland's capital city, Annapolis":
+  https://www.loc.gov/pictures/collection/highsm/item/2011634876/
+- Queen Anne's County, "A working farm in Queen Anne's County north of Centreville, Maryland":
+  https://www.loc.gov/pictures/collection/highsm/item/2018697913/
+- "Chesapeake Bay sunset, Maryland":
+  https://www.loc.gov/pictures/collection/highsm/item/2011630543/
+
+Fonts: Instrument Serif (SIL OFL 1.1, see OFL-Instrument-Serif.txt) and Instrument Sans.

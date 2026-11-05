@@ -2,7 +2,9 @@
 
 The primary entry point is `/problems`. Evidence-backed briefs distinguish published findings from proposed local projects, with a first conversation, existing services and a downloadable worksheet. `/guides` remains secondary support for people seeking help today. Subscription is secondary.
 
-Design: a dark, cinematic "night" system (deep Chesapeake navy, Maryland-flag gold, ivory) with light ivory sections for reading. Instrument Sans carries display and body type; Lora is used only for numerals, the wordmark and quoted questions. The platform is two-fold: the **problem collection** (open gaps, each with evidence and possible solutions) and the **resource guides** (problems that already have an answer, found by county or by life area). The eagle mark is inline SVG so it can take any colour and animate. Avoid decorative card grids and slogan copy.
+Design: "golden hour in your neighborhood" (see `DESIGN_DIRECTION.md` for the research behind it). Warm parchment for reading, harbor navy for the hero and the problem collection, sunlit amber as the only accent. Instrument Serif carries display type and Instrument Sans carries body and interface. The platform is two-fold: the **problem collection** (open gaps, each with evidence and possible solutions) and the **resource guides** (problems that already have an answer, found by county or by life area).
+
+The homepage greets visitors by their own local time, shows Maryland's clock with today's sunrise and sunset (NOAA solar equations, computed in the browser), and tints the Bay Bridge film to Maryland's actual sky (dawn, day, golden hour, dusk, night). A chosen county is remembered on the device only (`localStorage`) and personalizes the greeting and `/guides`. On localhost, `?demo=2026-11-05T17:30` previews any Maryland wall-clock time.
 
 ## Building and previewing
 
@@ -10,6 +12,7 @@ Design: a dark, cinematic "night" system (deep Chesapeake navy, Maryland-flag go
 python3 scripts/build.py     # regenerates every page, worksheet and the sitemap from content/*.json
 python3 scripts/serve.py     # http://127.0.0.1:8012 with clean URLs and the production CSP
 python3 scripts/grade-photo.py        # only when the bridge photograph or its grade changes
+python3 scripts/prepare-photos.py     # only when the Maryland place photographs change
 python3 scripts/make-social-card.py   # only when the social preview changes
 ```
 

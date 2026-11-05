@@ -7,7 +7,7 @@ the resource guides, the search script for the collection, and the sitemap.
 """
 import json
 
-from layout import PUBLIC, ROOT, SITE, band, county_options, e, eagle, page
+from layout import PLACES, PUBLIC, ROOT, SITE, band, county_options, e, eagle, page, place_img
 
 TOPICS = {'families': 'Children and families', 'business': 'Small business', 'work': 'Work and careers'}
 REVIEWED = 'November 5, 2026'
@@ -58,59 +58,107 @@ def cases(level):
 
 
 # ------------------------------------------------------------------- homepage
+# A tile map of Maryland's 24 jurisdictions: (column, row), north at the top, west at the left.
+TILES = {
+    'Garrett': (0, 0), 'Allegany': (1, 0), 'Washington': (2, 0), 'Frederick': (3, 0), 'Carroll': (4, 0),
+    'Baltimore County': (5, 0), 'Harford': (6, 0), 'Cecil': (7, 0),
+    'Montgomery': (3, 1), 'Howard': (4, 1), 'Baltimore City': (5, 1), 'Kent': (7, 1),
+    "Prince George's": (4, 2), 'Anne Arundel': (5, 2), "Queen Anne's": (7, 2),
+    'Charles': (4, 3), 'Calvert': (5, 3), 'Talbot': (7, 3), 'Caroline': (8, 3),
+    "St. Mary's": (4, 4), 'Dorchester': (7, 4), 'Wicomico': (8, 4), 'Worcester': (9, 4),
+    'Somerset': (8, 5),
+}
+
+
+def tile_map():
+    tiles = ''.join(
+        f'<li class="tile c{c} r{r}"><a href="/guides?county={e(name).replace(chr(39), "%27")}" data-county="{e(name)}">'
+        f'<span class="tile-name">{e(name)}</span></a></li>' for name, (c, r) in TILES.items())
+    return (
+        '<div class="tilemap-scroll"><div class="tilemap">'
+        '<div class="tilemap-intro"><p class="tilemap-title">Where are you?</p>'
+        '<p class="tilemap-caption" data-tile-caption>Choose your county or Baltimore City to see local help.</p></div>'
+        '<p class="tilemap-bay" aria-hidden="true">Chesapeake Bay</p>'
+        f'<ul class="tilemap-grid" aria-label="Maryland counties">{tiles}</ul></div></div>'
+    )
+
+
 def build_home():
-    film = f'''<section class="film night" aria-labelledby="film-title">
+    ideas = sum(len(x['ideas']) for x in problems)
+    film = f"""<section class="film night" data-film aria-labelledby="film-title">
 <div class="film-frame"><div class="film-camera"><img class="film-img" src="/assets/bay-bridge-film-1920.webp" srcset="/assets/bay-bridge-film-960.webp 960w, /assets/bay-bridge-film-1920.webp 1920w" sizes="max(100vw, 110vh)" width="1920" height="1756" fetchpriority="high" decoding="async" alt="Aerial view of the two Chesapeake Bay Bridge spans crossing the open water."></div></div>
-<div class="film-shade"></div>
+<div class="film-tone" aria-hidden="true"></div><div class="film-shade"></div><div class="film-grain" aria-hidden="true"></div>
 {eagle("eagle film-eagle", "1.15")}
-<div class="film-copy">
-<h1 id="film-title">Fix what’s missing. <span>Find what already works.</span></h1>
+<div class="film-grid"><div class="film-copy">
+<p class="welcome" data-welcome><span class="welcome-greeting" data-greeting>Welcome, neighbor.</span> <span class="welcome-sub" data-greeting-sub>Pull up a chair.</span></p>
+<h1 id="film-title"><span class="line"><span>Fix what’s missing.</span></span> <span class="line line-2"><span>Find what already works.</span></span></h1>
 <p class="film-lead">MD Eagles documents the open problems in everyday Maryland life, with possible solutions anyone can take on. And it points residents to the help that already exists in their county.</p>
 <div class="doors">
-<article class="door"><p class="label">For people who want to build</p><h2><a href="/problems">Problem collection</a></h2><p>Documented gaps with the evidence behind them and possible solutions to test.</p><span class="door-cta">Explore the problems {arrow()}</span></article>
-<article class="door"><p class="label">For anyone who needs help today</p><h2><a href="/guides">Resource guides</a></h2><p>Problems that already have an answer. Find it by county or by what is going on in your life.</p><span class="door-cta">Find help {arrow()}</span></article>
+<article class="door spot"><p class="door-for">For people who want to build</p><h2><a href="/problems">Problem collection</a></h2><p>Documented gaps with the evidence behind them and possible solutions to test.</p><span class="door-go" aria-hidden="true">{arrow()}</span></article>
+<article class="door spot"><p class="door-for">For anyone who needs help today</p><h2><a href="/guides">Resource guides</a></h2><p>Problems that already have an answer. Find it by county or by what is going on in your life.</p><span class="door-go" aria-hidden="true">{arrow()}</span></article>
 </div></div>
+<aside class="clock" data-clock aria-label="Maryland time and daylight" hidden>
+<p class="label">Maryland right now</p>
+<p class="clock-time"><time data-md-time>--:--</time><span class="clock-sec" data-md-sec aria-hidden="true"></span><span class="clock-ampm" data-md-ampm></span></p>
+<p class="clock-date" data-md-date></p>
+<svg class="sun-arc" viewBox="0 0 240 70" aria-hidden="true" focusable="false"><path class="sun-track" d="M16 60 A104 52 0 0 1 224 60"/><line class="sun-horizon" x1="4" y1="60" x2="236" y2="60"/><circle class="sun-dot" data-sun-dot cx="16" cy="60" r="7"/></svg>
+<dl class="sun-times"><div><dt>Sunrise</dt><dd data-sunrise>--</dd></div><div><dt>Sunset</dt><dd data-sunset>--</dd></div></dl>
+<p class="clock-you" data-you hidden>Where you are: <time data-you-time></time></p>
+<div class="clock-county"><label for="county-pick">Your county</label><select id="county-pick" data-county-pick>{county_options('Choose to personalize')}</select></div>
+</aside></div>
 <p class="film-credit"><a href="https://hdl.loc.gov/loc.pnp/highsm.14292">Chesapeake Bay Bridge · Carol M. Highsmith, Library of Congress</a></p>
-</section>'''
+</section>"""
+
+    stats = [(str(len(problems)), 'open problems documented'), (str(ideas), 'possible solutions to test'),
+             (str(len(guides)), 'resource guides'), ('24', 'places: 23 counties and Baltimore City')]
+    hello = f"""<section class="hello" aria-labelledby="hello-title"><div class="wrap hello-grid">
+<div class="hello-copy"><p class="label">Welcome to the neighborhood</p>
+<h2 id="hello-title">Maryland is twenty‑four places with the same everyday questions. <em>How do we get by, and how do we make it better?</em></h2>
+<p>Some gaps are still open. Some problems already have an answer. We keep track of both, so you can build what is missing or find what works, wherever you live.</p>
+<ul class="stats">{''.join(f'<li><strong>{n}</strong><span>{t}</span></li>' for n, t in stats)}</ul></div>
+<div class="hello-photos" aria-label="Photographs of Maryland places">
+<figure class="ph ph-a">{place_img('baltimore', 'ph-img', '(max-width: 760px) 60vw, 28vw')}<figcaption>Baltimore’s Inner Harbor</figcaption></figure>
+<figure class="ph ph-b">{place_img('annapolis', 'ph-img', '(max-width: 760px) 70vw, 30vw')}<figcaption>Harbor at Annapolis</figcaption></figure>
+<figure class="ph ph-c">{place_img('farm', 'ph-img', '(max-width: 760px) 70vw, 30vw')}<figcaption>A working farm in Queen Anne’s County</figcaption></figure>
+</div></div></section>"""
 
     includes = ['The evidence', 'Possible solutions', 'A first step', 'Who to involve', 'What to measure', 'A worksheet']
-    collection = f'''<section class="collection night" id="problems" aria-labelledby="collection-title"><div class="wrap">
-<div class="section-head"><div><p class="label">Problem collection</p><h2 id="collection-title">Open problems, and what could solve them.</h2></div>
+    collection = f"""<section class="collection night" id="problems" aria-labelledby="collection-title"><div class="wrap">
+<div class="section-head"><div><p class="label">Problem collection</p><h2 id="collection-title">Open problems, and <em>what could solve them.</em></h2></div>
 <div><p>Each problem comes with the evidence behind it, possible solutions to test and a first step. They are proposals, not running projects.</p>
 <p>Anyone can pick one up: neighbors, students, local businesses, community groups, founders. You do not need to write software.</p></div></div>
 <div class="cases">{cases(3)}</div>
 <div class="includes"><p class="label">Every brief includes</p><ul>{''.join(f'<li>{i}</li>' for i in includes)}</ul></div>
 <p class="collection-note">{len(problems)} problems documented so far. More are added as their sources are checked. <a href="/problems">Search the collection</a></p>
-</div></section>'''
+</div></section>"""
 
     chips = ''.join(f'<li><a href="/guides?topic={g["topic"]}">{e(g["category"])}</a></li>' for g in guides)
     index = ''.join(
         f'<li><a href="/guides/{g["slug"]}"><span class="guide-cat">{e(g["category"])}</span>'
         f'<span class="guide-title">{e(g["title"])}</span></a></li>' for g in guides)
-    resources = f'''<section class="resources" id="help" aria-labelledby="help-title"><div class="wrap">
-<div class="section-head"><div><p class="label">Resource guides</p><h2 id="help-title">Already solved? Find the help that exists.</h2></div>
+    resources = f"""<section class="resources" id="help" aria-labelledby="help-title"><div class="wrap">
+<div class="section-head"><div><p class="label">Resource guides</p><h2 id="help-title">Already solved? <em>Find the help that exists.</em></h2></div>
 <div><p>Plenty of problems already have an answer. Our guides point you to it, with the questions worth asking and the limits worth knowing.</p>
 <p>Start with where you live, or with what is going on in your life.</p></div></div>
-<div class="finders">
-<form class="finder" action="/guides" method="get"><h3>By county</h3><label for="home-county">Maryland has 23 counties and Baltimore City. Choose yours.</label>
-<div class="finder-row"><select id="home-county" name="county">{county_options()}</select><button class="button" type="submit">Show local help {arrow()}</button></div></form>
-<div class="finder"><h3>By what is going on in your life</h3><p>Pick the area closest to what you are facing.</p><ul class="chips">{chips}</ul></div>
-</div>
+{tile_map()}
+<div class="life"><h3>Or start with what is going on in your life</h3><ul class="chips">{chips}</ul></div>
 <ul class="guide-index">{index}</ul>
-</div></section>'''
+</div></section>"""
 
-    updates = '''<section class="updates night" id="subscribe" aria-labelledby="updates-title"><div class="wrap updates-inner">
-<h2 id="updates-title">Hear when a new problem is published.</h2>
+    updates = f"""<section class="updates night" id="subscribe" aria-labelledby="updates-title">
+{place_img('sunset', 'updates-img', '100vw')}<div class="updates-shade"></div><div class="wrap updates-inner">
+<h2 id="updates-title">Hear when a new problem is <em>published.</em></h2>
 <div><p>Free email, only when there is a new brief or a follow-up.</p>
 <button class="button" data-open-subscribe aria-haspopup="dialog" aria-controls="subscribe-dialog">Get email updates</button>
-<noscript><p><a href="https://buttondown.com/eagles">Subscribe through Buttondown</a></p></noscript></div></div></section>'''
+<noscript><p><a href="https://buttondown.com/eagles">Subscribe through Buttondown</a></p></noscript></div></div>
+<p class="photo-credit"><a href="{PLACES['sunset'][1]}">Chesapeake Bay sunset · Carol M. Highsmith, Library of Congress</a></p></section>"""
 
     desc = ('MD Eagles documents open problems in Maryland life with possible solutions anyone can take on, '
             'and guides residents to the help that already exists by county or by what they need.')
     write(PUBLIC / 'index.html', page(
         'Maryland problems worth solving, and the help that already exists', desc, '/',
-        film + collection + resources + updates,
-        body_class='home', scripts=('/cinema.js', '/subscribe.js'), home=True, dialog=True))
+        film + hello + collection + resources + updates,
+        body_class='home', scripts=('/cinema.js', '/welcome.js', '/subscribe.js'), home=True, dialog=True))
 
 
 # ---------------------------------------------------------------------- about
@@ -127,7 +175,7 @@ def build_about():
          '<p><a href="/#subscribe">Subscribe for publication updates</a>. We send a note when a new problem or follow-up is published.</p>'),
     ]
     head = band('About MD Eagles',
-                '<p class="lead">Maryland has people ready to make things better. We help them find a useful place to start.</p>', pos=3)
+                '<p class="lead">Maryland has people ready to make things better. We help them find a useful place to start.</p>', pos=3, place='baltimore')
     body = (
         '<div class="page"><div class="prose-lead"><p>Maryland Eagles Eyes is an independent publication about problems facing people in our state and practical ways to help solve them. A resident organizing neighbors, a student starting a project, a business owner or a founder should be able to find work worth taking on here.</p></div>'
         + ''.join(f'<section class="split"><h2>{h}</h2><div class="prose">{b}</div></section>' for h, b in sections) + '</div>'
@@ -146,7 +194,7 @@ def build_problems():
     head = band('The problem collection',
                 '<p class="lead">Choose a problem. Understand the evidence. Weigh the possible solutions and find a first step you can take with people in your community.</p>'
                 '<p class="band-note">Our first briefs pair published evidence with ideas to test. They are starting points for local work, not funded projects or proven solutions. Looking for help that already exists? See the <a href="/guides">resource guides</a>.</p>',
-                pos=2)
+                pos=2, place='farm')
     body = ('<div class="page"><div class="wrap">' + form + f'<div class="cases">{cases(2)}</div>'
             '<section id="no-results" class="empty-results" hidden><h2>No matching problems yet</h2>'
             '<p>Try a broader search or <a href="/problems">browse all problems</a>. This collection is just beginning.</p></section></div></div>')
@@ -189,7 +237,7 @@ def build_problems():
             x['title'],
             x['summary'] + ' Read the evidence, explore proposed solutions and plan a first conversation in your Maryland community.',
             '/problems/' + x['slug'],
-            band(e(x['title']), lead, crumb, pos=(i % 3) + 1) + '<div class="page">' + facts + evidence + solutions + rest_html + '</div>',
+            band(e(x['title']), lead, crumb, pos=(i % 3) + 1, place=['farm', 'bridge', 'baltimore'][i % 3]) + '<div class="page">' + facts + evidence + solutions + rest_html + '</div>',
             current='problems'))
         ideas_text = ''.join(f'### {a}\n{b}\n\n' for a, b in x['ideas'])
         write(PUBLIC / 'downloads' / f'{x["slug"]}.md',
@@ -223,7 +271,7 @@ def build_guides():
     head = band('Help that already exists.',
                 '<p class="lead">These problems already have an answer. Find it by county, or by what is going on in your life, then take the next step.</p>'
                 '<p class="band-note">Looking to work on a gap that is still open? Explore the <a href="/problems">problem collection</a>.</p>',
-                pos=1)
+                pos=1, place='annapolis')
     body = f'''<div class="page"><div class="wrap">
 <form class="directory-search guide-search" role="search" action="/guides" method="get"><div><label for="guide-query">Search the guides</label><input id="guide-query" name="q" type="search" placeholder="Try “electric bill” or “child care”" maxlength="160" autocomplete="off"></div><div><label for="guide-county">Your county</label><select id="guide-county" name="county">{county_options('Anywhere in Maryland')}</select></div><div><label for="guide-topic">What you need</label><select id="guide-topic" name="topic"><option value="">All needs</option>{options}</select></div><button class="button" type="submit">Search</button></form>
 <noscript><p>Search filters need JavaScript. All {len(guides)} guides are listed below for you to browse.</p></noscript>
@@ -244,7 +292,7 @@ def build_guides():
         steps = ''.join(f'<li>{e(s)}</li>' for s in g['steps'])
         related = ''.join(f'<li><a href="/guides/{s}">{e(guide_by_slug[s]["title"])}</a></li>' for s in g['related'])
         crumb = f'<p class="breadcrumb"><a href="/guides">Resource guides</a> <span aria-hidden="true">/</span> <a href="/guides?topic={g["topic"]}">{e(g["category"])}</a></p>'
-        head = band(e(g['title']), f'<p class="lead">{e(g["summary"])}</p>', crumb, pos=(n % 3) + 1)
+        head = band(e(g['title']), f'<p class="lead">{e(g["summary"])}</p>', crumb, pos=(n % 3) + 1, place=['annapolis', 'bridge', 'sunset'][n % 3])
         body = f'''<div class="page">
 <dl class="fact-strip"><div><dt>Who this is for</dt><dd>{e(g["audience"])}</dd></div><div><dt>Where it applies</dt><dd>{e(g["scope"])}</dd></div><div><dt>Sources checked</dt><dd><time datetime="{g["checked"]}">November 4, 2026</time></dd></div></dl>
 <section class="split"><h2>Where to start</h2><div class="prose"><p>{e(g["intro"])}</p><p><a class="button resource-action" href="{e(g["url"])}">{e(g["action"])} <svg class="arrow" viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 14 14 6M7 6h7v7"/></svg></a></p><p class="provider-caption">Takes you to {e(g["source"])}.</p>{phone}</div></section>

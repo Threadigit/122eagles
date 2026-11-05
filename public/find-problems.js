@@ -34,7 +34,9 @@
     const selected = params.get('topic') || '';
     topic.value = [...topic.options].some(option => option.value === selected) ? selected : '';
     if (county) {
-      const chosen = params.get('county') || '';
+      // A county in the address wins; otherwise use the one the reader chose on the homepage.
+      const saved = window.mdeCounty ? window.mdeCounty.get() : '';
+      const chosen = params.has('county') ? params.get('county') : saved;
       county.value = [...county.options].some(option => option.value === chosen) ? chosen : '';
     }
     render();

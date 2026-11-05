@@ -414,3 +414,28 @@ area. Built locally; NOT yet committed or pushed (live site still shows c4789e9)
   note); NOT run (Playwright unavailable here). Verified in the browser pane: film edge
   coverage over the full camera cycle at 390/1440/844x390, no horizontal overflow at 320
   on all page types, county note and filters work, tests/seo.py passes.
+
+## Third redesign: golden hour in your neighborhood — November 5, 2026
+
+User said the structure was right but the UI/UX still was not premium, and asked for a
+clock by time zone, a welcoming neighborly greeting, premium navigation and movement,
+and to research first. Research and decisions are in DESIGN_DIRECTION.md. With the
+user's permission this session downloaded Instrument Serif (OFL, via Fontsource and the
+Instrument GitHub repo) and four public-domain Highsmith photos from loc.gov
+(credits in public/assets/PHOTO-CREDIT.md). Published to main (commit message: Third redesign: golden hour in your neighborhood).
+
+- Welcome: greeting by visitor's local hour (+ chosen county), Maryland clock, visitor's
+  own time when it differs, sunrise/sunset from NOAA equations (matches published
+  Baltimore Nov 5, 2026: 6:37 AM / 5:02 PM), hero sky tinted by phase. ?demo= on localhost.
+- Navigation: floating island with sliding highlight, hides on scroll down / returns on
+  scroll up, full-screen mobile menu (focus trap, Esc, inert page), scroll progress hairline,
+  cross-document view transitions (Chrome/Safari; progressive enhancement).
+- Aesthetics: serif display type, parchment/navy rhythm, county tile map of the 24
+  jurisdictions linking to /guides?county=, photo collage and bands, grain, stacked sticky
+  problem cases on wide screens, pointer light on doors, masked line reveals.
+- Removed Lora and old social images; scripts: prepare-photos.py, grade-photo.py (daylight
+  base), build.py/layout.py; new tests/welcome-browser.py.
+- Verified in the browser pane: all five sky phases + DST (July sunrise 5:44 AM, sunset
+  8:35 PM), greeting and county memory (home to guides), mobile menu open state, no
+  horizontal overflow at 390/320, hero fits one viewport at 1440x900, film edge coverage
+  (previous check). Playwright tests NOT run (not installed here); real-device Safari untested.

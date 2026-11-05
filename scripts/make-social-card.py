@@ -1,6 +1,6 @@
 """Render the 1200x630 social preview (public/assets/social-mdeagles.jpg).
 
-Uses the graded bridge photograph and the self-hosted Lora font (converted from
+Uses the graded bridge photograph and the self-hosted Instrument Serif and Instrument Sans fonts (converted from
 woff2 in memory with fontTools + brotli). Run: python3 scripts/make-social-card.py
 """
 import io
@@ -45,7 +45,7 @@ for pts in ([(32, 38), (22, 26), (8, 22), (19, 37), (32, 45)],
             [(32, 38), (42, 26), (56, 22), (45, 37), (32, 45)],
             [(27, 32), (32, 24), (37, 32)], [(32, 38), (32, 45)]):
     draw.line([pt(*p) for p in pts], fill=white, width=3, joint='curve')
-draw.text((64 + 48 * 2.6 + 22, 62), 'MD Eagles', font=font('lora-regular.woff2', 40), fill=white)
+draw.text((64 + 48 * 2.6 + 22, 62), 'MD Eagles', font=font('instrument-serif.woff2', 46), fill=white)
 
 title = font('instrument-sans.woff2', 92)
 gold = (217, 171, 98, 255)
