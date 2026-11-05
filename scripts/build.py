@@ -10,11 +10,13 @@ import math
 import re
 import zipfile
 
-from layout import PLACES, PUBLIC, ROOT, SITE, band, county_options, e, eagle, page, place_img, typo
+import layout
+from layout import PLACES, PUBLIC, ROOT, SITE, band, county_options, e, eagle, item_list, page, place_img, typo
 
 TOPICS = {'families': 'Children and families', 'business': 'Small business', 'work': 'Work and careers'}
 REVIEWED = 'November 5, 2026'
 STATUS = 'Ideas awaiting local testing'
+CONTENT_DATE = '2026-11-05'  # briefs, home and index pages; guides use their own `checked` date
 
 problems = json.loads((ROOT / 'content/problems.json').read_text())
 guides = json.loads((ROOT / 'content/guides.json').read_text())
@@ -349,12 +351,13 @@ def build_home():
 <noscript><p><a href="https://buttondown.com/eagles">Subscribe through Buttondown</a></p></noscript></div></div>
 <p class="photo-credit"><a href="{PLACES['sunset'][1]}">Chesapeake Bay sunset · Carol M. Highsmith, Library of Congress</a></p></section>"""
 
-    desc = ('MD Eagles documents open problems in Maryland life with possible solutions anyone can take on, '
-            'and guides residents to the help that already exists by county or by what they need.')
+    desc = ('Maryland Eagles Eyes documents open problems in Maryland life with ideas anyone can test, '
+            'and guides residents to help that already exists, by county or by need.')
     write(PUBLIC / 'index.html', page(
         'Maryland problems worth solving, and the help that already exists', desc, '/',
         film + hello + collection + resources + updates,
-        body_class='home', scripts=('/cinema.js', '/welcome.js', '/subscribe.js'), home=True, dialog=True))
+        body_class='home', scripts=('/cinema.js', '/welcome.js', '/subscribe.js'), home=True, dialog=True,
+        seo_title='Maryland Eagles Eyes: problems to solve, help that exists', modified=CONTENT_DATE))
 
 
 # ---------------------------------------------------------------------- about
@@ -381,7 +384,10 @@ def build_about():
     write(PUBLIC / 'about.html', page(
         'About MD Eagles',
         'Learn how MD Eagles identifies Maryland problems, examines published evidence and proposes practical local projects residents can take up.',
-        '/about', head + body, current='about', dialog=True, scripts=('/subscribe.js',)))
+        '/about', head + body, current='about', dialog=True, scripts=('/subscribe.js',), kind='AboutPage',
+        seo_title='About MD Eagles | Independent Maryland publication', modified=CONTENT_DATE,
+        image='/assets/social/about.jpg', image_alt='MD Eagles card: an independent publication about Maryland.',
+        breadcrumbs=[('About', '/about')]))
 
 
 # ----------------------------------------------------------- problem collection
@@ -400,7 +406,10 @@ def build_problems():
         'Problems to solve in Maryland',
         'Find documented Maryland challenges and possible local projects for residents, students, community groups, business owners and builders.',
         '/problems', head + body, current='problems', kind='CollectionPage', scripts=('/find-problems.js',),
-        body_class='theme-night'))
+        body_class='theme-night', seo_title='Maryland problems to solve: evidence and ideas | MD Eagles',
+        modified=CONTENT_DATE, image='/assets/social/problems.jpg',
+        image_alt='MD Eagles card: Maryland problems to solve.', breadcrumbs=[('Problem collection', '/problems')],
+        extra=[item_list('Maryland problems to solve', [(x['title'], '/problems/' + x['slug']) for x in problems])]))
 
     for i, x in enumerate(problems, 1):
         crumb = '<p class="breadcrumb"><a href="/problems">Problem collection</a> <span aria-hidden="true">/</span> Problem %02d</p>' % i
@@ -431,12 +440,17 @@ def build_problems():
         rest_html = ''.join(
             '<section class="split"%s><h2>%s</h2><div class="prose">%s</div></section>'
             % (' id="start"' if h == 'Your first step' else '', h, b) for h, b in rest)
+        more = ''.join(f'<li><a href="/problems/{y["slug"]}">{e(y["title"])}</a></li>' for y in problems if y is not x)
+        more_html = (f'<section class="split"><h2>More problems to explore</h2><div class="prose"><ul class="related-list">{more}</ul>'
+                     '<p class="aside-help"><a href="/problems">See the whole problem collection</a>.</p></div></section>') if more else ''
         write(PUBLIC / 'problems' / f'{x["slug"]}.html', page(
-            x['title'],
-            x['summary'] + ' Read the evidence, explore proposed solutions and plan a first conversation in your Maryland community.',
-            '/problems/' + x['slug'],
-            band(e(x['title']), lead, crumb, pos=(i % 3) + 1, place=['farm', 'bridge', 'baltimore'][i % 3]) + '<div class="page">' + facts + evidence + solutions + rest_html + '</div>',
-            current='problems'))
+            x['title'], x['seo_description'], '/problems/' + x['slug'],
+            band(e(x['title']), lead, crumb, pos=(i % 3) + 1, place=['farm', 'bridge', 'baltimore'][i % 3]) + '<div class="page">' + facts + evidence + solutions + rest_html + more_html + '</div>',
+            current='problems', seo_title=x['seo_title'], og_type='article', published=CONTENT_DATE, modified=CONTENT_DATE,
+            image=f'/assets/social/{x["slug"]}.jpg', image_alt=f'MD Eagles card: {x["title"]}',
+            breadcrumbs=[('Problem collection', '/problems'), (x['nav_label'], '/problems/' + x['slug'])],
+            extra=[{'@type': 'Article', 'headline': x['title'], 'description': x['seo_description'],
+                    'about': {'@type': 'Place', 'name': x['place'] + ', Maryland'}}]))
         worksheet_docx(x, PUBLIC / 'downloads' / f'{x["slug"]}.docx')
 
     script = (PUBLIC / 'find-guides.js').read_text().replace("'guide' : 'guides'", "'problem' : 'problems'")
@@ -473,7 +487,11 @@ def build_guides():
     write(PUBLIC / 'guides.html', page(
         'Find your next step in Maryland',
         'Browse practical Maryland resource guides for bills, housing, jobs, child care, business, college, health coverage and caregiving, by county or by what you need.',
-        '/guides', head + body, current='guides', kind='CollectionPage', scripts=('/find-guides.js',)))
+        '/guides', head + body, current='guides', kind='CollectionPage', scripts=('/find-guides.js',),
+        seo_title='Maryland resource guides: help by county or need | MD Eagles', modified=max(g['checked'] for g in guides),
+        image='/assets/social/guides.jpg', image_alt='MD Eagles card: Maryland resource guides.',
+        breadcrumbs=[('Resource guides', '/guides')],
+        extra=[item_list('Maryland resource guides', [(g['title'], '/guides/' + g['slug']) for g in guides])]))
 
     for n, g in enumerate(guides):
         phone = ''
@@ -482,6 +500,8 @@ def build_guides():
                      'is Maryland Health Connection’s consumer support number.</p>')
         steps = ''.join(f'<li>{e(s)}</li>' for s in g['steps'])
         related = ''.join(f'<li><a href="/guides/{s}">{e(guide_by_slug[s]["title"])}</a></li>' for s in g['related'])
+        gaps = ''.join(f'<li><a href="/problems/{y["slug"]}">{e(y["title"])}</a> (an open problem we are tracking)</li>'
+                       for y in problems if y['help'] == g['slug'])
         crumb = f'<p class="breadcrumb"><a href="/guides">Resource guides</a> <span aria-hidden="true">/</span> <a href="/guides?topic={g["topic"]}">{e(g["category"])}</a></p>'
         head = band(e(g['title']), f'<p class="lead">{e(g["summary"])}</p>', crumb, pos=(n % 3) + 1, place=['annapolis', 'bridge', 'sunset'][n % 3])
         body = f'''<div class="page">
@@ -490,11 +510,15 @@ def build_guides():
 <section class="split"><h2>Your next steps</h2><div class="prose"><ol class="action-steps">{steps}</ol></div></section>
 <section class="split"><h2>A question to take with you</h2><div class="prose"><blockquote class="question-prompt">{e(g["ask"])}</blockquote></div></section>
 <section class="split"><h2>Before you rely on it</h2><div class="prose"><p>{e(g["limit"])}</p><p class="source-note">Source: <a href="{e(g["url"])}">{e(g["source"])}</a>. Provider information can change. Confirm current details with the service. MD Eagles is a publication, not the service provider.</p></div></section>
-<section class="split"><h2>You may also need</h2><div class="prose"><ul class="related-list">{related}</ul>
+<section class="split"><h2>You may also need</h2><div class="prose"><ul class="related-list">{related}{gaps}</ul>
 <p class="aside-help">Want to work on gaps like this one? <a href="/problems">Explore the problem collection</a>.</p></div></section></div>'''
         write(PUBLIC / 'guides' / f'{g["slug"]}.html', page(
-            g['title'], g['summary'] + ' A practical starting point for Maryland residents, with provider links and questions to ask.',
-            '/guides/' + g['slug'], head + body, current='guides'))
+            g['title'], g['seo_description'], '/guides/' + g['slug'], head + body, current='guides',
+            seo_title=g['seo_title'], og_type='article', published=g['checked'], modified=g['checked'],
+            image=f'/assets/social/{g["slug"]}.jpg', image_alt=f'MD Eagles card: {g["title"]}',
+            breadcrumbs=[('Resource guides', '/guides'), (g['category'], '/guides/' + g['slug'])],
+            extra=[{'@type': 'Article', 'headline': g['title'], 'description': g['seo_description'],
+                    'about': {'@type': 'Thing', 'name': g['category']}}]))
 
 
 # ------------------------------------------------------------------------ 404
@@ -510,7 +534,9 @@ def build_404():
 def build_sitemap():
     paths = ['/' if f.stem == 'index' and f.parent == PUBLIC else '/' + str(f.relative_to(PUBLIC).with_suffix(''))
              for f in sorted(PUBLIC.rglob('*.html')) if f.stem != '404']
-    urls = ''.join(f'<url><loc>{SITE}{p}</loc></url>' for p in paths)
+    urls = ''.join(
+        f'<url><loc>{SITE}{p}</loc>' + (f'<lastmod>{layout.LASTMOD[p]}</lastmod>' if layout.LASTMOD.get(p) else '') + '</url>'
+        for p in paths)
     write(PUBLIC / 'sitemap.xml',
           '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' + urls + '</urlset>')
 

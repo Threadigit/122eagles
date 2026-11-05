@@ -24,7 +24,9 @@
     "related": [
       "rental-housing",
       "student-essentials"
-    ]
+    ],
+    "seo_title": "Maryland energy bill help: how to apply (OHEP) | MD Eagles",
+    "seo_description": "Behind on a heating or electric bill? Learn how to apply for Maryland energy assistance through OHEP and find your local office. Checked November 2026."
   },
   {
     "slug": "rental-housing",
@@ -51,7 +53,9 @@
     "related": [
       "utility-bills",
       "caregiving-support"
-    ]
+    ],
+    "seo_title": "Maryland rental help and renter resources | MD Eagles",
+    "seo_description": "Looking for a rental or help paying rent in Maryland? Start with state renter resources from the Department of Housing and Community Development."
   },
   {
     "slug": "career-support",
@@ -78,7 +82,9 @@
     "related": [
       "child-care",
       "health-coverage"
-    ]
+    ],
+    "seo_title": "Free job help in Maryland: American Job Centers | MD Eagles",
+    "seo_description": "Free job-search help and training referrals in Maryland. Find your county's American Job Center through the Maryland Department of Labor."
   },
   {
     "slug": "child-care",
@@ -105,7 +111,9 @@
     "related": [
       "career-support",
       "utility-bills"
-    ]
+    ],
+    "seo_title": "Find child care in Maryland with LOCATE | MD Eagles",
+    "seo_description": "Searching for child care in Maryland? Use Maryland Family Network's LOCATE referral service to start a search around your family's needs and schedule."
   },
   {
     "slug": "business-advice",
@@ -132,7 +140,9 @@
     "related": [
       "career-support",
       "health-coverage"
-    ]
+    ],
+    "seo_title": "Free small business advice in Maryland: SBDC | MD Eagles",
+    "seo_description": "Starting or running a small business in Maryland? Get confidential, no-cost consulting from the Maryland Small Business Development Center (SBDC)."
   },
   {
     "slug": "student-essentials",
@@ -159,7 +169,9 @@
     "related": [
       "career-support",
       "rental-housing"
-    ]
+    ],
+    "seo_title": "USM student basic-needs help: food and essentials | MD Eagles",
+    "seo_description": "Need food or essentials as a University System of Maryland student? Find your campus basic-needs resources. Eligibility varies by institution."
   },
   {
     "slug": "health-coverage",
@@ -188,7 +200,9 @@
       "caregiving-support"
     ],
     "phone": "1-855-642-8572",
-    "telephone": "+18556428572"
+    "telephone": "+18556428572",
+    "seo_title": "Maryland Health Connection enrollment help | MD Eagles",
+    "seo_description": "Need help understanding or applying for health coverage in Maryland? Get enrollment help from Maryland Health Connection and its local navigators."
   },
   {
     "slug": "caregiving-support",
@@ -215,6 +229,8 @@
     "related": [
       "health-coverage",
       "rental-housing"
-    ]
+    ],
+    "seo_title": "Maryland Access Point: aging and caregiver help | MD Eagles",
+    "seo_description": "Support for older adults, people with disabilities and caregivers in Maryland. Connect with Maryland Access Point (MAP) through the Department of Aging."
   }
 ]

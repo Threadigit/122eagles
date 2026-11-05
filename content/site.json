@@ -1,0 +1,5 @@
+{
+  "_note": "Paste the verification tokens from Google Search Console and Bing Webmaster Tools here (just the token, the content=\"...\" value), then run python3 scripts/build.py. Empty values add nothing to the pages.",
+  "google_site_verification": "",
+  "bing_site_verification": ""
+}

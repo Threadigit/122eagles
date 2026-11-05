@@ -15,7 +15,9 @@ python3 scripts/grade-photo.py        # only when the bridge photograph or its g
 python3 scripts/prepare-photos.py     # only when the Maryland place photographs change
 python3 scripts/prepare-counties.py  # only when the county boundary source changes
 python3 scripts/make-favicons.py     # only when the logo or favicon colours change (then bump ICON_VERSION in scripts/layout.py and the ?v= in site.webmanifest, or browsers keep showing the old icon)
-python3 scripts/make-social-card.py   # only when the social preview changes
+python3 scripts/make-social-cards.py  # only when a page title or the social look changes (one 1200x630 card per page in public/assets/social/)
+python3 tests/seo.py                  # titles, descriptions, social cards, JSON-LD, sitemap lastmod (run after build.py)
+python3 scripts/indexnow.py           # dry run; add --send AFTER a deploy to ping Bing and other IndexNow engines
 ```
 
 Edit `content/problems.json` or `content/guides.json`, then run `build.py`. Shared page furniture (head, masthead, footer, signup dialog, eagle mark) lives in `scripts/layout.py`; page templates are in `scripts/build.py`. `public/style.css` is hand-written and is the only stylesheet. Problem proposals are untested, not active projects or promised partnerships.
@@ -68,12 +70,15 @@ Custom CSS `:root { --color-action: #172b36; }`. No paid plan was enabled.
 The responsive frame has enough height for confirmation; the parent dialog
 scrolls on short screens with a sticky close toolbar. No outcome is auto-dismissed.
 
-SEO: `/about` explains the Maryland focus in indexable HTML. Both pages have
-canonical URLs, descriptions, social metadata and JSON-LD; `/sitemap.xml` lists
-both. Run `python3 tests/seo.py` to check these links and metadata. Vercel clean
-URLs serve `about.html` as `/about`; a basic Python preview uses `/about.html`.
-Search Console verification and sitemap submission require the owner's Google
-account. Metadata alone does not guarantee indexing or search rankings.
+SEO: every page has a unique title (65 characters or fewer) and description, a canonical URL, a robots meta
+that allows large image previews, Open Graph and Twitter tags with its own social card, and JSON-LD
+(Organization, WebSite, WebPage, BreadcrumbList, plus Article on briefs and guides and ItemList on the two
+indexes). `seo_title` and `seo_description` live beside each entry in `content/problems.json` and
+`content/guides.json`; the other titles are set in `scripts/build.py`. `/sitemap.xml` carries `lastmod` from the
+content dates (briefs 2026-11-05, guides their `checked` date). `/downloads/*` carries `X-Robots-Tag: noindex` so the
+Word worksheets do not compete with the briefs. `python3 tests/seo.py` enforces all of this. Owner steps that need
+a Google or Bing account (Search Console, Webmaster Tools) are in `SEO_PLAYBOOK.md`. Metadata alone does not
+guarantee indexing or rankings.
 
 
 ## Resource guide publishing

@@ -116,6 +116,8 @@ def masthead(current=None):
 def footer():
     guides = json.loads((ROOT / 'content/guides.json').read_text())
     help_links = ''.join(f'<a href="/guides/{g["slug"]}">{e(g["category"])}</a>' for g in guides)
+    problems = json.loads((ROOT / 'content/problems.json').read_text())
+    problem_links = ''.join(f'<a href="/problems/{x["slug"]}">{e(x["nav_label"])}</a>' for x in problems)
     return (
         '<footer class="site-footer night"><div class="footer-inner">'
         f'<div class="footer-brand"><a class="identity" href="/">{eagle("identity-mark")}<span>MD Eagles</span></a>'
@@ -125,6 +127,7 @@ def footer():
         '<p class="footer-note">Independent, and not affiliated with or endorsed by the State of Maryland.</p></div>'
         '<nav class="footer-col" aria-label="Explore"><h2>Explore</h2><a href="/problems">Problem collection</a>'
         '<a href="/guides">Resource guides</a><a href="/about">About</a><a href="/#subscribe">Email updates</a></nav>'
+        f'<nav class="footer-col" aria-label="Open problems"><h2>Open problems</h2>{problem_links}</nav>'
         f'<nav class="footer-col" aria-label="Resource guides by need"><h2>Find help with</h2>{help_links}</nav>'
         '</div></footer>'
     )
@@ -165,38 +168,99 @@ def subscribe_dialog():
   </dialog>'''
 
 
-def schema_graph(title, desc, path, kind='WebPage', home=False):
-    page = {'@type': kind, 'name': title, 'description': desc, 'url': SITE + path,
-            'inLanguage': 'en-US', 'isPartOf': {'@id': SITE + '/#website'}}
-    graph = [page]
+def site_config():
+    """Optional owner settings (content/site.json): search-console verification tokens."""
+    try:
+        return json.loads((ROOT / 'content/site.json').read_text())
+    except FileNotFoundError:
+        return {}
+
+
+# path -> last-modified date (ISO), filled by page() and read by the sitemap builder
+LASTMOD = {}
+ORG_ID = SITE + '/#organization'
+ROBOTS = 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'
+
+
+def schema_graph(title, desc, path, kind, home, *, image, published, modified, breadcrumbs, extra):
+    url = SITE + path
+    organization = {
+        '@type': 'Organization', '@id': ORG_ID, 'name': 'Maryland Eagles Eyes', 'alternateName': 'MD Eagles',
+        'url': SITE + '/', 'logo': {'@type': 'ImageObject', 'url': SITE + '/assets/icon-512.png', 'width': 512, 'height': 512},
+        'description': 'An independent publication about problems facing people in Maryland, with possible solutions, '
+                       'and guides to the help that already exists.',
+        'areaServed': {'@type': 'AdministrativeArea', 'name': 'Maryland'},
+        'sameAs': ['https://buttondown.com/eagles'],
+    }
+    page_node = {'@type': kind, '@id': url + '#webpage', 'name': title, 'description': desc, 'url': url,
+                 'inLanguage': 'en-US', 'isPartOf': {'@id': SITE + '/#website'},
+                 'primaryImageOfPage': {'@type': 'ImageObject', 'url': image, 'width': 1200, 'height': 630}}
+    if modified:
+        page_node['dateModified'] = modified
+    if kind == 'AboutPage':
+        page_node['about'] = {'@id': ORG_ID}
+    graph = [organization]
     if home:
-        graph = [
-            {'@type': 'WebSite', '@id': SITE + '/#website', 'name': 'Maryland Eagles Eyes',
-             'alternateName': 'MD Eagles', 'url': SITE + '/', 'inLanguage': 'en-US'},
-            {'@type': 'Organization', '@id': SITE + '/#organization', 'name': 'Maryland Eagles Eyes',
-             'alternateName': 'MD Eagles', 'url': SITE + '/', 'logo': SITE + '/assets/icon-512.png'},
-            page,
-        ]
-    return json.dumps({'@context': 'https://schema.org', '@graph': graph}, ensure_ascii=False)
+        graph.insert(0, {'@type': 'WebSite', '@id': SITE + '/#website', 'name': 'Maryland Eagles Eyes',
+                         'alternateName': 'MD Eagles', 'url': SITE + '/', 'inLanguage': 'en-US',
+                         'publisher': {'@id': ORG_ID}})
+    else:
+        graph.append({'@type': 'WebSite', '@id': SITE + '/#website', 'name': 'Maryland Eagles Eyes', 'url': SITE + '/'})
+    graph.append(page_node)
+    if breadcrumbs:
+        trail = [('Home', '/')] + list(breadcrumbs)
+        graph.append({'@type': 'BreadcrumbList', '@id': url + '#breadcrumb', 'itemListElement': [
+            {'@type': 'ListItem', 'position': n, 'name': name, 'item': SITE + href} for n, (name, href) in enumerate(trail, 1)]})
+        page_node['breadcrumb'] = {'@id': url + '#breadcrumb'}
+    for node in extra:
+        node = dict(node)
+        if node.get('@type') == 'Article':
+            node.update({'@id': url + '#article', 'mainEntityOfPage': {'@id': url + '#webpage'}, 'url': url,
+                         'inLanguage': 'en-US', 'image': [image], 'author': {'@id': ORG_ID}, 'publisher': {'@id': ORG_ID},
+                         'datePublished': published or modified, 'dateModified': modified or published,
+                         'spatialCoverage': {'@type': 'AdministrativeArea', 'name': 'Maryland'}})
+        graph.append(node)
+    return json.dumps({'@context': 'https://schema.org', '@graph': graph}, ensure_ascii=False, separators=(',', ':'))
+
+
+def item_list(name, items):
+    """ItemList node for an index page: items are (name, path) pairs."""
+    return {'@type': 'ItemList', 'name': name, 'numberOfItems': len(items), 'itemListElement': [
+        {'@type': 'ListItem', 'position': n, 'name': item, 'url': SITE + href} for n, (item, href) in enumerate(items, 1)]}
 
 
 def page(title, desc, path, body, *, current=None, body_class='', scripts=(), kind='WebPage',
-         home=False, dialog=False, noindex=False):
-    full_title = f'{title} | MD Eagles'
+         home=False, dialog=False, noindex=False, seo_title=None, image=None, image_alt=None,
+         og_type='website', published=None, modified=None, breadcrumbs=(), extra=()):
+    """seo_title is the full <title> (<= 65 characters) when the short page name is not the right search title."""
+    full_title = seo_title or f'{title} | MD Eagles'
+    image_url = SITE + (image or '/assets/social-mdeagles.jpg')
+    image_alt = image_alt or 'MD Eagles: Maryland problems with possible solutions, and the help that already exists.'
+    if not noindex:
+        LASTMOD[path] = modified or LASTMOD.get(path)
+    config = site_config()
+    verify = ''.join(f'<meta name="{name}" content="{e(config[key])}">' for key, name in (
+        ('google_site_verification', 'google-site-verification'), ('bing_site_verification', 'msvalidate.01')) if config.get(key))
+    article = ''.join(
+        f'<meta property="article:{name}" content="{value}">' for name, value in (
+            ('published_time', published), ('modified_time', modified)) if value) if og_type == 'article' else ''
     script_tags = ''.join(f'<script src="{src}" defer></script>' for src in ('/site.js',) + tuple(scripts))
     head = (
         '<!DOCTYPE html><html lang="en-US"><head><meta charset="utf-8">'
         '<meta name="viewport" content="width=device-width, initial-scale=1">'
         '<meta name="theme-color" content="#231f20">'
         f'<title>{e(full_title)}</title><meta name="description" content="{e(desc)}">'
-        f'<link rel="canonical" href="{SITE}{path}">' + ('<meta name="robots" content="noindex">' if noindex else '') +
+        f'<link rel="canonical" href="{SITE}{path}">'
+        + ('<meta name="robots" content="noindex">' if noindex else f'<meta name="robots" content="{ROBOTS}">') + verify +
+        f'<meta property="og:site_name" content="Maryland Eagles Eyes"><meta property="og:locale" content="en_US">'
         f'<meta property="og:title" content="{e(full_title)}"><meta property="og:description" content="{e(desc)}">'
-        f'<meta property="og:url" content="{SITE}{path}"><meta property="og:type" content="website">'
-        f'<meta property="og:image" content="{SOCIAL_IMAGE}"><meta property="og:image:width" content="1200">'
-        '<meta property="og:image:height" content="630">'
+        f'<meta property="og:url" content="{SITE}{path}"><meta property="og:type" content="{og_type}">{article}'
+        f'<meta property="og:image" content="{image_url}"><meta property="og:image:type" content="image/jpeg">'
+        f'<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">'
+        f'<meta property="og:image:alt" content="{e(image_alt)}">'
         '<meta name="twitter:card" content="summary_large_image">'
         f'<meta name="twitter:title" content="{e(full_title)}"><meta name="twitter:description" content="{e(desc)}">'
-        f'<meta name="twitter:image" content="{SOCIAL_IMAGE}">'
+        f'<meta name="twitter:image" content="{image_url}"><meta name="twitter:image:alt" content="{e(image_alt)}">'
         f'<link rel="icon" href="/favicon.ico?v={ICON_VERSION}" sizes="48x48">'
         f'<link rel="icon" href="/assets/favicon.svg?v={ICON_VERSION}" type="image/svg+xml">'
         f'<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v={ICON_VERSION}">'
@@ -204,7 +268,9 @@ def page(title, desc, path, body, *, current=None, body_class='', scripts=(), ki
         '<link rel="preload" href="/assets/newsreader.woff2" as="font" type="font/woff2" crossorigin>'
         '<link rel="preload" href="/assets/hanken-grotesk.woff2" as="font" type="font/woff2" crossorigin>'
         '<link rel="stylesheet" href="/style.css">'
-        f'<script type="application/ld+json">{schema_graph(title, desc, path, kind, home)}</script></head>'
+        '<script type="application/ld+json">'
+        + schema_graph(title, desc, path, kind, home, image=image_url, published=published, modified=modified,
+                       breadcrumbs=breadcrumbs, extra=extra) + '</script></head>'
     )
     classes = f' class="{body_class}"' if body_class else ''
     return (

@@ -33,6 +33,15 @@
           "value": "public, max-age=86400"
         }
       ]
+    },
+    {
+      "source": "/downloads/(.*)",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex"
+        }
+      ]
     }
   ],
   "outputDirectory": "public",

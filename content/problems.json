@@ -5,13 +5,13 @@
     "title": "Child care is getting in the way of work",
     "place": "Baltimore City",
     "summary": "Help parents find care that fits the hours they actually work.",
-    "evidence": "Baltimore\u2019s 2025 early childhood landscape analysis describes child care disrupting work and education among families in the Baltimore Young Families Success Fund study. This is evidence from that study, not a measure of every family in the city.",
+    "evidence": "Baltimore’s 2025 early childhood landscape analysis describes child care disrupting work and education among families in the Baltimore Young Families Success Fund study. This is evidence from that study, not a measure of every family in the city.",
     "source": "Baltimore City ECAC, 2025 landscape analysis",
     "url": "https://ecacbaltimore.org/wp-content/uploads/2025/06/2025-Baltimore-City-ECAC-Landscape-Analysis.pdf",
     "ideas": [
       [
         "An employer and provider care pilot",
-        "Bring a local employer and a licensed child care provider together to test whether a small block of funded care hours fits parents\u2019 shifts. Establish staffing, licensing and costs with the provider before offering places."
+        "Bring a local employer and a licensed child care provider together to test whether a small block of funded care hours fits parents’ shifts. Establish staffing, licensing and costs with the provider before offering places."
       ],
       [
         "A practical care search service",
@@ -21,18 +21,21 @@
     "first": "Speak with five parents about the last time care disrupted work. Ask whether cost, opening hours, location or availability was the deciding barrier. Do not assume all four need the same solution.",
     "people": "Parents, licensed providers and an employer in one Baltimore neighborhood.",
     "measure": "Whether participating parents find suitable care and report fewer shifts missed because of care.",
-    "existing": "Maryland Family Network\u2019s LOCATE service",
+    "existing": "Maryland Family Network’s LOCATE service",
     "existing_url": "https://marylandfamilynetwork.org/our-work/locate-child-care/",
     "help": "child-care",
-    "keywords": "daycare children shifts parents families"
+    "keywords": "daycare children shifts parents families",
+    "seo_title": "Baltimore child care and work: what could help | MD Eagles",
+    "seo_description": "Child care gaps disrupt work for some Baltimore families. See the evidence, possible solutions to test and a first step you can take in your community.",
+    "nav_label": "Child care and work"
   },
   {
     "slug": "small-business-cash-flow",
     "topic": "business",
     "title": "Small businesses struggle with uneven cash flow",
-    "place": "Maryland \u00b7 start with a local business group",
+    "place": "Maryland · start with a local business group",
     "summary": "Help owners understand what is coming in, what is due and where payments get stuck.",
-    "evidence": "In the Federal Reserve\u2019s 2025 Maryland employer-firm chartbook, 51% of respondents reported uneven cash flow as a financial challenge. The survey does not establish late invoices as the cause or describe every Maryland business.",
+    "evidence": "In the Federal Reserve’s 2025 Maryland employer-firm chartbook, 51% of respondents reported uneven cash flow as a financial challenge. The survey does not establish late invoices as the cause or describe every Maryland business.",
     "source": "Federal Reserve Banks, 2025 Maryland employer-firm chartbook",
     "url": "https://www.fedsmallbusiness.org/-/media/project/clevelandfedtenant/fsbsite/reports/2025/2025-firms-in-focus-chartbooks/sbcs_chartbook2025_maryland.pdf",
     "ideas": [
@@ -51,21 +54,24 @@
     "existing": "Maryland SBDC consulting",
     "existing_url": "https://www.marylandsbdc.org/consulting",
     "help": "business-advice",
-    "keywords": "founder startup cashflow invoices money business"
+    "keywords": "founder startup cashflow invoices money business",
+    "seo_title": "Maryland small business cash flow: ideas to test | MD Eagles",
+    "seo_description": "51% of Maryland employer firms in a Federal Reserve survey cited uneven cash flow. See the evidence, possible solutions to test and a first step.",
+    "nav_label": "Small business cash flow"
   },
   {
     "slug": "immigrant-career-pathways",
     "topic": "work",
     "title": "Professional experience does not always lead to a matching job",
-    "place": "Maryland \u00b7 test one profession in one community",
+    "place": "Maryland · test one profession in one community",
     "summary": "Help internationally trained residents navigate credentials and local career pathways.",
-    "evidence": "Maryland\u2019s Skilled Immigrant Task Force identifies costly credential evaluations, complex licensing, limited professional networks and unfamiliar career pathways as barriers. These statewide observations do not tell us which barrier matters most in a particular community.",
+    "evidence": "Maryland’s Skilled Immigrant Task Force identifies costly credential evaluations, complex licensing, limited professional networks and unfamiliar career pathways as barriers. These statewide observations do not tell us which barrier matters most in a particular community.",
     "source": "Maryland Department of Labor, Skilled Immigrant Task Force",
     "url": "https://www.labor.maryland.gov/employment/skilledimmigrant.shtml",
     "ideas": [
       [
         "A verified guide for one profession",
-        "Work with the relevant licensing board and a workforce adviser to explain one profession\u2019s requirements, official fees and routes. Assign someone to review the guide when requirements change."
+        "Work with the relevant licensing board and a workforce adviser to explain one profession’s requirements, official fees and routes. Assign someone to review the guide when requirements change."
       ],
       [
         "A local career navigation circle",
@@ -75,9 +81,12 @@
     "first": "Choose one profession. Interview five internationally trained residents and a workforce adviser about where the process stalls. Check whether an existing program already covers that need.",
     "people": "Internationally trained residents, workforce advisers, professional associations and the relevant licensing board.",
     "measure": "Whether participants understand their next verified step and complete it. A checklist cannot waive licensing rules or guarantee employment.",
-    "existing": "Maryland\u2019s Skilled Immigrant Task Force",
+    "existing": "Maryland’s Skilled Immigrant Task Force",
     "existing_url": "https://www.labor.maryland.gov/employment/skilledimmigrant.shtml",
     "help": "career-support",
-    "keywords": "immigrant credentials career job employment training"
+    "keywords": "immigrant credentials career job employment training",
+    "seo_title": "Skilled immigrant careers in Maryland | MD Eagles",
+    "seo_description": "Internationally trained Marylanders face credential and career barriers. See the evidence, possible solutions to test and a first step in your community.",
+    "nav_label": "Immigrant career pathways"
   }
 ]

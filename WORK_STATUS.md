@@ -593,3 +593,22 @@ revealed with a clip-path curtain instead of an opacity fade; pointer-opened men
 focus the first link; menu links show focus as a 3 px gold underline on the title instead of a box. Verified in the 390 px emulation: panel
 covers 390x844 at body level, focus on the panel with no outline after a tap, Tab shows the underline indicator, settled menu has no page
 bleed-through. Not verified on the user's actual iPhone.
+
+## Advanced SEO — November 5, 2026 (built locally, not committed)
+
+User asked for advanced SEO so Marylanders can find the site. Done in code:
+- Unique titles (<= 65 chars) and descriptions (70-165) on every page. `seo_title`/`seo_description`/`nav_label` added to content/problems.json and
+  content/guides.json; home, About and the two indexes are set in scripts/build.py. Home title is now "Maryland Eagles Eyes: problems to solve, help that exists".
+- scripts/layout.py `page()` takes seo_title, image, image_alt, og_type, published, modified, breadcrumbs, extra. Head now has robots (max-image-preview:large),
+  og:site_name/locale/image:alt/type, article times, twitter:image:alt, optional Search Console tokens from content/site.json (empty now).
+- JSON-LD on every page: Organization (logo, Maryland areaServed, Buttondown sameAs), WebSite, WebPage (AboutPage/CollectionPage), BreadcrumbList; Article with
+  datePublished/dateModified on briefs and guides; ItemList on /problems and /guides.
+- Per-page social cards (scripts/make-social-cards.py replaces make-social-card.py): public/assets/social/<slug>.jpg (14) plus the default card.
+- sitemap.xml now has lastmod (briefs/home/index 2026-11-05, guides their `checked` date, /guides the newest).
+- Internal links: footer column "Open problems" (3 briefs), "More problems to explore" on each brief, open-problem link on the matching guide.
+- X-Robots-Tag: noindex on /downloads/* (Word worksheets) in vercel.json. IndexNow: content/indexnow.json, public/<key>.txt, scripts/indexnow.py (dry run by default; not sent).
+- tests/seo.py rewritten: lengths, uniqueness, og:image exists, JSON-LD types, Article dates, breadcrumbs, lastmod, IndexNow key, downloads header. Passes (and fails
+  on a bad description, checked). Also checked in the browser pane at desktop and 375 px: footer columns, no horizontal overflow, 44 px footer targets.
+- SEO_PLAYBOOK.md: owner steps (Search Console, Bing, IndexNow, links from local organizations), content roadmap, honest limits.
+- Not done / needs the owner: Search Console and Bing verification and sitemap submission (account-bound), running indexnow.py --send after deploy, real
+  outreach, a named editor/contact on About. No ranking guarantee. Rich-result validator and production crawl not run yet.

@@ -136,7 +136,7 @@ body[data-menu-open]{overflow:hidden}
 
 /* ---------------------------------------------------------------- footer */
 .site-footer{position:relative;background:#171415;color:#cdc6c8;font-size:.88rem}
-.footer-inner{max-width:var(--wrap);margin:0 auto;padding:clamp(64px,9vw,112px) var(--gutter) 40px;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,.7fr) minmax(0,1fr);gap:44px clamp(32px,6vw,96px)}
+.footer-inner{max-width:var(--wrap);margin:0 auto;padding:clamp(64px,9vw,112px) var(--gutter) 40px;display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,.7fr) minmax(0,1fr) minmax(0,1fr);gap:44px clamp(28px,4.5vw,72px)}
 .footer-brand .identity{margin:0;font-size:1.8rem;color:#f4eee1}
 .footer-line{margin:22px 0 10px;font:400 clamp(1.5rem,1.2rem + 1vw,2rem)/1.15 var(--serif);letter-spacing:-.02em;color:var(--amber)}
 .footer-brand p:not(.footer-line){max-width:26rem;color:#a79fa1}
