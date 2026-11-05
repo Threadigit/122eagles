@@ -222,4 +222,33 @@ update in Buttondown. No campaign sent or email automation configured.
 Validation: SEO/internal-link/JSON-LD checks pass. Chromium checks at
 320/390/844 landscape/1440px pass for both layouts, About signup deep link,
 lazy signup, validation, modal close/focus, reopen/reload and reduced motion.
-Screenshots reviewed on mobile and social preview. Production push: pending.
+Screenshots reviewed on mobile and social preview. Commit 05ed2d3 pushed to main;
+Git-triggered production deployment dpl_DVVHoe5CBno3pbGhvpvLREvKNXSL is READY.
+Live homepage, About, CSS and social preview match committed source byte-for-byte.
+Live layout and About deep-link checks pass at all four widths. Live signup
+regression checks pass; actual Buttondown form renders and validates email syntax.
+No subscription or campaign was sent. Production verified at https://122eagles.com/.
+This verification record is a local continuation-note update after publication.
+
+## Domain migration and editorial refinement — November 4, 2026
+
+User purchased mdeagles.com at Namecheap and authorized moving the site there.
+Vercel apex and www project domains added and ownership verified. www redirects
+to apex (308). Required DNS: @ A 216.198.79.1 and 64.29.17.1; www CNAME
+6320fd3e556bc659.vercel-dns-017.com. Nameservers stay at Namecheap BasicDNS.
+Baseline: apex parking IP 192.64.119.243, www parking CNAME; five eforward MX
+records and TXT v=spf1 include:spf.efwd.registrar-servers.com ~all. Preserve mail.
+TinyFish DNS run ce32d023-e427-40ef-b848-e5390ad94b2d uses the prior default
+profile; completed with no DNS changes because the saved session expired.
+User completed DNS manually. No further Namecheap browser work is needed.
+
+Masthead changes from 122eagles to MD Eagles; publication title remains Maryland
+Eagles Eyes. About rewritten as restrained prose with no card, numbered pitch,
+category grid or em dashes. Existing bridge and motion preserved. Canonical,
+structured-data, sitemap, robots and social URLs move to mdeagles.com.
+Both page layouts and About signup navigation pass at 320/390/844/1440px.
+SEO and signup regression checks pass. Public DNS and Vercel config confirm both
+new domains are correctly configured; five MX records and SPF remain unchanged.
+Issued auto-renewing TLS certificate cert_F9fVkMZfawpE2vGK2ksSsCVg for apex/www.
+HTTPS apex returns 200 and www redirects 308 to apex. Old-host redirects are
+included in vercel.json. Production migration push and final verification pending.

@@ -95,11 +95,5 @@ body.information-page{background:#f8f7f1;color:#172b36}
 .information-page .subscribe-button{background:#172b36;color:#f6f1e6;border-color:#172b36;margin-top:16px}
 .information-page a:focus-visible{outline-color:#172b36}
 .information-page .section-kicker{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#526269;margin:0 0 16px}
-.brief-introduction{margin-top:40px;padding:28px 24px;border:1px solid #d4dbd7;border-radius:8px;background:#eef0e9}
-.information-page .brief-introduction h2{margin-top:0}
-.brief-steps{padding-left:22px}
-.coverage-list{margin:24px 0 0}
-.coverage-list>div{padding:20px 0;border-bottom:1px solid #d4dbd7}
-.coverage-list dt{font:400 21px/1.4 Lora,Georgia,serif}
-.coverage-list dd{margin:8px 0 0;font-size:16px;line-height:1.8;color:#40545e}
+.publication-subscription{margin-top:48px;padding-top:8px;border-top:1px solid #d4dbd7}
 @media(max-width:600px){.information-page main{padding-top:30px;padding-bottom:56px}}

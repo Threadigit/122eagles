@@ -31,5 +31,29 @@
       ]
     }
   ],
-  "outputDirectory": "public"
+  "outputDirectory": "public",
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "122eagles.com"
+        }
+      ],
+      "destination": "https://mdeagles.com/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.122eagles.com"
+        }
+      ],
+      "destination": "https://mdeagles.com/:path*",
+      "permanent": true
+    }
+  ]
 }

@@ -1,6 +1,6 @@
 # Maryland Eagles Eyes
 
-The welcome page for **122eagles.com**, a publication exploring challenges facing
+The welcome page for **mdeagles.com**, a publication exploring challenges facing
 Marylanders and practical ways to help solve them. See `EDITORIAL_DIRECTION.md`
 for the Maryland Brief format, coverage areas and publishing workflow.
 
@@ -27,7 +27,7 @@ see `public/assets/OFL-*.txt`. Font files are self-hosted.
 
 
 Publication-update signup is connected to `https://buttondown.com/eagles` through its
-supported embedded form. Readers stay on 122eagles.com; Buttondown handles
+supported embedded form. Readers stay on mdeagles.com; Buttondown handles
 validation, confirmation and any verification inside the frame. No API key is
 stored in the browser, and the public subscription endpoint is not called with
 JavaScript fetch. The close button remains available throughout the flow.

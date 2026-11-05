@@ -18,7 +18,7 @@ urls=[]
 for file,path in [('index.html','/'),('about.html','/about')]:
  page=Page((root/file).read_text())
  assert sum(t=='h1' for t,a in page.tags)==1
- assert any(t=='link' and a.get('rel')=='canonical' and a.get('href')=='https://122eagles.com'+path for t,a in page.tags)
+ assert any(t=='link' and a.get('rel')=='canonical' and a.get('href')=='https://mdeagles.com'+path for t,a in page.tags)
  assert any(t=='meta' and a.get('name')=='description' and len(a.get('content',''))>90 for t,a in page.tags)
  assert page.json
  for tag,attrs in page.tags:
@@ -27,9 +27,9 @@ for file,path in [('index.html','/'),('about.html','/about')]:
    if val.startswith('/') and not val.startswith('//'):
     local=root/val.lstrip('/')
     assert val=='/' or local.is_file() or local.with_suffix('.html').is_file(),val
- urls.append('https://122eagles.com'+path)
+ urls.append('https://mdeagles.com'+path)
 sitemap=ET.parse(root/'sitemap.xml');ns={'s':'http://www.sitemaps.org/schemas/sitemap/0.9'}
 assert sorted(e.text for e in sitemap.findall('s:url/s:loc',ns))==sorted(urls)
-assert 'Sitemap: https://122eagles.com/sitemap.xml' in (root/'robots.txt').read_text()
+assert 'Sitemap: https://mdeagles.com/sitemap.xml' in (root/'robots.txt').read_text()
 assert 'Disallow: /' not in (root/'robots.txt').read_text()
 print('PASS: crawlable pages, unique canonicals, metadata, JSON-LD, internal links and sitemap')
