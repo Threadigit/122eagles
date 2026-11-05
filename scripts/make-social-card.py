@@ -47,9 +47,10 @@ for pts in ([(32, 38), (22, 26), (8, 22), (19, 37), (32, 45)],
     draw.line([pt(*p) for p in pts], fill=white, width=3, joint='curve')
 draw.text((64 + 48 * 2.6 + 22, 62), 'MD Eagles', font=font('lora-regular.woff2', 40), fill=white)
 
-title = font('lora-regular.woff2', 78)
-for i, line in enumerate(['Find a Maryland problem', 'you can help solve.']):
-    draw.text((64, 318 + i * 94), line, font=title, fill=white)
-draw.text((66, 540), 'Documented gaps, the evidence and a first step.', font=font('instrument-sans.woff2', 28), fill=(201, 210, 212, 255))
+title = font('instrument-sans.woff2', 92)
+gold = (217, 171, 98, 255)
+for i, line in enumerate(['Fix what’s missing.', 'Find what already works.']):
+    draw.text((64, 316 + i * 100), line, font=title, fill=white if i == 0 else gold)
+draw.text((66, 540), 'Maryland problems with possible solutions, and the help that already exists.', font=font('instrument-sans.woff2', 28), fill=(201, 210, 212, 255))
 card.convert('RGB').save(assets / 'social-mdeagles.jpg', quality=88, optimize=True)
 print('wrote social-mdeagles.jpg')

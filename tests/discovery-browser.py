@@ -24,6 +24,8 @@ with sync_playwright() as p:
   page.reload();expect(page.locator('[data-entry]:visible')).to_have_count(1)
   page.get_by_role('link',name='Clear filters').click()
   expect(page.locator('[data-entry]:visible')).to_have_count(8)
+  page.goto(BASE+'/guides?county=Howard&topic=housing');expect(page.locator('.county-note:visible')).to_contain_text('Howard County')
+  page.goto(BASE+'/guides')
   for query,slug in [('daycare','child-care'),('laid off','career-support'),('cashflow','business-advice'),('résumé','career-support'),("I can't pay rent",'rental-housing')]:
    page.get_by_label('Search the guides',exact=True).fill(query)
    expect(page.locator('[data-entry]:visible')).to_have_count(1)

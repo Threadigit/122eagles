@@ -391,3 +391,26 @@ Not done / not verified: Python Playwright is not installed here (pypi blocked i
 the sandbox), so tests/*-browser.py were updated for the new selectors and link
 names but NOT run. Real-device Safari untested. Pending: run those tests where
 Playwright is available and check the live homepage on a real phone.
+
+## Second overhaul: premium night system, two-fold platform — November 5, 2026
+
+User rejected the first redesign ("still terrible") and asked for a drastic overhaul:
+problem collection must come with possible solutions, and the site must tell visitors
+they can also find resource guides to problems already solved, by county or by life
+area. Built locally; NOT yet committed or pushed (live site still shows c4789e9).
+
+- New dark cinematic system (night navy, gold accent, ivory reading sections); Instrument
+  Sans display type; fixed header that fades in a dark bar on scroll (CSS scroll timeline,
+  solid fallback); scroll-reveal via CSS view timelines (progressive enhancement).
+- Homepage: full-height bridge film, headline "Fix what’s missing. Find what already
+  works.", two "doors" (Problem collection / Resource guides), problem cases with their
+  possible solutions inline, a resource section with county picker, life-area chips and
+  all eight guides, then email signup and a richer footer.
+- Inner pages open with a dark band using a still crop of the graded bridge. Briefs show a
+  fact strip and a dark "Possible solutions to test" panel of cards. /guides gains a
+  county selector plus search and need filters; county shows an "ask which office serves
+  X County" note on local guides and never filters (no county data is invented).
+- Tests updated for new selectors and wording (door link, "Search the collection", county
+  note); NOT run (Playwright unavailable here). Verified in the browser pane: film edge
+  coverage over the full camera cycle at 390/1440/844x390, no horizontal overflow at 320
+  on all page types, county note and filters work, tests/seo.py passes.

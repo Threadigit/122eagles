@@ -32,16 +32,28 @@ def eagle(css_class='eagle', stroke_width='2'):
 
 
 NAV = [
-    ('problems', '/problems', 'Problem collection'),
-    ('guides', '/guides', 'Resource guides'),
-    ('about', '/about', 'About'),
+    ('problems', '/problems', 'Problem collection', 'Problems'),
+    ('guides', '/guides', 'Resource guides', 'Guides'),
+    ('about', '/about', 'About', 'About'),
 ]
+
+COUNTIES = [
+    'Allegany', 'Anne Arundel', 'Baltimore City', 'Baltimore County', 'Calvert', 'Caroline', 'Carroll',
+    'Cecil', 'Charles', 'Dorchester', 'Frederick', 'Garrett', 'Harford', 'Howard', 'Kent', 'Montgomery',
+    "Prince George's", "Queen Anne's", "St. Mary's", 'Somerset', 'Talbot', 'Washington', 'Wicomico', 'Worcester',
+]
+
+
+def county_options(placeholder='Choose your county'):
+    return f'<option value="">{placeholder}</option>' + ''.join(
+        f'<option value="{e(c)}">{e(c)}</option>' for c in COUNTIES)
 
 
 def masthead(current=None):
     links = ''.join(
-        '<a href="%s"%s>%s</a>' % (href, ' aria-current="page"' if key == current else '', label)
-        for key, href, label in NAV
+        '<a href="%s"%s><span class="nav-long">%s</span><span class="nav-short" aria-hidden="true">%s</span></a>'
+        % (href, ' aria-current="page"' if key == current else '', long, short)
+        for key, href, long, short in NAV
     )
     return (
         '<header class="masthead"><div class="masthead-inner">'
@@ -52,15 +64,31 @@ def masthead(current=None):
 
 
 def footer():
+    guides = json.loads((ROOT / 'content/guides.json').read_text())
+    help_links = ''.join(f'<a href="/guides/{g["slug"]}">{e(g["category"])}</a>' for g in guides)
     return (
-        '<footer class="site-footer"><div class="footer-inner">'
-        f'<div class="footer-about"><a class="identity" href="/">{eagle("identity-mark")}<span>MD Eagles</span></a>'
-        '<p>Maryland Eagles Eyes is an independent publication about the problems Marylanders face and the people working on them.</p></div>'
-        '<nav aria-label="Footer"><a href="/problems">Problem collection</a><a href="/guides">Resource guides</a>'
-        '<a href="/about">About</a><a href="/#subscribe">Email updates</a></nav>'
+        '<footer class="site-footer night"><div class="footer-inner">'
+        f'<div class="footer-brand"><a class="identity" href="/">{eagle("identity-mark")}<span>MD Eagles</span></a>'
+        '<p>Maryland Eagles Eyes is an independent publication. We document the gaps in everyday Maryland life, '
+        'and point residents to the help that already exists.</p></div>'
+        '<nav class="footer-col" aria-label="Explore"><h2>Explore</h2><a href="/problems">Problem collection</a>'
+        '<a href="/guides">Resource guides</a><a href="/about">About</a><a href="/#subscribe">Email updates</a></nav>'
+        f'<nav class="footer-col" aria-label="Resource guides by need"><h2>Find help with</h2>{help_links}</nav>'
         '<p class="footer-credit">Bay Bridge photograph by Carol M. Highsmith, Library of Congress, public domain. '
         '<a href="https://hdl.loc.gov/loc.pnp/highsm.14292">Source record</a></p>'
         '</div></footer>'
+    )
+
+
+def band(title, lead='', crumb='', pos=1, extra=''):
+    """A dark, still crop of the bridge that opens every inner page."""
+    return (
+        f'<section class="band night band-pos-{pos}">'
+        '<img class="band-img" src="/assets/bay-bridge-film-960.webp" '
+        'srcset="/assets/bay-bridge-film-960.webp 960w, /assets/bay-bridge-film-1920.webp 1920w" '
+        'sizes="100vw" width="960" height="878" alt="" decoding="async">'
+        '<div class="band-shade"></div><div class="band-inner">'
+        f'{crumb}<h1>{title}</h1>{lead}{extra}</div></section>'
     )
 
 
@@ -104,7 +132,7 @@ def page(title, desc, path, body, *, current=None, body_class='', scripts=(), ki
     head = (
         '<!DOCTYPE html><html lang="en-US"><head><meta charset="utf-8">'
         '<meta name="viewport" content="width=device-width, initial-scale=1">'
-        '<meta name="theme-color" content="#0a1a21">'
+        '<meta name="theme-color" content="#07141b">'
         f'<title>{e(full_title)}</title><meta name="description" content="{e(desc)}">'
         f'<link rel="canonical" href="{SITE}{path}">'
         f'<meta property="og:title" content="{e(full_title)}"><meta property="og:description" content="{e(desc)}">'

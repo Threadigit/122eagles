@@ -18,7 +18,7 @@ with sync_playwright() as p:
   assert requests==[],requests
   trigger=page.locator('[data-open-subscribe]')
   assert trigger.is_enabled()
-  assert page.get_by_role('heading',name='Find a Maryland problem you can help solve.').is_visible()
+  assert page.get_by_role('heading',name='Fix what’s missing.').is_visible()
   trigger.click();dialog=page.locator('#subscribe-dialog')
   assert dialog.evaluate('(e)=>e.open')
   assert page.evaluate('document.body.hasAttribute("data-signup-open")')

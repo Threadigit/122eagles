@@ -2,7 +2,7 @@
 
 The primary entry point is `/problems`. Evidence-backed briefs distinguish published findings from proposed local projects, with a first conversation, existing services and a downloadable worksheet. `/guides` remains secondary support for people seeking help today. Subscription is secondary.
 
-Design: an editorial identity (warm paper, deep Chesapeake navy, copper, Lora headlines, Instrument Sans text) built around a cinematic homepage film of the Chesapeake Bay Bridge. The eagle mark is inline SVG so it can take any colour and animate. Problem discovery stays primary; avoid decorative card grids and slogan copy.
+Design: a dark, cinematic "night" system (deep Chesapeake navy, Maryland-flag gold, ivory) with light ivory sections for reading. Instrument Sans carries display and body type; Lora is used only for numerals, the wordmark and quoted questions. The platform is two-fold: the **problem collection** (open gaps, each with evidence and possible solutions) and the **resource guides** (problems that already have an answer, found by county or by life area). The eagle mark is inline SVG so it can take any colour and animate. Avoid decorative card grids and slogan copy.
 
 ## Building and previewing
 
@@ -14,6 +14,8 @@ python3 scripts/make-social-card.py   # only when the social preview changes
 ```
 
 Edit `content/problems.json` or `content/guides.json`, then run `build.py`. Shared page furniture (head, masthead, footer, signup dialog, eagle mark) lives in `scripts/layout.py`; page templates are in `scripts/build.py`. `public/style.css` is hand-written and is the only stylesheet. Problem proposals are untested, not active projects or promised partnerships.
+
+County choices on `/guides` never filter results: services are delivered through local offices, so the county only adds a reminder to ask for your office. Do not add county-specific availability without a verified source.
 
 The homepage film is CSS-only motion (transform and opacity). `public/cinema.js` only starts it after the photograph decodes and pauses it off screen; without it the photograph is simply still. `prefers-reduced-motion` turns all of it off. The ungraded photograph master is `content/source/`.
 
