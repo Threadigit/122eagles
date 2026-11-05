@@ -159,11 +159,18 @@ def subscribe_dialog():
     <div class="subscribe-content">
     <h2 id="subscribe-title">Hear when a new problem is published.</h2>
     <p id="subscribe-description">Free email when we publish a new brief or a follow-up. Unsubscribe anytime.</p>
-    <div class="signup-embed">
-      <iframe data-subscribe-frame data-src="https://buttondown.com/eagles?as_embed=true" title="Email signup for Maryland Eagles Eyes" referrerpolicy="strict-origin-when-cross-origin"></iframe>
-      <p class="signup-consent">Receive Maryland Eagles Eyes by email. Unsubscribe at any time.</p>
-      <button class="signup-reload" type="button">Reload signup form</button>
+    <form class="signup-form" data-subscribe-form action="https://buttondown.com/api/emails/embed-subscribe/eagles" method="post" target="_blank">
+      <label for="signup-email">Email address</label>
+      <input id="signup-email" name="email" type="email" required autocomplete="email" inputmode="email" maxlength="254" placeholder="you@example.com">
+      <input type="hidden" name="embed" value="1">
+      <button class="button" type="submit">Subscribe</button>
+    </form>
+    <div class="signup-sent" data-signup-sent hidden tabindex="-1">
+      <p class="signup-sent-title">Almost done.</p>
+      <p>Finish in the window or tab that just opened. Buttondown, our email provider, may ask you to confirm your address by email.</p>
+      <button class="signup-again" type="button" data-signup-again>Use a different address</button>
     </div>
+    <p class="signup-consent">Free email from Maryland Eagles Eyes. Your address goes straight to Buttondown, which sends the email. Unsubscribe at any time.</p>
     </div>
   </dialog>'''
 

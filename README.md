@@ -33,8 +33,8 @@ Marylanders and practical ways to help solve them. See `EDITORIAL_DIRECTION.md`
 for the Maryland Brief format, coverage areas and publishing workflow.
 
 Static HTML and CSS with a public-domain photograph of the Chesapeake Bay Bridge. No framework or
-first-party tracking scripts. Signup loads Buttondown only after a reader opens
-the on-site dialog. Visual direction
+first-party tracking scripts. Signup loads nothing from Buttondown until a reader submits
+the on-site form. Visual direction
 inspired by The Bridge's muted landscape, serif typography and open composition;
 its code and branding are not reused. The photograph is by Carol M. Highsmith,
 Library of Congress; see `public/assets/PHOTO-CREDIT.md`.
@@ -51,24 +51,17 @@ Fonts: Newsreader and Hanken Grotesk, distributed under the SIL Open Font Licens
 see `public/assets/OFL-*.txt`. Font files are self-hosted.
 
 
-Publication-update signup is connected to `https://buttondown.com/eagles` through its
-supported embedded form. Readers stay on mdeagles.com; Buttondown handles
-validation, confirmation and any verification inside the frame. No API key is
-stored in the browser, and the public subscription endpoint is not called with
-JavaScript fetch. The close button remains available throughout the flow.
+Publication-update signup is our own form in an on-site dialog (`scripts/layout.py`, `public/subscribe.js`). It posts the
+email address straight to Buttondown's embed endpoint (`https://buttondown.com/api/emails/embed-subscribe/eagles`, fields `email`
+and `embed=1`) and Buttondown opens its own confirmation in a small window (a new tab if the browser blocks popups; without
+JavaScript the form still posts in a new tab). Nothing from Buttondown loads until a reader submits, and no API key is involved.
+The form is ours because Buttondown's framed page cannot be styled without its Custom CSS (not on this plan) and cannot be fonted
+or recoloured from outside. `vercel.json` allows `form-action https://buttondown.com` and no longer allows any frames.
 
-Run `python3 tests/subscription-browser.py` against a local preview. Set
-`EAGLES_TEST_URL` to test a deployment. Set `EAGLES_LIVE_FORM=1` to additionally
-load the real Buttondown form and check email validation; this test does not
-submit a subscription or send confirmation email. The other cases use a small
-provider-frame fixture to exercise the website's modal behavior independently.
-
-Set `EAGLES_LIVE_CONFIRMATION=1` for a read-only check of Buttondown's actual
-confirmation preview, including message/action separation and navy buttons.
-The provider owns colours inside its cross-origin frame: Settings → Design,
-Custom CSS. The ready-to-paste stylesheet (one flat surface, Hanken Grotesk, near-black button) is `content/buttondown-custom.css`; keep it in sync with what is pasted there. The font loads from mdeagles.com, which `vercel.json` allows for buttondown.com only. No paid plan was enabled.
-The responsive frame has enough height for confirmation; the parent dialog
-scrolls on short screens with a sticky close toolbar. No outcome is auto-dismissed.
+`python3 tests/subscription-browser.py` (Playwright; run against a local preview, set `EAGLES_TEST_URL` for a deployment)
+answers every Buttondown request with a local fixture, so it never subscribes anyone or sends email. Not yet run: Playwright
+is not installed here. A real end-to-end signup (the address added and the confirmation email arriving) needs a manual check
+with an address you own.
 
 SEO: every page has a unique title (65 characters or fewer) and description, a canonical URL, a robots meta
 that allows large image previews, Open Graph and Twitter tags with its own social card, and JSON-LD
@@ -96,4 +89,4 @@ date records an actual source review; don't advance it merely because of a build
 Run `python3 tests/seo.py` and `python3 tests/discovery-browser.py`. Set
 `EAGLES_TEST_URL` for the preview or live site and `EAGLES_BROWSER` for a local
 Chrome executable. The preview must support clean URLs and production CSP.
-CSP permits same-origin GET search forms; Buttondown remains an isolated frame.
+CSP permits same-origin GET search forms; Buttondown receives the signup form post (`form-action`).

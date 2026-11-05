@@ -665,16 +665,18 @@ Maryland's Office of Child Care first. It states no price or availability claim.
 "every parent"), people (adds a college) and measure (adds classes missed and affordability). The page, index counts and Word worksheet were rebuilt; tests/seo.py passes.
 Not verified: the Maryland licensing rules for campus evening care (the brief says to confirm them; no rule is asserted).
 
-## Signup form look and font — November 5, 2026 (in working tree, not yet committed; needs an owner step)
+## Signup form rebuilt natively — November 5, 2026 (in working tree, not yet committed)
 
-User sent a screenshot of the signup dialog: a grey panel inside a lighter panel ("alternating colour") and a pale tinted Subscribe button with white text, and asked
-for our font. Cause: the form is Buttondown's own page (https://buttondown.com/eagles?as_embed=true) shown in a cross-origin frame, so website CSS cannot reach it. Its page
-background (#fafafa) and card (#f3f3f3) differ, and the disabled button is 50% opacity on a gold tint. Embedding the real form directly is not an option: the
-embed-subscribe endpoint sends X-Frame-Options: DENY and the page uses a Turnstile challenge.
-- NEW content/buttondown-custom.css: Custom CSS for Buttondown (Settings -> Design -> Custom CSS), to be pasted by the account owner. Makes page, card and form transparent over the
-  site's parchment dialog, Hanken Grotesk everywhere, white input with a gold focus ring, near-black pill button. Tested by injecting it into Buttondown's live embed page in the
-  browser pane at the dialog's width (flat surface, near-black enabled button, label and input colours checked).
-- vercel.json: Access-Control-Allow-Origin: https://buttondown.com on /assets/*.woff2, so Buttondown's page can load our font. scripts/serve.py now applies every vercel.json header rule
-  (it only applied "/(.*)" before) and the preview server was restarted.
-Not verified: the font itself. It cannot load cross-origin until the vercel.json header is deployed, and the CSS is not live until pasted into Buttondown. Whether the account's plan allows
-Custom CSS is unknown (README noted "no paid plan"). After deploy and pasting, check document.fonts shows Hanken Grotesk loaded inside the frame.
+User sent a screenshot of the signup dialog (grey panel inside a lighter panel, pale tinted Subscribe button) and asked for our font; Buttondown Custom CSS is not
+available on the account, so the form moved onto mdeagles.com. The earlier ready-to-paste CSS file and the woff2 CORS header were removed again (never needed).
+- scripts/layout.py: the iframe is replaced by our own form (label, email input, hidden embed=1, near-black Subscribe button) with action
+  https://buttondown.com/api/emails/embed-subscribe/eagles, method post, target _blank (so it works without JavaScript), plus an "Almost done" state and consent line.
+- public/subscribe.js: opens the dialog; on submit opens Buttondown's response in a small named popup (falls back to a new tab if blocked), hides the form, shows the
+  "Almost done" message and moves focus to it; "Use a different address" resets. Nothing from Buttondown loads until submit.
+- public/style.css: dialog-scoped tokens (near-black button, parchment fields), flat single-surface layout in Hanken Grotesk/Newsreader; removed the iframe and reload styles.
+- vercel.json: CSP now `form-action 'self' https://buttondown.com` and no frame-src (no frames are allowed at all). scripts/serve.py applies every vercel.json header rule.
+- tests/subscription-browser.py rewritten for the native form (intercepts every Buttondown request; never subscribes). README signup section rewritten.
+Checked in the browser pane at 1024-wide and 375 px: flat dialog, no overflow, 16 px input text (no iOS zoom), 49 px button, validation blocks empty/invalid, form fields are
+email+embed, popup call uses the named window, blocked popup falls back to _blank, reset works, no iframes, no new console errors (the old "places" error in the log is stale).
+Not verified: a real signup end to end (address added, confirmation email, what Buttondown's response/captcha page looks like in the popup); Playwright test not run
+(not installed); real-device popup behaviour on iOS Safari.
