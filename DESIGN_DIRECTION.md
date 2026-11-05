@@ -29,8 +29,7 @@ product site: heavy sans headlines, gold accents, boxes inside boxes, one photog
   ([NOAA PDF](https://gml.noaa.gov/grad/solcalc/solareqns.PDF)) reproduce a published table:
   Baltimore on Nov 5, 2026 gives sunrise 6:37 AM and sunset 5:02 PM, matching
   [surf-life.blue](https://www.surf-life.blue/us/sunrisesunset/baltimore-md/202611/).
-- **Type.** Instrument Serif (SIL OFL, from the Instrument family we already use for sans)
-  gives a distinctive display voice; self-hosted from the Fontsource build.
+- **Type.** (Superseded: Instrument Serif turned out to be an overused AI default; see Decisions.)
 
 ## Decisions
 
@@ -44,8 +43,10 @@ product site: heavy sans headlines, gold accents, boxes inside boxes, one photog
    washed out, coral read as an alarm, sea-glass teal was unrelated to the state, and red looked off on dark and
    photographic surfaces. Because the colors look official, the footer and About page say the publication is
    independent and not affiliated with the State.
-2. **Type.** Instrument Serif for display (with italic for one emphasis per screen),
-   Instrument Sans for interface and body.
+2. **Type: Schibsted Grotesk and Hanken Grotesk.** Instrument Serif (and its sibling Instrument Sans) were first chosen,
+   but searches show Instrument Serif is now a widely cited default of AI-generated and vibe-coded sites, so the
+   site switched, at the owner's direction, to the fonts used by nestpay.co: Schibsted Grotesk (semibold display)
+   and Hanken Grotesk (text and interface). Both are variable, SIL OFL, self-hosted. No italics are used.
 3. **The page knows what time it is.** A welcome greets the visitor by their local time and
    (once chosen) their county. A clock shows Maryland time, the visitor's own time when it
    differs, and today's sunrise and sunset. The bridge film is tinted to Maryland's actual

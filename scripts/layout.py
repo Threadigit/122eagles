@@ -199,8 +199,8 @@ def page(title, desc, path, body, *, current=None, body_class='', scripts=(), ki
         '<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">'
         '<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">'
         '<link rel="manifest" href="/site.webmanifest">'
-        '<link rel="preload" href="/assets/instrument-serif.woff2" as="font" type="font/woff2" crossorigin>'
-        '<link rel="preload" href="/assets/instrument-sans.woff2" as="font" type="font/woff2" crossorigin>'
+        '<link rel="preload" href="/assets/schibsted-grotesk.woff2" as="font" type="font/woff2" crossorigin>'
+        '<link rel="preload" href="/assets/hanken-grotesk.woff2" as="font" type="font/woff2" crossorigin>'
         '<link rel="stylesheet" href="/style.css">'
         f'<script type="application/ld+json">{schema_graph(title, desc, path, kind, home)}</script></head>'
     )

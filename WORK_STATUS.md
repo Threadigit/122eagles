@@ -516,3 +516,17 @@ scripts/make-favicons.py draws the eagle bolder (gold on near-black) and writes 
 apple-touch-icon.png (180), icon-192/512.png; every page links ICO, SVG, Apple icon and site.webmanifest, and the
 Organization logo in JSON-LD is icon-512.png. assets/eagle.svg is untouched. Browsers cache favicons hard, so a hard refresh
 or reopening the tab may be needed to see the change.
+
+## Fonts switched away from the AI-default pairing — November 5, 2026 (published to main)
+
+User asked to confirm the fonts are not the popular vibe-coded ones, and to switch to nestpay.co's if they are.
+Research: Instrument Serif is widely cited as a default of AI-generated/vibe-coded sites (and Instrument Serif + Instrument Sans
+is a common pairing), so yes, ours was a tell. The assistant had wrongly called it "distinctive" earlier.
+nestpay.co (inspected live): headings Schibsted Grotesk 600/700, body and UI Hanken Grotesk 400/500, both Google Fonts via next/font.
+- Downloaded (with the user's go-ahead to switch) the Fontsource variable latin builds: schibsted-grotesk.woff2 (46,752 B),
+  hanken-grotesk.woff2 (34,704 B) plus their OFL licences. Both cover every character the site uses (checked with fontTools).
+- Removed Instrument Sans/Serif (and the italic face) and their licences. --serif/--sans are now --display/--text. No italics remain
+  anywhere (the quoted question is medium-weight roman with a gold bar). Display is semibold with tighter tracking; the whole type
+  scale was retuned because grotesk is wider than the old serif. Social card regenerated with the new fonts (variable axis pinned).
+- Checked: hero fits one viewport at 1440x900, no horizontal overflow or clipped text at 390 on home/problems/brief/guides/about,
+  fixed the band photo credit starting at the screen edge on phones. Not re-screenshotted at 1024; Playwright tests not run.
