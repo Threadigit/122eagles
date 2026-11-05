@@ -362,7 +362,9 @@ the core and resource guides for everyday residents, plus the Bay Bridge in a
 cinematic mode that works on mobile and web, with the eagle as the logo. This
 supersedes the older "preserve the existing design" notes above.
 
-Done locally (NOT committed, pushed or deployed yet; nothing is live):
+Published: commit c4789e9 pushed to main; Vercel Git deployment is live at
+https://mdeagles.com (style.css matches source byte-for-byte; cinema.js, film
+photo and brief pages return 200). Contents:
 - Homepage opens with a graded, full-bleed Bay Bridge film: slow diagonal camera
   drift plus a 7s push-in, eagle mark drawing itself and flapping once every 10s.
   CSS transform/opacity only; cinema.js starts it after decode and pauses it
@@ -387,5 +389,5 @@ Done locally (NOT committed, pushed or deployed yet; nothing is live):
 
 Not done / not verified: Python Playwright is not installed here (pypi blocked in
 the sandbox), so tests/*-browser.py were updated for the new selectors and link
-names but NOT run. Real-device Safari untested. Pending: run those tests, review,
-commit, push to main (Vercel deploys), verify production.
+names but NOT run. Real-device Safari untested. Pending: run those tests where
+Playwright is available and check the live homepage on a real phone.
