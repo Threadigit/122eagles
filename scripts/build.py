@@ -73,7 +73,7 @@ def worksheet_docx(x, path):
         h.set(qn('r:id'), rid)
         r = OxmlElement('w:r')
         rpr = OxmlElement('w:rPr')
-        color = OxmlElement('w:color'); color.set(qn('w:val'), 'C8122C'); rpr.append(color)
+        color = OxmlElement('w:color'); color.set(qn('w:val'), '231F20'); rpr.append(color)
         under = OxmlElement('w:u'); under.set(qn('w:val'), 'single'); rpr.append(under)
         r.append(rpr)
         tx = OxmlElement('w:t'); tx.text = text or url; r.append(tx)

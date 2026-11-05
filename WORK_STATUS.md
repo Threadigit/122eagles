@@ -497,3 +497,14 @@ Red refinement (published to main): user said "the red looks off". Flat #c8122c 
 muddy on the warm photo and near-black surfaces. Buttons and the island CTA now use a lit gradient fill
 (#e0213b to #ae0f25, brand red in the middle), an inset top highlight and a neutral shadow instead of a red halo;
 small red text on light surfaces uses a slightly deeper #b50f28. Brand red #c8122c itself is unchanged.
+
+## Restraint like maryland.gov, and no red — November 5, 2026 (published to main)
+
+User asked to check how maryland.gov combines the brand colours, then said not to use red at all.
+Findings from maryland.gov: white canvas, near-black text (#1b1b1b), grey hairlines, USWDS blue links (#005ea2), serif display
+headings, dark footer; the brand red and gold appear only in the flag logo mark (my scan found no brand colours in its UI).
+- Removed red everywhere: buttons are near-black on light surfaces and white on dark (island CTA is a white pill), labels are
+  grey, light-surface accents are near-black, hover shows a gold underline, focus ring is near-black on light and gold on dark,
+  the quote bar is gold, Word worksheet links are near-black. Scan of computed styles on the homepage: zero reddish colours.
+- Tried and removed a gold/black stripe ribbon on the footer (looked like road tape).
+- Gold remains the only brand highlight on dark surfaces. Not re-screenshotted on mobile or 1024; Playwright tests not run.

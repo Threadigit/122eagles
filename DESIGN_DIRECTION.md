@@ -34,13 +34,16 @@ product site: heavy sans headlines, gold accents, boxes inside boxes, one photog
 
 ## Decisions
 
-1. **Maryland's own colors.** The state brand sheet's palette (reported by search from digital.maryland.gov and
-   the Health Department's logo standards; the PDFs themselves could not be opened here, so confirm against
-   them): red #c8122c, gold #ffc838, near-black #231f20, white. Near-black is the dark surface, gold the
-   highlight on dark, red the highlight on light and the colour of every action; parchment stays for
-   reading. History: a muted amber looked washed out, coral read as an alarm and sea-glass teal was
-   tasteful but unrelated to the state, so the official palette won. Because the colors are official-looking,
-   the footer and About page say the publication is independent and not affiliated with the State.
+1. **Maryland's colors, used the way maryland.gov uses them.** The state brand sheet's palette (reported by search from
+   digital.maryland.gov and the Health Department's logo standards; the PDFs could not be opened here, so confirm
+   against them) is red #c8122c, gold #ffc838, near-black #231f20 and white. Reviewing maryland.gov itself (November 5,
+   2026) showed the state's interface is white and near-black (#1b1b1b) with grey rules and standard blue links;
+   red and gold appear only inside the small flag logo mark. So here the UI is neutral (near-black and white buttons,
+   grey labels) and **gold is the only brand colour used as a highlight** (hero accents, the sun, the selected
+   county, link underlines). **Red is not used anywhere**, at the owner's direction. History: muted amber looked
+   washed out, coral read as an alarm, sea-glass teal was unrelated to the state, and red looked off on dark and
+   photographic surfaces. Because the colors look official, the footer and About page say the publication is
+   independent and not affiliated with the State.
 2. **Type.** Instrument Serif for display (with italic for one emphasis per screen),
    Instrument Sans for interface and body.
 3. **The page knows what time it is.** A welcome greets the visitor by their local time and
