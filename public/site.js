@@ -3,9 +3,17 @@
 (() => {
   const TZ = 'America/New_York';
   const KEY = 'mde-county';
+  const SOURCE = 'mde-county-source'; // 'auto' = found from the device's location, anything else = the reader chose it
   const county = {
     get() { try { return localStorage.getItem(KEY) || ''; } catch { return ''; } },
-    set(value) { try { value ? localStorage.setItem(KEY, value) : localStorage.removeItem(KEY); } catch { /* private mode */ } },
+    source() { try { return localStorage.getItem(SOURCE) || ''; } catch { return ''; } },
+    // A county the reader picks is "manual" and is never overwritten by location; one found from location is "auto" and is re-checked on each visit.
+    set(value, source = 'manual') {
+      try {
+        if (value) { localStorage.setItem(KEY, value); localStorage.setItem(SOURCE, source); }
+        else { localStorage.removeItem(KEY); localStorage.removeItem(SOURCE); }
+      } catch { /* private mode */ }
+    },
     label(value) { return !value ? '' : /City|County/.test(value) ? value : `${value} County`; },
   };
   window.mdeCounty = county;
@@ -184,8 +192,9 @@
         try {
           const name = find(position.coords.longitude, position.coords.latitude, await load());
           if (name) {
-            county.set(name);
-            window.dispatchEvent(new Event('mde:county'));
+            const changed = county.get() !== name;
+            county.set(name, 'auto');
+            if (changed || !silent) window.dispatchEvent(new Event('mde:county'));
             say(`Detected ${county.label(name)}. Not right? Choose another.`);
           } else if (!silent) say('Your location looks to be outside Maryland, or out on the water. Choose your county instead.');
           resolve(name);
@@ -197,14 +206,23 @@
         resolve(null);
       }, { enableHighAccuracy: false, timeout: 12000, maximumAge: 600000 });
     });
-    return { run, find: async (lon, lat) => find(lon, lat, await load()) };
+    // On load: when the reader has already allowed location for this site, find the county and select it.
+    // A county the reader chose themselves, or one named in the address (?county=), is left alone. A county
+    // found earlier from location is checked again, so it follows the reader if they move. Without that
+    // permission nothing is asked on load; "Use my location" is the explicit, one-tap way to allow it.
+    const auto = () => {
+      if (county.source() !== 'auto' && county.get()) return Promise.resolve(null);
+      if (new URLSearchParams(location.search).has('county')) return Promise.resolve(null);
+      if (!(navigator.permissions && navigator.permissions.query)) return Promise.resolve(null);
+      return navigator.permissions.query({ name: 'geolocation' })
+        .then(result => (result.state === 'granted' ? run({ silent: true }) : null))
+        .catch(() => null);
+    };
+    return { run, auto, find: async (lon, lat) => find(lon, lat, await load()) };
   })();
   window.mdeDetect = detect;
   detectButtons.forEach(button => button.addEventListener('click', () => detect.run()));
-  // Detect automatically when the reader has already allowed location for this site.
-  if (detectButtons.length && !county.get() && navigator.permissions && navigator.permissions.query) {
-    navigator.permissions.query({ name: 'geolocation' }).then(result => { if (result.state === 'granted') detect.run({ silent: true }); }).catch(() => {});
-  }
+  if (detectButtons.length || document.querySelector('[data-county-pick], select[name=county]')) detect.auto();
 
   /* ---- the county map and list ---- */
   const places = [...document.querySelectorAll('[data-county]')];

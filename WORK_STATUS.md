@@ -642,3 +642,16 @@ desktop and 791 px at 375 px, so it fits roughly one screen):
 - Bug found and fixed while testing: a duplicate `places` constant in site.js made the whole script fail (SyntaxError) in the browser. Every public/*.js now passes `node --check`.
 Checked in the browser pane at desktop and 375 px: no page overflow, hover state, keyboard focus scroll, county marker, fade, menu still works. tests/seo.py passes.
 Not checked: real-device Safari/iPhone swipe, Playwright (not installed).
+
+## County auto-selection on load — November 5, 2026 (in working tree, not yet committed)
+
+User asked that the right county be auto selected on page load. Findings in public/site.js: detection only ran when the visitor had never chosen a county, so a
+county found once (or chosen by hand) was never checked again, and nothing separated "found from location" from "picked by the reader". Changes:
+- The county memory now records a source (`mde-county-source`: `auto` or `manual`). Dropdown, map and photo choices are manual and are never overridden by location.
+- On load, when location is already allowed for the site, a county found earlier from location is re-checked silently, so it follows the visitor if they move; the
+  dropdown, greeting, "Welcome to <county>" label, map and menu all update. `?county=` in the address (guides) wins and skips detection. Older saved values with no source
+  are treated as manual.
+- Runs on any page with a county control (home, guides, problems). No prompt is shown on load; without prior permission "Use my location" is the one-tap way.
+- Checked in the browser pane: the point-in-county lookup returns the right county for 24 Maryland towns (one per county) and null for DC and Wilmington; mocked
+  permission states (granted/empty, granted/moved, manual kept, prompt, button) behave as above; no new console errors.
+Not checked: a real device with real location permission; IP-based guessing was deliberately not added (county-level IP accuracy is poor and it would send visitor data to a server).
