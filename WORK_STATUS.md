@@ -613,7 +613,7 @@ User asked for advanced SEO so Marylanders can find the site. Done in code:
 - Not done / needs the owner: Search Console and Bing verification and sitemap submission (account-bound), running indexnow.py --send after deploy, real
   outreach, a named editor/contact on About. No ranking guarantee. Rich-result validator and production crawl not run yet.
 
-## "Welcome to the neighborhood" redesign — November 5, 2026 (built locally, not committed)
+## "Welcome to the neighborhood" redesign — November 5, 2026 (published to main, e60e19d)
 
 User asked for a better welcome section and, mid-task, that it avoid the usual vibe-coded look. A first draft (glow-dot eyebrow, shadowed rounded
 photos with thick borders and gradient caption overlays, parallax drift, a "by the numbers" strip) was thrown out as generic. Final version:
