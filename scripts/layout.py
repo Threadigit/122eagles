@@ -172,7 +172,7 @@ def schema_graph(title, desc, path, kind='WebPage', home=False):
             {'@type': 'WebSite', '@id': SITE + '/#website', 'name': 'Maryland Eagles Eyes',
              'alternateName': 'MD Eagles', 'url': SITE + '/', 'inLanguage': 'en-US'},
             {'@type': 'Organization', '@id': SITE + '/#organization', 'name': 'Maryland Eagles Eyes',
-             'alternateName': 'MD Eagles', 'url': SITE + '/', 'logo': SITE + '/assets/eagle.svg'},
+             'alternateName': 'MD Eagles', 'url': SITE + '/', 'logo': SITE + '/assets/icon-512.png'},
             page,
         ]
     return json.dumps({'@context': 'https://schema.org', '@graph': graph}, ensure_ascii=False)
@@ -195,7 +195,10 @@ def page(title, desc, path, body, *, current=None, body_class='', scripts=(), ki
         '<meta name="twitter:card" content="summary_large_image">'
         f'<meta name="twitter:title" content="{e(full_title)}"><meta name="twitter:description" content="{e(desc)}">'
         f'<meta name="twitter:image" content="{SOCIAL_IMAGE}">'
+        '<link rel="icon" href="/favicon.ico" sizes="48x48">'
         '<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">'
+        '<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">'
+        '<link rel="manifest" href="/site.webmanifest">'
         '<link rel="preload" href="/assets/instrument-serif.woff2" as="font" type="font/woff2" crossorigin>'
         '<link rel="preload" href="/assets/instrument-sans.woff2" as="font" type="font/woff2" crossorigin>'
         '<link rel="stylesheet" href="/style.css">'

@@ -508,3 +508,11 @@ headings, dark footer; the brand red and gold appear only in the flag logo mark 
   the quote bar is gold, Word worksheet links are near-black. Scan of computed styles on the homepage: zero reddish colours.
 - Tried and removed a gold/black stripe ribbon on the footer (looked like road tape).
 - Gold remains the only brand highlight on dark surfaces. Not re-screenshotted on mobile or 1024; Playwright tests not run.
+
+## Favicon set — November 5, 2026 (published to main)
+
+The favicon was a single thin-stroked SVG: hard to read at 16 px and unsupported by Safari and some other clients. Now
+scripts/make-favicons.py draws the eagle bolder (gold on near-black) and writes favicon.ico (16/32/48), assets/favicon.svg,
+apple-touch-icon.png (180), icon-192/512.png; every page links ICO, SVG, Apple icon and site.webmanifest, and the
+Organization logo in JSON-LD is icon-512.png. assets/eagle.svg is untouched. Browsers cache favicons hard, so a hard refresh
+or reopening the tab may be needed to see the change.
