@@ -537,3 +537,13 @@ User saw a green (teal) favicon. All live icon files are gold (verified byte-for
 live only briefly (ffa81c2) and is cached by the browser under the same URLs. Icon links and the manifest icons now carry ?v=2
 (ICON_VERSION in scripts/layout.py) so browsers fetch fresh files. A browser that cached the old icon may still need its cache cleared
 or the site re-bookmarked once; Safari and iOS home-screen icons are the stickiest.
+
+## Fonts: america.gov's structure with free lookalikes — November 5, 2026 (published to main)
+
+User asked to use the font from america.gov. Inspected live: headlines (h1, nav) use "Rhymes Text/Display" (Maxitype, commercial) and
+text/h2/h3 use "Helvetica Now Text/Display" (Monotype, commercial), served as woff2 from america.gov/_astro. Those files are licensed to
+that site, so they were NOT copied. User chose "free lookalikes": Newsreader (OFL, variable wght+opsz, 132,000 B woff2, from Fontsource)
+for page titles, big statements, numerals and the wordmark; Hanken Grotesk (already installed) at 500 for smaller headings and 400 for text.
+Schibsted Grotesk and its licence removed. Social card regenerated. No italics. Option to buy the real fonts remains (swap the two woff2
+files). Checked: hero fits at 1440x900 and reads well on a phone; no overflow or clipped text at 390 on home/problems/brief/guides/about;
+glyph coverage of both fonts complete. Not re-checked at 1024; Playwright tests not run.

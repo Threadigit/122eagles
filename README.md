@@ -2,7 +2,7 @@
 
 The primary entry point is `/problems`. Evidence-backed briefs distinguish published findings from proposed local projects, with a first conversation, existing services and a downloadable worksheet. `/guides` remains secondary support for people seeking help today. Subscription is secondary.
 
-Design: "golden hour in your neighborhood" (see `DESIGN_DIRECTION.md` for the research behind it), in Maryland's brand colors used with maryland.gov-style restraint: near-black #231f20 and white for the interface (buttons are near-black on light surfaces, white on dark), grey labels, and gold #ffc838 as the one signature highlight on dark surfaces and in link underlines. Red is deliberately not used. Schibsted Grotesk (semibold) carries display type and Hanken Grotesk carries body and interface (the pairing used by nestpay.co; both SIL OFL, self-hosted, variable). Italics are used only for quoted questions; emphasis in headlines is tonal. The platform is two-fold: the **problem collection** (open gaps, each with evidence and possible solutions) and the **resource guides** (problems that already have an answer, found by county or by life area).
+Design: "golden hour in your neighborhood" (see `DESIGN_DIRECTION.md` for the research behind it), in Maryland's brand colors used with maryland.gov-style restraint: near-black #231f20 and white for the interface (buttons are near-black on light surfaces, white on dark), grey labels, and gold #ffc838 as the one signature highlight on dark surfaces and in link underlines. Red is deliberately not used. Newsreader (a serif, for page titles and big statements) and Hanken Grotesk (for smaller headings, text and interface) follow the structure of america.gov using free, self-hosted, variable SIL OFL fonts; america.gov's own Rhymes and Helvetica Now are commercial and are not copied. Italics are used only for quoted questions; emphasis in headlines is tonal. The platform is two-fold: the **problem collection** (open gaps, each with evidence and possible solutions) and the **resource guides** (problems that already have an answer, found by county or by life area).
 
 The homepage greets visitors by their own local time, shows Maryland's clock with today's sunrise and sunset (NOAA solar equations, computed in the browser), and tints the Bay Bridge film to Maryland's actual sky (dawn, day, golden hour, dusk, night). A county is chosen from a dropdown, the Maryland map (or the list under it) or "Use my location" (detected automatically when the visitor has already allowed location for the site). Detection runs entirely in the browser against simplified Census county shapes (`public/assets/md-counties.json`, from `scripts/prepare-counties.py`); coordinates are never sent or stored. Only the county name is remembered on the device (`localStorage`) and personalizes the greeting and `/guides`. `vercel.json` sets a Permissions-Policy that allows geolocation for this site only. On localhost, `?demo=2026-11-05T17:30` previews any Maryland wall-clock time.
 
@@ -45,7 +45,7 @@ continuation notes stay outside the published directory.
 Push to `main` to deploy production automatically through the connected Vercel
 project `122eagles` in `toluadetuyis-projects`.
 
-Fonts: Schibsted Grotesk and Hanken Grotesk, distributed under the SIL Open Font License;
+Fonts: Newsreader and Hanken Grotesk, distributed under the SIL Open Font License;
 see `public/assets/OFL-*.txt`. Font files are self-hosted.
 
 

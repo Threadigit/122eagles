@@ -201,7 +201,7 @@ def page(title, desc, path, body, *, current=None, body_class='', scripts=(), ki
         f'<link rel="icon" href="/assets/favicon.svg?v={ICON_VERSION}" type="image/svg+xml">'
         f'<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v={ICON_VERSION}">'
         f'<link rel="manifest" href="/site.webmanifest?v={ICON_VERSION}">'
-        '<link rel="preload" href="/assets/schibsted-grotesk.woff2" as="font" type="font/woff2" crossorigin>'
+        '<link rel="preload" href="/assets/newsreader.woff2" as="font" type="font/woff2" crossorigin>'
         '<link rel="preload" href="/assets/hanken-grotesk.woff2" as="font" type="font/woff2" crossorigin>'
         '<link rel="stylesheet" href="/style.css">'
         f'<script type="application/ld+json">{schema_graph(title, desc, path, kind, home)}</script></head>'

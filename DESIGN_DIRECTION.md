@@ -43,10 +43,13 @@ product site: heavy sans headlines, gold accents, boxes inside boxes, one photog
    washed out, coral read as an alarm, sea-glass teal was unrelated to the state, and red looked off on dark and
    photographic surfaces. Because the colors look official, the footer and About page say the publication is
    independent and not affiliated with the State.
-2. **Type: Schibsted Grotesk and Hanken Grotesk.** Instrument Serif (and its sibling Instrument Sans) were first chosen,
-   but searches show Instrument Serif is now a widely cited default of AI-generated and vibe-coded sites, so the
-   site switched, at the owner's direction, to the fonts used by nestpay.co: Schibsted Grotesk (semibold display)
-   and Hanken Grotesk (text and interface). Both are variable, SIL OFL, self-hosted. No italics are used.
+2. **Type: Newsreader and Hanken Grotesk, after america.gov.** History: Instrument Serif + Instrument Sans first (widely cited
+   as an AI/vibe-coded default), then Schibsted Grotesk + Hanken Grotesk (nestpay.co's pairing), then, at the owner's request,
+   the structure of america.gov: a serif for page titles and statements, a neutral grotesk for headings and text. america.gov's own
+   fonts (Rhymes by Maxitype, Helvetica Now by Monotype) are commercial and licensed to that site, so they are NOT copied here.
+   Free lookalikes are used instead: Newsreader (variable with optical size, SIL OFL) for page titles, big statements, numerals and
+   the wordmark, and Hanken Grotesk (variable, SIL OFL) at weight 500 for smaller headings and 400 for text. All self-hosted; no
+   italics anywhere. To use the real fonts, buy web licences and replace /assets/newsreader.woff2 and hanken-grotesk.woff2.
 3. **The page knows what time it is.** A welcome greets the visitor by their local time and
    (once chosen) their county. A clock shows Maryland time, the visitor's own time when it
    differs, and today's sunrise and sunset. The bridge film is tinted to Maryland's actual

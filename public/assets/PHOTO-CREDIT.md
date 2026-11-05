@@ -31,4 +31,4 @@ reference files from tile.loc.gov are resized and compressed to WebP.
 - "Chesapeake Bay sunset, Maryland":
   https://www.loc.gov/pictures/collection/highsm/item/2011630543/
 
-Fonts: Schibsted Grotesk and Hanken Grotesk (SIL OFL 1.1, see OFL-Schibsted-Grotesk.txt and OFL-Hanken-Grotesk.txt).
+Fonts: Newsreader and Hanken Grotesk (SIL OFL 1.1, see OFL-Newsreader.txt and OFL-Hanken-Grotesk.txt).
