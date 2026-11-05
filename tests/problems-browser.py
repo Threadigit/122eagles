@@ -8,6 +8,7 @@ with sync_playwright() as p:
   page=b.new_page(viewport={'width':width,'height':900})
   page.goto(base)
   page.get_by_role('link',name='Browse problems to solve',exact=True).click()
+  page.wait_for_load_state('networkidle')
   expect(page.locator('.guide-result')).to_have_count(3)
   page.get_by_label('Search problems').fill('daycare')
   expect(page.locator('.guide-result:visible')).to_have_count(1)

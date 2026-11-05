@@ -2,7 +2,7 @@
 
 The primary entry point is `/problems`. Evidence-backed briefs distinguish published findings from proposed local projects, with a first conversation, existing services and a downloadable worksheet. `/guides` remains secondary support for people seeking help today. Subscription is secondary.
 
-Design follows plain service-directory conventions: readable sans serif type, underlined links, simple lists and no decorative cards or animated hero. The user explicitly superseded the earlier design-preservation instruction.
+Design combines clear service-directory navigation with MD Eagles’ editorial identity: warm paper, deep blue and copper, Lora headlines, Instrument Sans text, an eagle masthead and restrained Chesapeake imagery. Problem discovery remains primary; avoid copying another site’s visual identity or returning to decorative card grids.
 
 Edit `content/problems.json`, then run `python3 scripts/build-problems.py` and `python3 scripts/build-guides.py`. Problem proposals are untested, not active projects or promised partnerships.
 

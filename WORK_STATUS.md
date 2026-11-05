@@ -326,3 +326,26 @@ Mobile/desktop layouts at 320/390/844/1440px have no overflow. Screenshots revie
 Signup regression passes all four widths, including lazy load, validation,
 close/focus, reopening and reload. Dialog scroll now resets on reopening.
 SEO, sitemap and internal links pass. No email submitted or campaign sent.
+
+Published commit ead448f34ececa66173bf8f22273ce9bf0f145a9; Git-triggered production
+ deployment dpl_E2LCZPY5ZCBAoMDgnygvDyGArwTz is READY. Production homepage, About,
+CSS, problem directory, search script and sitemap match tested source exactly.
+Live problem journeys pass at all four widths, including filters, query reload,
+brief navigation and downloaded worksheet content. Live signup regression passes
+at all four widths without submission. Test now waits for deferred search script
+navigation completion before typing. Final verification notes retained locally.
+
+## Editorial identity refinement — November 5, 2026
+
+User clarified that usability references should inform the structure, while MD
+Eagles retains its own modern visual identity. Replaced the government-like
+black/green/Arial presentation with warm paper, deep blue, copper, Lora headlines
+and Instrument Sans text. Eagle masthead restored. Homepage now has an editorial
+split composition with restrained Chesapeake imagery, simple problem rows and a
+secondary resource column. Subscription remains secondary. Shared styles carry
+through About, directories, problem briefs and resource guides. No animations.
+Source generator updated; responsive image sources and original photo credit kept.
+Local browser checks pass at 320/390/844/1440: problem search/filter/downloads,
+resource journeys, no-JS browsing, signup validation/reopen/reload/focus, overflow
+and reduced motion. Homepage screenshots reviewed at mobile and desktop widths.
+SEO/sitemap/internal-link checks pass. Publishing through the existing Git workflow.
