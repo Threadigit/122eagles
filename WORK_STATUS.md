@@ -548,7 +548,7 @@ Schibsted Grotesk and its licence removed. Social card regenerated. No italics. 
 files). Checked: hero fits at 1440x900 and reads well on a phone; no overflow or clipped text at 390 on home/problems/brief/guides/about;
 glyph coverage of both fonts complete. Not re-checked at 1024; Playwright tests not run.
 
-## Mobile map fix — November 5, 2026 (local only, NOT committed or pushed)
+## Mobile map fix — November 5, 2026 (published to main)
 
 On phones the map was a 320 px wide speck (Howard 32x21 px, names hidden). Now below 760 px the SVG is 900 px wide inside a swipeable
 wrapper (edge fade, names visible, starts centred on the chosen county, hint "Swipe the map, then tap a county"); on touch devices the
