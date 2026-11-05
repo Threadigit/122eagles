@@ -627,7 +627,7 @@ photos with thick borders and gradient caption overlays, parallax drift, a "by t
 Checked in the browser pane at desktop and 375 px: no horizontal overflow, ledger link targets exist, heading order unchanged, county label works. tests/seo.py passes.
 Not checked: real-device Safari, reduced-motion in a real browser (CSS disables the reveal), Playwright (not installed).
 
-## Welcome section, second redesign — November 5, 2026 (built locally, not committed)
+## Welcome section, second redesign — November 5, 2026 (published to main, 8fac0c5)
 
 User said the section was still too long and not high quality, and asked for a smooth experience. Rebuilt from scratch (section was 1097 px at 1024 wide; now 792 px
 desktop and 791 px at 375 px, so it fits roughly one screen):
