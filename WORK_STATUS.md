@@ -594,7 +594,7 @@ focus the first link; menu links show focus as a 3 px gold underline on the titl
 covers 390x844 at body level, focus on the panel with no outline after a tap, Tab shows the underline indicator, settled menu has no page
 bleed-through. Not verified on the user's actual iPhone.
 
-## Advanced SEO — November 5, 2026 (built locally, not committed)
+## Advanced SEO — November 5, 2026 (published to main, c6ce000)
 
 User asked for advanced SEO so Marylanders can find the site. Done in code:
 - Unique titles (<= 65 chars) and descriptions (70-165) on every page. `seo_title`/`seo_description`/`nav_label` added to content/problems.json and
