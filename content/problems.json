@@ -16,11 +16,15 @@
       [
         "A practical care search service",
         "Help families use existing referral services, record where the search breaks down, and share verified availability with permission. Build a new tool only if existing services cannot address the gap."
+      ],
+      [
+        "Evening care on campus, staffed by students",
+        "Parents who study after work often find daycare closed and after-hours care costly. Test whether a college can offer a few evening hours of care during class, staffed by early childhood or education students under a licensed supervisor for a fair hourly rate. Settle licensing, background checks, insurance and cost with the college and Maryland’s Office of Child Care first."
       ]
     ],
-    "first": "Speak with five parents about the last time care disrupted work. Ask whether cost, opening hours, location or availability was the deciding barrier. Do not assume all four need the same solution.",
-    "people": "Parents, licensed providers and an employer in one Baltimore neighborhood.",
-    "measure": "Whether participating parents find suitable care and report fewer shifts missed because of care.",
+    "first": "Speak with five parents about the last time care disrupted work or study. Ask whether cost, opening hours, location or availability was the deciding barrier. Do not assume every parent needs the same solution.",
+    "people": "Parents, licensed providers, an employer and a college with an early childhood or education program, in one Baltimore neighborhood.",
+    "measure": "Whether participating parents find suitable care, report fewer shifts or classes missed because of care, and can afford the hours they need.",
     "existing": "Maryland Family Network’s LOCATE service",
     "existing_url": "https://marylandfamilynetwork.org/our-work/locate-child-care/",
     "help": "child-care",

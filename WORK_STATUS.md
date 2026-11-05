@@ -655,3 +655,12 @@ county found once (or chosen by hand) was never checked again, and nothing separ
 - Checked in the browser pane: the point-in-county lookup returns the right county for 24 Maryland towns (one per county) and null for DC and Wilmington; mocked
   permission states (granted/empty, granted/moved, manual kept, prompt, button) behave as above; no new console errors.
 Not checked: a real device with real location permission; IP-based guessing was deliberately not added (county-level IP accuracy is poor and it would send visitor data to a server).
+
+## Child care brief: evening care on campus — November 5, 2026 (in working tree, not yet committed)
+
+User suggested that parents who study after work lose care when daycare closes and after-hours care costs more, and asked for a cleaned-up, shorter possible solution.
+Added a third idea to content/problems.json (child-care-and-work): "Evening care on campus, staffed by students" — early childhood or education students under a licensed
+supervisor, paid a fair hourly rate, a few evening hours while parents are in class; licensing, background checks, insurance and cost to be settled with the college and
+Maryland's Office of Child Care first. It states no price or availability claim. Also updated the brief's first step ("work or study"; replaced a leftover "all four" with
+"every parent"), people (adds a college) and measure (adds classes missed and affordability). The page, index counts and Word worksheet were rebuilt; tests/seo.py passes.
+Not verified: the Maryland licensing rules for campus evening care (the brief says to confirm them; no rule is asserted).
