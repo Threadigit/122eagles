@@ -492,3 +492,8 @@ near-black #231f20, white.
 - Checked in the pane: hero, welcome, collection, map, subscribe band and footer at 1440; 19 sampled text colours all
   >= 4.5:1; zero italic elements on the homepage. Mobile and 1024 not re-screenshotted after the recolour (layout
   unchanged). Playwright tests not run.
+
+Red refinement (published to main): user said "the red looks off". Flat #c8122c with a red glow looked
+muddy on the warm photo and near-black surfaces. Buttons and the island CTA now use a lit gradient fill
+(#e0213b to #ae0f25, brand red in the middle), an inset top highlight and a neutral shadow instead of a red halo;
+small red text on light surfaces uses a slightly deeper #b50f28. Brand red #c8122c itself is unchanged.
