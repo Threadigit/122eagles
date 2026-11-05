@@ -9,7 +9,7 @@ The homepage greets visitors by their own local time, shows Maryland's clock wit
 ## Building and previewing
 
 ```
-python3 scripts/build.py     # regenerates every page, worksheet and the sitemap from content/*.json
+python3 scripts/build.py     # regenerates every page, Word worksheet (needs python-docx) and the sitemap from content/*.json
 python3 scripts/serve.py     # http://127.0.0.1:8012 with clean URLs and the production CSP
 python3 scripts/grade-photo.py        # only when the bridge photograph or its grade changes
 python3 scripts/prepare-photos.py     # only when the Maryland place photographs change

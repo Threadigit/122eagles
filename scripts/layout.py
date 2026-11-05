@@ -109,7 +109,6 @@ def masthead(current=None):
 def footer():
     guides = json.loads((ROOT / 'content/guides.json').read_text())
     help_links = ''.join(f'<a href="/guides/{g["slug"]}">{e(g["category"])}</a>' for g in guides)
-    credits = ' '.join(f'<a href="{url}">{e(name)}</a>' for key, (name, url) in PLACES.items())
     return (
         '<footer class="site-footer night"><div class="footer-inner">'
         f'<div class="footer-brand"><a class="identity" href="/">{eagle("identity-mark")}<span>MD Eagles</span></a>'
@@ -119,8 +118,6 @@ def footer():
         '<nav class="footer-col" aria-label="Explore"><h2>Explore</h2><a href="/problems">Problem collection</a>'
         '<a href="/guides">Resource guides</a><a href="/about">About</a><a href="/#subscribe">Email updates</a></nav>'
         f'<nav class="footer-col" aria-label="Resource guides by need"><h2>Find help with</h2>{help_links}</nav>'
-        '<p class="footer-credit">Photographs by Carol M. Highsmith, Library of Congress, public domain: '
-        f'{credits}.</p>'
         '</div></footer>'
     )
 

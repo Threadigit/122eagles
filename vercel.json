@@ -34,6 +34,11 @@
   "outputDirectory": "public",
   "redirects": [
     {
+      "source": "/downloads/(.*)\\.md",
+      "destination": "/downloads/$1.docx",
+      "permanent": true
+    },
+    {
       "source": "/:path*",
       "has": [
         {

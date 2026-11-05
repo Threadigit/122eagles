@@ -2,10 +2,11 @@
 
     python3 scripts/build.py
 
-Writes: homepage, About, the problem collection and its briefs (plus worksheets),
+Writes: homepage, About, the problem collection and its briefs (plus Word worksheets),
 the resource guides, the search script for the collection, and the sitemap.
 """
 import json
+import zipfile
 
 from layout import PLACES, PUBLIC, ROOT, SITE, band, county_options, e, eagle, page, place_img
 
@@ -25,6 +26,105 @@ def write(path, text):
 
 def arrow():
     return '<svg class="arrow" viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 10h11M11 5.5 15.5 10 11 14.5"/></svg>'
+
+
+# ------------------------------------------------------------------ worksheets
+def worksheet_docx(x, path):
+    """A fill-in project worksheet as a Word document (opens in Word, Google Docs and Pages)."""
+    import datetime
+    from docx import Document
+    from docx.enum.table import WD_TABLE_ALIGNMENT
+    from docx.opc.constants import RELATIONSHIP_TYPE as RT
+    from docx.oxml import OxmlElement
+    from docx.oxml.ns import qn
+    from docx.shared import Inches, Pt, RGBColor
+
+    INK, MUTED = RGBColor(0x0F, 0x24, 0x31), RGBColor(0x5D, 0x6B, 0x70)
+    doc = Document()
+    for section in doc.sections:
+        section.left_margin = section.right_margin = Inches(0.9)
+        section.top_margin = section.bottom_margin = Inches(0.8)
+    normal = doc.styles['Normal']
+    normal.font.name, normal.font.size, normal.font.color.rgb = 'Calibri', Pt(11), INK
+    normal.paragraph_format.space_after = Pt(6)
+    for name, size in (('Title', 26), ('Heading 1', 15), ('Heading 2', 12)):
+        style = doc.styles[name]
+        style.font.name, style.font.size, style.font.bold, style.font.color.rgb = 'Georgia', Pt(size), False, INK
+        style.element.rPr.rFonts.set(qn('w:eastAsia'), 'Georgia')
+
+    def link(paragraph, url, text=None):
+        rid = paragraph.part.relate_to(url, RT.HYPERLINK, is_external=True)
+        h = OxmlElement('w:hyperlink')
+        h.set(qn('r:id'), rid)
+        r = OxmlElement('w:r')
+        rpr = OxmlElement('w:rPr')
+        color = OxmlElement('w:color'); color.set(qn('w:val'), '8A5A1F'); rpr.append(color)
+        under = OxmlElement('w:u'); under.set(qn('w:val'), 'single'); rpr.append(under)
+        r.append(rpr)
+        tx = OxmlElement('w:t'); tx.text = text or url; r.append(tx)
+        h.append(r)
+        paragraph._p.append(h)
+
+    def shade(cell, fill):
+        shd = OxmlElement('w:shd'); shd.set(qn('w:val'), 'clear'); shd.set(qn('w:fill'), fill)
+        cell._tc.get_or_add_tcPr().append(shd)
+
+    doc.add_paragraph(x['title'], style='Title')
+    meta = doc.add_paragraph()
+    run = meta.add_run(f'MD Eagles project worksheet · Reviewed {REVIEWED} · Proposals, not proven solutions · ')
+    run.font.size, run.font.color.rgb = Pt(9.5), MUTED
+    link(meta, f'{SITE}/problems/{x["slug"]}', f'mdeagles.com/problems/{x["slug"]}')
+
+    doc.add_heading('What the evidence shows', level=1)
+    doc.add_paragraph(x['evidence'])
+    source = doc.add_paragraph('Source: ')
+    link(source, x['url'], x['source'])
+
+    doc.add_heading('Possible solutions to test', level=1)
+    for title, copy in x['ideas']:
+        doc.add_heading(title, level=2)
+        doc.add_paragraph(copy)
+
+    doc.add_heading('Your first step', level=1)
+    doc.add_paragraph(x['first'])
+    for label, key in (('Who to involve', 'people'), ('What to measure', 'measure')):
+        para = doc.add_paragraph()
+        para.add_run(f'{label}. ').bold = True
+        para.add_run(x[key])
+    existing = doc.add_paragraph()
+    existing.add_run('Build on what exists. ').bold = True
+    link(existing, x['existing_url'], x['existing'])
+    existing.add_run('. No partnership is implied.')
+
+    doc.add_page_break()
+    doc.add_heading('Your local project notes', level=1)
+    intro = doc.add_paragraph('Fill this in as you learn. Keep it short and honest: record what residents actually told you, with their permission.')
+    intro.runs[0].font.color.rgb = MUTED
+    prompts = [
+        'City or county', 'What residents told us (with permission)', 'Existing services and the remaining gap',
+        'Smallest useful test', 'Who will run it', 'Costs and required permissions',
+        'How we will measure improvement', 'Review date and reasons to stop or change direction',
+    ]
+    table = doc.add_table(rows=len(prompts), cols=2)
+    table.alignment = WD_TABLE_ALIGNMENT.CENTER
+    table.style = 'Table Grid'
+    for row, prompt in zip(table.rows, prompts):
+        row.height = Inches(0.95)
+        left, right = row.cells
+        left.width, right.width = Inches(2.2), Inches(4.5)
+        shade(left, 'F5EFE3')
+        left.paragraphs[0].add_run(prompt).bold = True
+    doc.core_properties.title = f'{x["title"]}: project worksheet'
+    doc.core_properties.author = 'MD Eagles'
+    doc.core_properties.created = doc.core_properties.modified = datetime.datetime(2026, 11, 5)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    doc.save(path)
+    # Fixed timestamps inside the zip so rebuilding does not change the file.
+    with zipfile.ZipFile(path) as z:
+        data = {info.filename: z.read(info.filename) for info in z.infolist()}
+    with zipfile.ZipFile(path, 'w', zipfile.ZIP_DEFLATED) as z:
+        for name, content in data.items():
+            z.writestr(zipfile.ZipInfo(name, date_time=(2026, 11, 5, 0, 0, 0)), content, zipfile.ZIP_DEFLATED)
 
 
 # ---------------------------------------------------------------- problem cases
@@ -227,8 +327,8 @@ def build_problems():
              f'<p>Start by learning from <a href="{e(x["existing_url"])}">{e(x["existing"])}</a>. Ask what they already provide and what remains difficult. No partnership is implied.</p>'
              f'<p>Facing this yourself? <a href="/guides/{x["help"]}">Find an existing service in the resource guides</a>.</p>'),
             ('Take this brief with you',
-             f'<p><a href="/downloads/{x["slug"]}.md" download>Download the project worksheet (plain text)</a></p>'
-             '<p>Use it to record local evidence, collaborators, costs and a small test before committing to a larger project.</p>'),
+             f'<p><a href="/downloads/{x["slug"]}.docx" download>Download the project worksheet (Word document)</a></p>'
+             '<p>Use it to record local evidence, collaborators, costs and a small test before committing to a larger project. Opens in Word, Google Docs and Pages.</p>'),
         ]
         rest_html = ''.join(
             '<section class="split"%s><h2>%s</h2><div class="prose">%s</div></section>'
@@ -239,15 +339,7 @@ def build_problems():
             '/problems/' + x['slug'],
             band(e(x['title']), lead, crumb, pos=(i % 3) + 1, place=['farm', 'bridge', 'baltimore'][i % 3]) + '<div class="page">' + facts + evidence + solutions + rest_html + '</div>',
             current='problems'))
-        ideas_text = ''.join(f'### {a}\n{b}\n\n' for a, b in x['ideas'])
-        write(PUBLIC / 'downloads' / f'{x["slug"]}.md',
-              f'# {x["title"]}\n\nMD Eagles | {SITE}/problems/{x["slug"]}\nReviewed {REVIEWED}. Proposals, not proven solutions.\n\n'
-              f'## Evidence\n{x["evidence"]}\nSource: {x["url"]}\n\n## Ideas to test\n{ideas_text}'
-              f'## First step\n{x["first"]}\n\n## People to involve\n{x["people"]}\n\n## Measure\n{x["measure"]}\n\n'
-              f'## Existing service\n{x["existing_url"]}\n\n## Your local project notes\n'
-              '- City or county:\n- What residents told us (with permission):\n- Existing services and the remaining gap:\n'
-              '- Smallest useful test:\n- Who will run it:\n- Costs and required permissions:\n'
-              '- How we will measure improvement:\n- Review date and reasons to stop or change direction:\n')
+        worksheet_docx(x, PUBLIC / 'downloads' / f'{x["slug"]}.docx')
 
     script = (PUBLIC / 'find-guides.js').read_text().replace("'guide' : 'guides'", "'problem' : 'problems'")
     write(PUBLIC / 'find-problems.js', script)
