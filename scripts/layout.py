@@ -104,12 +104,12 @@ def masthead(current=None):
         '<a class="island-cta" href="/#subscribe">Email updates</a>'
         '<button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-menu" data-menu-toggle>'
         '<span class="menu-toggle-label">Menu</span><span class="menu-toggle-icon" aria-hidden="true"><i></i><i></i></span></button>'
-        '</div>'
-        '<div class="menu" id="site-menu" data-menu hidden>'
+        '</div></header>'
+        '<div class="menu" id="site-menu" data-menu tabindex="-1" hidden>'
         f'<nav class="menu-nav" aria-label="Mobile">{menu_links}<a href="/#subscribe"><span class="menu-title">Email updates</span>'
         '<span class="menu-note">A note when a new problem is published</span></a></nav>'
         '<p class="menu-foot"><time data-md-clock>Maryland</time><span data-menu-county></span></p>'
-        '</div></header>'
+        '</div>'
     )
 
 

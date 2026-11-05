@@ -62,7 +62,7 @@
   if (toggle && menu) {
     const inertTargets = () => [document.querySelector('main'), document.querySelector('.site-footer')].filter(Boolean);
     const focusables = () => [toggle, ...menu.querySelectorAll('a')];
-    const setMenu = open => {
+    const setMenu = (open, byKeyboard = false) => {
       menuOpen = open;
       menu.hidden = !open;
       toggle.setAttribute('aria-expanded', String(open));
@@ -70,9 +70,10 @@
       document.body.toggleAttribute('data-menu-open', open);
       header.removeAttribute('data-hidden');
       inertTargets().forEach(el => el.toggleAttribute('inert', open));
-      if (open) menu.querySelector('a').focus();
+      // Pointer users get focus on the panel itself (no ring); keyboard users land on the first link.
+      if (open) (byKeyboard ? menu.querySelector('a') : menu).focus({ preventScroll: true });
     };
-    toggle.addEventListener('click', () => setMenu(!menuOpen));
+    toggle.addEventListener('click', event => setMenu(!menuOpen, event.detail === 0));
     menu.addEventListener('click', event => { if (event.target.closest('a')) setMenu(false); });
     document.addEventListener('keydown', event => {
       if (!menuOpen) return;

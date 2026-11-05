@@ -582,3 +582,14 @@ dark backgrounds, SVG in the browser. Not seen in a real browser tab; browsers c
 Footer/About wording (published to main): per the user, removed "The colors are a tribute to the state flag." from the footer note
 and the matching "Its colors are a tribute to the Maryland flag, not a sign of official status." from the About page's Independent section. The
 non-affiliation statements remain ("Independent, and not affiliated with or endorsed by the State of Maryland." and the About paragraph).
+
+## Mobile menu: gold focus box and see-through overlay — November 5, 2026 (published to main)
+
+User sent a real iPhone (Chrome) screenshot: a heavy gold box around the first menu link, and the page's footer text ghosting behind the menu.
+Causes: opening the menu focused the first link (iOS draws the focus ring), and the overlay lived inside the header, which has a transform
+transition and a view-transition-name (both can become the containing block for fixed children), plus a 97 percent alpha background and an
+opacity fade. Fixes: the menu is now a sibling of the header at body level (position: fixed against the viewport, z-index 45, solid #121011),
+revealed with a clip-path curtain instead of an opacity fade; pointer-opened menus focus the panel itself (no ring) and keyboard-opened menus
+focus the first link; menu links show focus as a 3 px gold underline on the title instead of a box. Verified in the 390 px emulation: panel
+covers 390x844 at body level, focus on the panel with no outline after a tap, Tab shows the underline indicator, settled menu has no page
+bleed-through. Not verified on the user's actual iPhone.
