@@ -557,3 +557,16 @@ first tap previews a county (highlight + "See local help in X County" button) in
 
 STILL TO DO (requested, not started): end-to-end walkthrough of the platform, trimming over-long UI copy (hero lead, doors, hello, About,
 map intro, directory notes), and final polish (branded 404 page, print styles for guides/briefs, accessibility pass).
+
+## Walkthrough, copy trim and final polish — November 5, 2026 (published to main)
+
+- Text audit of every page (visible words): home 917 to about 800, problems 499 to 474, guides 432 to 406, About 333 to 285. Cut UI copy on the
+  hero lead, doors, "welcome", collection and resources intros, map caption, updates, problems/guides leads and notes, brief solutions note,
+  worksheet note and About. Homepage cases now show only the first sentence of each possible solution (full text is on the brief and /problems).
+  Guide and brief content (from content/*.json) was left as written.
+- New branded 404 page (public/404.html, noindex, excluded from the sitemap; tests/seo.py skips it).
+- Print styles: guides, briefs and worksheets print without navigation, photos or forms, external link URLs are printed after the link text.
+- Accessibility audit on home, problems, a brief, guides and 404 (390 px): no heading-order skips, unnamed links or buttons, unlabeled inputs,
+  duplicate ids or missing alt text; no console errors. Touch targets raised to 44 px on phones/touch (logo, menu button, location button,
+  "Read the full brief", "Clear filters", footer links).
+- Not done: real-device testing, Playwright suite (not installed here), external provider link check, real-font licensing (america.gov fonts).

@@ -30,7 +30,7 @@ for target in sorted(root.rglob('*.html')):
    if val.startswith('/') and not val.startswith('//'):
     local=root/val.lstrip('/')
     assert val=='/' or local.is_file() or local.with_suffix('.html').is_file(),val
- urls.append('https://mdeagles.com'+path)
+ if file!='404.html':urls.append('https://mdeagles.com'+path)
 sitemap=ET.parse(root/'sitemap.xml');ns={'s':'http://www.sitemaps.org/schemas/sitemap/0.9'}
 assert sorted(e.text for e in sitemap.findall('s:url/s:loc',ns))==sorted(urls)
 assert 'Sitemap: https://mdeagles.com/sitemap.xml' in (root/'robots.txt').read_text()

@@ -7,6 +7,7 @@ the resource guides, the search script for the collection, and the sitemap.
 """
 import json
 import math
+import re
 import zipfile
 
 from layout import PLACES, PUBLIC, ROOT, SITE, band, county_options, e, eagle, page, place_img, typo
@@ -143,13 +144,18 @@ def worksheet_docx(x, path):
 
 
 # ---------------------------------------------------------------- problem cases
-def solutions_list(x, level):
+def first_sentence(text):
+    match = re.match(r'(.+?[.!?])(\s|$)', text)
+    return match.group(1) if match else text
+
+
+def solutions_list(x, level, short=False):
     return ''.join(
-        f'<li><span class="sol-mark" aria-hidden="true">{chr(65 + i)}</span><div><h{level}>{e(t)}</h{level}><p>{e(c)}</p></div></li>'
+        f'<li><span class="sol-mark" aria-hidden="true">{chr(65 + i)}</span><div><h{level}>{e(t)}</h{level}><p>{e(first_sentence(c) if short else c)}</p></div></li>'
         for i, (t, c) in enumerate(x['ideas']))
 
 
-def case(x, number, level=3):
+def case(x, number, level=3, short=False):
     searchable = ' '.join([x['title'], x['summary'], x['place'], TOPICS[x['topic']], x['keywords']]
                           + [a + ' ' + b for a, b in x['ideas']])
     n = len(x['ideas'])
@@ -163,13 +169,13 @@ def case(x, number, level=3):
         f'<p class="case-evidence"><span>Evidence</span>{e(x["source"])}</p></div>'
         '<div class="case-solutions">'
         f'<p class="label">Possible solutions to test <span>{n} ideas</span></p>'
-        f'<ol>{solutions_list(x, level + 1)}</ol>'
+        f'<ol>{solutions_list(x, level + 1, short)}</ol>'
         f'<a class="case-link" href="/problems/{x["slug"]}">Read the full brief and first step {arrow()}</a></div></article>'
     )
 
 
-def cases(level):
-    return ''.join(case(x, i, level) for i, x in enumerate(problems, 1))
+def cases(level, short=False):
+    return ''.join(case(x, i, level, short) for i, x in enumerate(problems, 1))
 
 
 # ------------------------------------------------------------------- homepage
@@ -260,7 +266,7 @@ def county_map():
         '<div class="mapcard"><div class="map-pan" data-map-pan><svg class="mdmap" viewBox="0 0 1000 %.0f" aria-hidden="true" focusable="false">%s<g class="county-layer">%s</g>%s</svg></div>'
         '<p class="map-hint" aria-hidden="true">Swipe the map, then tap a county</p>'
         '<div class="map-intro"><p class="map-title">Where are you?</p>'
-        '<p class="map-caption" data-tile-caption>Choose your county or Baltimore City to see local help.</p>'
+        '<p class="map-caption" data-tile-caption>Choose your county for local help.</p>'
         % (height, texts, ''.join(groups), bay)
         + detect_button() + '<p class="detect-note">Your location stays on your device.</p></div></div>'
         f'<ul class="county-list" aria-label="All 24 places">{links}</ul>'
@@ -282,10 +288,10 @@ def build_home():
 <div class="film-grid"><div class="film-copy">
 <p class="welcome" data-welcome><span class="welcome-greeting" data-greeting>Welcome, neighbor.</span> <span class="welcome-sub" data-greeting-sub>Pull up a chair.</span></p>
 <h1 id="film-title"><span class="line"><span>Fix what’s missing.</span></span> <span class="line line-2"><span>Find what already works.</span></span></h1>
-<p class="film-lead">MD Eagles documents the open problems in everyday Maryland life, with possible solutions anyone can take on. And it points residents to the help that already exists in their county.</p>
+<p class="film-lead">Open problems in everyday Maryland life, with ideas anyone can try. And the help that already exists, county by county.</p>
 <div class="doors">
-<article class="door spot"><p class="door-for">For people who want to build</p><h2><a href="/problems">Problem collection</a></h2><p>Documented gaps with the evidence behind them and possible solutions to test.</p><span class="door-go" aria-hidden="true">{arrow()}</span></article>
-<article class="door spot"><p class="door-for">For anyone who needs help today</p><h2><a href="/guides">Resource guides</a></h2><p>Problems that already have an answer. Find it by county or by what is going on in your life.</p><span class="door-go" aria-hidden="true">{arrow()}</span></article>
+<article class="door spot"><p class="door-for">For people who want to build</p><h2><a href="/problems">Problem collection</a></h2><p>Documented gaps, with evidence and ideas to test.</p><span class="door-go" aria-hidden="true">{arrow()}</span></article>
+<article class="door spot"><p class="door-for">For anyone who needs help today</p><h2><a href="/guides">Resource guides</a></h2><p>Problems that already have an answer. Find help by county or need.</p><span class="door-go" aria-hidden="true">{arrow()}</span></article>
 </div></div>
 <aside class="clock" data-clock aria-label="Maryland time and daylight" hidden>
 <p class="label">Maryland right now</p>
@@ -304,7 +310,7 @@ def build_home():
     hello = f"""<section class="hello" aria-labelledby="hello-title"><div class="wrap hello-grid">
 <div class="hello-copy"><p class="label">Welcome to the neighborhood</p>
 <h2 id="hello-title">Maryland is <span class="nb">twenty-four</span> places with the same everyday questions. <em>How do we get by, and how do we make it better?</em></h2>
-<p>Some gaps are still open. Some problems already have an answer. We keep track of both, so you can build what is missing or find what works, wherever you live.</p>
+<p>Some gaps are still open. Some problems already have an answer. We track both.</p>
 <ul class="stats">{''.join(f'<li><strong>{n}</strong><span>{t}</span></li>' for n, t in stats)}</ul></div>
 <div class="hello-photos" aria-label="Photographs of Maryland places">
 <figure class="ph ph-a">{place_img('baltimore', 'ph-img', '(max-width: 760px) 60vw, 28vw')}<figcaption>Baltimore’s Inner Harbor</figcaption></figure>
@@ -315,11 +321,11 @@ def build_home():
     includes = ['The evidence', 'Possible solutions', 'A first step', 'Who to involve', 'What to measure', 'A worksheet']
     collection = f"""<section class="collection night" id="problems" aria-labelledby="collection-title"><div class="wrap">
 <div class="section-head"><div><p class="label">Problem collection</p><h2 id="collection-title">Open problems, and <em>what could solve them.</em></h2></div>
-<div><p>Each problem comes with the evidence behind it, possible solutions to test and a first step. They are proposals, not running projects.</p>
-<p>Anyone can pick one up: neighbors, students, local businesses, community groups, founders. You do not need to write software.</p></div></div>
-<div class="cases">{cases(3)}</div>
+<div><p>Each problem comes with its evidence, possible solutions and a first step. These are proposals, not running projects.</p>
+<p>Anyone can pick one up. You do not need to write software.</p></div></div>
+<div class="cases">{cases(3, short=True)}</div>
 <div class="includes"><p class="label">Every brief includes</p><ul>{''.join(f'<li>{i}</li>' for i in includes)}</ul></div>
-<p class="collection-note">{len(problems)} problems documented so far. More are added as their sources are checked. <a href="/problems">Search the collection</a></p>
+<p class="collection-note">{len(problems)} problems so far. <a href="/problems">Search the collection</a></p>
 </div></section>"""
 
     chips = ''.join(f'<li><a href="/guides?topic={g["topic"]}">{e(g["category"])}</a></li>' for g in guides)
@@ -328,17 +334,17 @@ def build_home():
         f'<span class="guide-title">{e(g["title"])}</span></a></li>' for g in guides)
     resources = f"""<section class="resources" id="help" aria-labelledby="help-title"><div class="wrap">
 <div class="section-head"><div><p class="label">Resource guides</p><h2 id="help-title">Already solved? <em>Find the help that exists.</em></h2></div>
-<div><p>Plenty of problems already have an answer. Our guides point you to it, with the questions worth asking and the limits worth knowing.</p>
-<p>Start with where you live, or with what is going on in your life.</p></div></div>
+<div><p>Plenty of problems already have an answer. Our guides point you to it, and to the questions worth asking.</p>
+<p>Start with where you live, or with your situation.</p></div></div>
 {county_map()}
-<div class="life"><h3>Or start with what is going on in your life</h3><ul class="chips">{chips}</ul></div>
+<div class="life"><h3>Or start with your situation</h3><ul class="chips">{chips}</ul></div>
 <ul class="guide-index">{index}</ul>
 </div></section>"""
 
     updates = f"""<section class="updates night" id="subscribe" aria-labelledby="updates-title">
 {place_img('sunset', 'updates-img', '100vw')}<div class="updates-shade"></div><div class="wrap updates-inner">
 <h2 id="updates-title">Hear when a new problem is <em>published.</em></h2>
-<div><p>Free email, only when there is a new brief or a follow-up.</p>
+<div><p>Free. Only when something new is published.</p>
 <button class="button" data-open-subscribe aria-haspopup="dialog" aria-controls="subscribe-dialog">Get email updates</button>
 <noscript><p><a href="https://buttondown.com/eagles">Subscribe through Buttondown</a></p></noscript></div></div>
 <p class="photo-credit"><a href="{PLACES['sunset'][1]}">Chesapeake Bay sunset · Carol M. Highsmith, Library of Congress</a></p></section>"""
@@ -357,14 +363,14 @@ def build_about():
         ('Two ways in',
          '<p>The <a href="/problems">problem collection</a> is for gaps that are still open: documented problems with possible solutions that people can test. The <a href="/guides">resource guides</a> cover problems that already have an answer, found by county or by what is going on in your life.</p>'),
         ('From a problem to a first step',
-         '<p>Our problem briefs bring together published evidence, the people affected, possible solutions and a small local starting point. A solution might be a service, a neighborhood effort, a better process or a tool. It does not have to be an app.</p>'
-         '<p>We label our proposals as ideas to test. They are not proven interventions, funded projects or open roles. Named organizations are sources or possible places to learn, not partners unless we explicitly say so.</p>'),
+         '<p>Each brief pairs published evidence with possible solutions and a small local starting point. A solution might be a service, a neighborhood effort or a better process. It does not have to be an app.</p>'
+         '<p>Our proposals are ideas to test, not proven interventions or open roles. Named organizations are sources, not partners, unless we say so.</p>'),
         ('Evidence before promises',
-         '<p>Each brief links to its sources and explains where the evidence applies. We distinguish published research from our own proposals. These first briefs are based on existing reports; they are not original interviews with residents. Local conversations should shape any project before it starts.</p>'),
+         '<p>Each brief links its sources and says where the evidence applies. These first briefs draw on existing reports, not interviews with residents, so local conversations should shape any project before it starts.</p>'),
         ('Independent',
-         '<p>MD Eagles is an independent publication. It is not affiliated with, endorsed by or operated by the State of Maryland or any government agency. Its colors are a tribute to the Maryland flag, not a sign of official status. Where we point to a public service, we link to the agency that runs it.</p>'),
+         '<p>MD Eagles is not affiliated with, endorsed by or operated by the State of Maryland or any agency. Its colors are a tribute to the Maryland flag, not a sign of official status. We link to the agency that runs each service.</p>'),
         ('Stay in touch',
-         '<p><a href="/#subscribe">Subscribe for publication updates</a>. We send a note when a new problem or follow-up is published.</p>'),
+         '<p><a href="/#subscribe">Subscribe for updates</a>. We write when something new is published.</p>'),
     ]
     head = band('About MD Eagles',
                 '<p class="lead">Maryland has people ready to make things better. We help them find a useful place to start.</p>', pos=3, place='baltimore')
@@ -384,8 +390,8 @@ def build_problems():
 <noscript><p>All problems are listed below. Search filters require JavaScript.</p></noscript>
 <div class="results-heading"><p id="result-count" role="status" aria-live="polite">3 problems</p><a id="clear-search" href="/problems">Clear filters</a></div>'''
     head = band('The problem collection',
-                '<p class="lead">Choose a problem. Understand the evidence. Weigh the possible solutions and find a first step you can take with people in your community.</p>'
-                '<p class="band-note">Our first briefs pair published evidence with ideas to test. They are starting points for local work, not funded projects or proven solutions. Looking for help that already exists? See the <a href="/guides">resource guides</a>.</p>',
+                '<p class="lead">Pick a problem, see the evidence and the possible solutions, and find a first step.</p>'
+                '<p class="band-note">These ideas are untested starting points, not funded projects. Need help now? See the <a href="/guides">resource guides</a>.</p>',
                 pos=2, place='farm')
     body = ('<div class="page"><div class="wrap">' + form + f'<div class="cases">{cases(2)}</div>'
             '<section id="no-results" class="empty-results" hidden><h2>No matching problems yet</h2>'
@@ -410,7 +416,7 @@ def build_problems():
         solutions = (
             '<section class="solutions" aria-labelledby="solutions-title"><div class="solutions-head">'
             '<h2 id="solutions-title">Possible solutions to test</h2>'
-            '<p>These are MD Eagles proposals, not projects already operating. Test the need with residents and existing services before building.</p></div>'
+            '<p>Proposals, not running projects. Test the need with residents and existing services first.</p></div>'
             f'<ol class="solution-list">{solutions_list(x, 3)}</ol></section>'
         )
         rest = [
@@ -420,7 +426,7 @@ def build_problems():
              f'<p>Facing this yourself? <a href="/guides/{x["help"]}">Find an existing service in the resource guides</a>.</p>'),
             ('Take this brief with you',
              f'<p><a href="/downloads/{x["slug"]}.docx" download>Download the project worksheet (Word document)</a></p>'
-             '<p>Use it to record local evidence, collaborators, costs and a small test before committing to a larger project. Opens in Word, Google Docs and Pages.</p>'),
+             '<p>Record local evidence, collaborators and a small test. Opens in Word, Google Docs and Pages.</p>'),
         ]
         rest_html = ''.join(
             '<section class="split"%s><h2>%s</h2><div class="prose">%s</div></section>'
@@ -453,8 +459,8 @@ def guide_row(g):
 def build_guides():
     options = ''.join(f'<option value="{g["topic"]}">{e(g["category"])}</option>' for g in guides)
     head = band('Help that already exists.',
-                '<p class="lead">These problems already have an answer. Find it by county, or by what is going on in your life, then take the next step.</p>'
-                '<p class="band-note">Looking to work on a gap that is still open? Explore the <a href="/problems">problem collection</a>.</p>',
+                '<p class="lead">Problems that already have an answer. Find it by county or need.</p>'
+                '<p class="band-note">Want to work on a gap that is still open? Try the <a href="/problems">problem collection</a>.</p>',
                 pos=1, place='annapolis')
     body = f'''<div class="page"><div class="wrap">
 <form class="directory-search guide-search" role="search" action="/guides" method="get"><div><label for="guide-query">Search the guides</label><input id="guide-query" name="q" type="search" placeholder="Try “electric bill” or “child care”" maxlength="160" autocomplete="off"></div><div><label for="guide-county">Your county</label><select id="guide-county" name="county">{county_options('Anywhere in Maryland')}</select></div><div><label for="guide-topic">What you need</label><select id="guide-topic" name="topic"><option value="">All needs</option>{options}</select></div><button class="button" type="submit">Search</button></form>
@@ -463,7 +469,7 @@ def build_guides():
 {detect_status()}
 <div id="guide-results" class="guide-list">{''.join(guide_row(g) for g in guides)}</div>
 <section id="no-results" class="empty-results" hidden><h2>No guide matches that search yet.</h2><p>Try a shorter phrase such as “rent,” “jobs” or “care.” You can also clear the filters and browse every guide.</p><a href="/guides">Browse all guides</a></section>
-<p class="directory-note">An initial collection of {len(guides)} resource guides, checked against the linked providers on November 4, 2026. Most services are delivered through local offices, so a county choice reminds you to ask for yours; it does not guarantee availability. Each guide explains its coverage and limits.</p></div></div>'''
+<p class="directory-note">{len(guides)} guides, checked against their providers on November 4, 2026. Services run through local offices, so choosing a county only reminds you to ask for yours. It does not confirm availability.</p></div></div>'''
     write(PUBLIC / 'guides.html', page(
         'Find your next step in Maryland',
         'Browse practical Maryland resource guides for bills, housing, jobs, child care, business, college, health coverage and caregiving, by county or by what you need.',
@@ -491,10 +497,19 @@ def build_guides():
             '/guides/' + g['slug'], head + body, current='guides'))
 
 
+# ------------------------------------------------------------------------ 404
+def build_404():
+    body = (band('That page is not here.', '<p class="lead">It may have moved. Start from one of these.</p>', place='annapolis')
+            + '<div class="page"><div class="not-found"><a class="button" href="/problems">Problem collection</a>'
+              '<a class="button" href="/guides">Resource guides</a><a class="button" href="/">Home</a></div></div>')
+    write(PUBLIC / '404.html', page('Page not found', 'The page you were looking for is not on MD Eagles. Browse the problem collection or the resource guides instead.',
+                                    '/404', body, noindex=True))
+
+
 # -------------------------------------------------------------------- sitemap
 def build_sitemap():
     paths = ['/' if f.stem == 'index' and f.parent == PUBLIC else '/' + str(f.relative_to(PUBLIC).with_suffix(''))
-             for f in sorted(PUBLIC.rglob('*.html'))]
+             for f in sorted(PUBLIC.rglob('*.html')) if f.stem != '404']
     urls = ''.join(f'<url><loc>{SITE}{p}</loc></url>' for p in paths)
     write(PUBLIC / 'sitemap.xml',
           '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' + urls + '</urlset>')
@@ -505,5 +520,6 @@ if __name__ == '__main__':
     build_about()
     build_problems()
     build_guides()
+    build_404()
     build_sitemap()
     print('Built site.')

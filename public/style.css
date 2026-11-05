@@ -440,6 +440,23 @@ input:focus-visible,select:focus-visible{outline-offset:2px}
 .signup-reload{background:transparent;border:0;color:#231f20;font:inherit;font-size:.85rem;text-decoration:underline;padding:0;cursor:pointer}
 body[data-signup-open]{overflow:hidden}
 
+.not-found{display:flex;flex-wrap:wrap;gap:14px}
+
+/* ---------------------------------------------------------------- print */
+@media print{
+  html,body,.night,.theme-night{background:#fff!important;color:#000!important}
+  .masthead,.site-footer,.film,.band-img,.band-shade,.photo-credit,.menu,.updates,.hello-photos,.mapcard,.county-list,.directory-search,.results-heading,.detect,.detect-status,.subscribe-dialog,.skip-link,.island-cta,.breadcrumb,.band-cta,.button,body::before{display:none!important}
+  .band{padding:0 0 12pt!important;background:none!important;color:#000!important}
+  .band h1,.band .lead,.band-note{color:#000!important}
+  .band-inner,.page,.wrap{max-width:none!important;padding:0!important}
+  .split{display:block!important;border-color:#bbb!important;padding:12pt 0!important;break-inside:avoid}
+  .solutions,.case,.fact-strip,.guide{background:none!important;color:#000!important;border-color:#bbb!important;box-shadow:none!important;break-inside:avoid}
+  .solutions-head p,.solution-list p,.case-solutions p{color:#000!important}
+  a{color:#000!important;text-decoration:underline}
+  a[href^="http"]::after{content:" (" attr(href) ")";font-size:.8em;word-break:break-all}
+  *{animation:none!important;transition:none!important}
+}
+
 /* ------------------------------------------------------- page transitions */
 @view-transition{navigation:auto}
 ::view-transition-old(root){animation:vt-out .22s ease both}
@@ -519,6 +536,19 @@ body[data-signup-open]{overflow:hidden}
   .film{min-height:100svh}
   .film-grid{padding-top:96px}
   .film-copy h1{font-size:2.6rem}
+}
+
+/* touch targets: at least 44 px on phones and other touch screens */
+@media (pointer:coarse),(max-width:760px){
+  .identity{min-height:44px}
+  .menu-toggle{min-height:44px;padding:0 16px 0 18px}
+  .detect{min-height:44px;padding:0 18px}
+  .case-link,#clear-search{min-height:44px;display:inline-flex;align-items:center}
+  .footer-col a{display:flex;align-items:center;min-height:44px}
+  .footer-col{gap:0}
+  .site-footer .identity{min-height:44px}
+  .guide h2 a,.guide-index a{padding-top:4px;padding-bottom:4px}
+  .results-actions{gap:8px}
 }
 
 /* ---------------------------------------------------------------- motion */

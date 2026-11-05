@@ -181,7 +181,7 @@ def schema_graph(title, desc, path, kind='WebPage', home=False):
 
 
 def page(title, desc, path, body, *, current=None, body_class='', scripts=(), kind='WebPage',
-         home=False, dialog=False):
+         home=False, dialog=False, noindex=False):
     full_title = f'{title} | MD Eagles'
     script_tags = ''.join(f'<script src="{src}" defer></script>' for src in ('/site.js',) + tuple(scripts))
     head = (
@@ -189,7 +189,7 @@ def page(title, desc, path, body, *, current=None, body_class='', scripts=(), ki
         '<meta name="viewport" content="width=device-width, initial-scale=1">'
         '<meta name="theme-color" content="#231f20">'
         f'<title>{e(full_title)}</title><meta name="description" content="{e(desc)}">'
-        f'<link rel="canonical" href="{SITE}{path}">'
+        f'<link rel="canonical" href="{SITE}{path}">' + ('<meta name="robots" content="noindex">' if noindex else '') +
         f'<meta property="og:title" content="{e(full_title)}"><meta property="og:description" content="{e(desc)}">'
         f'<meta property="og:url" content="{SITE}{path}"><meta property="og:type" content="website">'
         f'<meta property="og:image" content="{SOCIAL_IMAGE}"><meta property="og:image:width" content="1200">'
