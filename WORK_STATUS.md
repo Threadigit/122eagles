@@ -6,6 +6,20 @@ scope, current bridge photograph and design. Read before continuing.
 
 ## Site and domain — complete
 
+## Editorial focus — November 4, 2026
+
+- New direction: highlight challenges facing Marylanders and practical solutions
+  anyone can take up to help solve them. This includes challenges faced by
+  businesses, students, workers juggling multiple jobs, and struggling founders;
+  these are examples, not limits on coverage.
+- GitHub repository description updated and verified:
+  “Highlighting challenges facing Marylanders and practical solutions anyone can
+  take up to help solve them.”
+- Homepage and About copy now implement this direction (publication update below).
+  Preserve the existing design and simple page scope.
+
+## Existing site and domain details
+
 - Site: https://122eagles.com/ ; Vercel alias https://122eagles.vercel.app/.
 - Exact heading: Welcome to Maryland Eagles Eyes.
 - Public-domain photograph of Maryland's Chesapeake Bay Bridge, Carol M.
@@ -188,3 +202,24 @@ fixture and actual provider form/confirmation checks pass at all four viewport
 sizes, including Gmail actions, navy colour and sticky closing; no subscription
 or confirmation email was sent. All implementation work for this request is
 published. Owner-account Search Console verification/submission remains pending.
+
+## Publication direction — November 4, 2026
+
+Homepage and About now position Maryland Eagles Eyes as a publication about local
+challenges and practical solutions. The homepage retains the bridge, motion and
+welcome design. About introduces The Maryland Brief: people, obstacle, possible
+solutions, who can act, and dated follow-ups; it includes eight everyday-life
+coverage areas. EDITORIAL_DIRECTION.md contains the story template, launch leads,
+evidence standards and release workflow. No unreported stories are presented as
+finished work, and no nonfunctional contact form was added.
+
+Signup remains the existing Buttondown integration, now offering free updates
+when stories/follow-ups publish rather than a weekly newsletter. Titles, metadata,
+structured data and social preview follow the publication positioning. Git pushes
+do not send subscriber mail: the publisher must send the corresponding editorial
+update in Buttondown. No campaign sent or email automation configured.
+
+Validation: SEO/internal-link/JSON-LD checks pass. Chromium checks at
+320/390/844 landscape/1440px pass for both layouts, About signup deep link,
+lazy signup, validation, modal close/focus, reopen/reload and reduced motion.
+Screenshots reviewed on mobile and social preview. Production push: pending.

@@ -1,6 +1,8 @@
 # Maryland Eagles Eyes
 
-The welcome page for **122eagles.com**, focused on Maryland, USA.
+The welcome page for **122eagles.com**, a publication exploring challenges facing
+Marylanders and practical ways to help solve them. See `EDITORIAL_DIRECTION.md`
+for the Maryland Brief format, coverage areas and publishing workflow.
 
 Static HTML and CSS with a public-domain photograph of the Chesapeake Bay Bridge. A tiny first-party
 script starts the camera after the photograph decodes. No framework or
@@ -24,7 +26,7 @@ Fonts: Lora and Instrument Sans, distributed under the SIL Open Font License;
 see `public/assets/OFL-*.txt`. Font files are self-hosted.
 
 
-Newsletter signup is connected to `https://buttondown.com/eagles` through its
+Publication-update signup is connected to `https://buttondown.com/eagles` through its
 supported embedded form. Readers stay on 122eagles.com; Buttondown handles
 validation, confirmation and any verification inside the frame. No API key is
 stored in the browser, and the public subscription endpoint is not called with
