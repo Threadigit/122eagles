@@ -15,6 +15,7 @@ python3 scripts/grade-photo.py        # only when the bridge photograph or its g
 python3 scripts/prepare-photos.py     # only when the Maryland place photographs change
 python3 scripts/prepare-counties.py  # only when the county boundary source changes
 python3 scripts/make-favicons.py     # only when the logo or favicon colours change (then bump ICON_VERSION in scripts/layout.py and the ?v= in site.webmanifest, or browsers keep showing the old icon)
+python3 scripts/make-logo-png.py      # transparent PNG logos into brand/ (lockup on dark and light, the eagle mark in gold, ink and white)
 python3 scripts/make-social-cards.py  # only when a page title or the social look changes (one 1200x630 card per page in public/assets/social/)
 python3 tests/seo.py                  # titles, descriptions, social cards, JSON-LD, sitemap lastmod (run after build.py)
 python3 scripts/indexnow.py           # dry run; add --send AFTER a deploy to ping Bing and other IndexNow engines
@@ -51,12 +52,16 @@ Fonts: Newsreader and Hanken Grotesk, distributed under the SIL Open Font Licens
 see `public/assets/OFL-*.txt`. Font files are self-hosted.
 
 
-Publication-update signup is our own form in an on-site dialog (`scripts/layout.py`, `public/subscribe.js`). It posts the
-email address straight to Buttondown's embed endpoint (`https://buttondown.com/api/emails/embed-subscribe/eagles`, fields `email`
-and `embed=1`) and Buttondown opens its own confirmation in a small window (a new tab if the browser blocks popups; without
-JavaScript the form still posts in a new tab). Nothing from Buttondown loads until a reader submits, and no API key is involved.
-The form is ours because Buttondown's framed page cannot be styled without its Custom CSS (not on this plan) and cannot be fonted
-or recoloured from outside. `vercel.json` allows `form-action https://buttondown.com` and no longer allows any frames.
+Publication-update signup is our own form in an on-site dialog (`scripts/layout.py`, `public/subscribe.js`) and the reader never
+leaves the page. The script makes the same request Buttondown's own embedded form makes (`POST
+https://buttondown.com/api/emails/create-subscriber` with the email address and the newsletter id, which is public) and shows
+the answer in the dialog: check your inbox, already on the list, a clear error, or retry. The only time a Buttondown window can
+open is if Buttondown asks for a spam check (Turnstile), which only Buttondown can show; the dialog then says so and a
+"Continue with Buttondown" button opens it. Without JavaScript the form still posts to Buttondown's embed endpoint in a new tab.
+Nothing from Buttondown loads until a reader submits, and no API key is involved. The form is ours because Buttondown's framed
+page cannot be styled without its Custom CSS (not on this plan). `vercel.json` allows `connect-src 'self' https://buttondown.com`
+and `form-action 'self' https://buttondown.com`, and no frames. The endpoint's response shape was read from Buttondown's own page
+script, not from documentation, so a change on their side would show up as the generic error message.
 
 `python3 tests/subscription-browser.py` (Playwright; run against a local preview, set `EAGLES_TEST_URL` for a deployment)
 answers every Buttondown request with a local fixture, so it never subscribes anyone or sends email. Not yet run: Playwright

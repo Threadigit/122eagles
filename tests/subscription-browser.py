@@ -1,11 +1,10 @@
-"""Signup-dialog regression checks. The form is ours and posts to Buttondown; every Buttondown request is
-intercepted and answered locally, so this test never subscribes anyone or sends email."""
-import os,shutil
-from urllib.parse import urlparse,parse_qs
+"""Signup-dialog regression checks. The form is ours and the reader never leaves the page: the address goes to
+Buttondown's create-subscriber endpoint and the result is shown in the dialog. Every Buttondown request is intercepted
+and answered locally, so this test never subscribes anyone or sends email."""
+import json,os,shutil
 from playwright.sync_api import sync_playwright,expect
 URL=os.environ.get('EAGLES_TEST_URL','http://127.0.0.1:8012/')
-ENDPOINT='https://buttondown.com/api/emails/embed-subscribe/eagles'
-RESULT='<!doctype html><html lang="en"><body><p>Fixture: Buttondown confirmation</p></body></html>'
+ENDPOINT='https://buttondown.com/api/emails/create-subscriber'
 with sync_playwright() as p:
  executable=os.environ.get('EAGLES_BROWSER') or shutil.which('chromium')
  options={'headless':True}
@@ -14,55 +13,61 @@ with sync_playwright() as p:
  for width,height in [(320,740),(390,844),(844,390),(1440,1000)]:
   context=browser.new_context(viewport={'width':width,'height':height},ignore_https_errors=True,reduced_motion='reduce')
   page=context.new_page()
-  seen=[];posts=[]
+  seen=[];answer={'status':201,'body':{'subscriber':{'type':'unactivated'}}}
   def handle(route):
-   seen.append(route.request.url)
-   if route.request.method=='POST':posts.append(parse_qs(route.request.post_data or ''))
-   route.fulfill(status=200,content_type='text/html',body=RESULT)
+   seen.append(route.request)
+   headers={'access-control-allow-origin':'*','access-control-allow-headers':'content-type'}
+   if route.request.method=='OPTIONS':return route.fulfill(status=200,headers=headers)
+   route.fulfill(status=answer['status'],headers=headers,content_type='application/json',body=json.dumps(answer['body']))
   context.route('https://buttondown.com/**',handle)
+  popups=[];context.on('page',lambda pg:popups.append(pg))
   page.goto(URL,wait_until='networkidle');page.evaluate('document.fonts.ready')
   assert seen==[],seen
   trigger=page.locator('[data-open-subscribe]')
   assert trigger.is_enabled()
-  assert page.get_by_role('heading',name='Fix what’s missing.').is_visible()
   trigger.click();dialog=page.locator('#subscribe-dialog')
-  assert dialog.evaluate('(e)=>e.open')
-  assert page.evaluate('document.body.hasAttribute("data-signup-open")')
-  assert page.locator('iframe').count()==0
+  assert dialog.evaluate('(e)=>e.open') and page.locator('iframe').count()==0
   assert seen==[],seen  # opening the dialog loads nothing from Buttondown
-  form=page.locator('[data-subscribe-form]');email=form.locator('input[type=email]')
-  assert form.get_attribute('action')==ENDPOINT and form.get_attribute('method')=='post'
-  assert form.locator('input[name=embed]').get_attribute('value')=='1'
-  expect(email).to_be_visible()
+  form=page.locator('[data-subscribe-form]');email=form.locator('input[type=email]');sent=page.locator('[data-signup-sent]')
   assert email.evaluate('(e)=>parseFloat(getComputedStyle(e).fontSize)')>=16  # keeps iOS from zooming
-  email.fill('not-an-email');assert not email.evaluate('(e)=>e.checkValidity()')
-  email.fill('');assert not email.evaluate('(e)=>e.checkValidity()')
-  assert page.url==URL
-  assert page.evaluate('document.documentElement.scrollWidth<=innerWidth')
   bounds=dialog.bounding_box();assert bounds['x']>=0 and bounds['x']+bounds['width']<=width+.5
-  assert bounds['y']>=0 and bounds['y']+bounds['height']<=height+.5 or width>height  # short landscape phones scroll the dialog
-  # submit: the address goes to Buttondown in a separate window; the dialog says so
-  email.fill('reader@example.com')
-  with context.expect_page() as popup_info:form.get_by_role('button',name='Subscribe').click()
-  popup=popup_info.value;popup.wait_for_load_state()
-  assert posts and posts[0].get('email')==['reader@example.com'] and posts[0].get('embed')==['1'],posts
-  assert page.url==URL
-  expect(page.locator('[data-signup-sent]')).to_be_visible()
-  expect(form).to_be_hidden()
-  popup.close()
-  page.get_by_role('button',name='Use a different address').click()
-  expect(form).to_be_visible();expect(email).to_have_value('');expect(email).to_be_focused()
+  assert page.evaluate('document.documentElement.scrollWidth<=innerWidth')
+  # client-side checks: nothing is sent for an empty or malformed address
+  form.get_by_role('button',name='Subscribe').click()
+  expect(page.locator('[data-signup-error]')).to_have_text('Enter your email address.')
+  email.fill('not-an-email');form.get_by_role('button',name='Subscribe').click()
+  expect(page.locator('[data-signup-error]')).to_contain_text('doesn’t look like an email')
+  assert seen==[],seen
+  # each answer Buttondown can give
+  cases=[(201,{'subscriber':{'type':'unactivated'}},'Check your inbox.'),
+         (201,{'subscriber':{'type':'regular'}},'You’re on the list.'),
+         (400,{'subscriber':{'type':'regular'},'error':'Email already exists'},'You’re already on the list.'),
+         (400,{'risk_scores':{},'error':'captcha'},'One more step.')]
+  for status,body,title in cases:
+   answer.update(status=status,body=body)
+   email.fill('reader@example.com');form.get_by_role('button',name='Subscribe').click()
+   expect(page.locator('[data-sent-title]')).to_have_text(title)
+   expect(form).to_be_hidden();expect(sent).to_be_focused()
+   assert page.url==URL and popups==[],'the reader must stay on the page'
+   if status==201 and body['subscriber']['type']=='unactivated':
+    post=[r for r in seen if r.method=='POST'][-1];sent_body=json.loads(post.post_data)
+    assert sent_body['email_address']=='reader@example.com' and sent_body['newsletter_id']=='7dddd7e8-db8d-4109-9a55-79b5117e990c'
+   if title=='One more step.':expect(page.get_by_role('button',name='Continue with Buttondown')).to_be_visible()
+   else:expect(page.get_by_role('button',name='Continue with Buttondown')).to_be_hidden()
+   page.get_by_role('button',name='Use a different address').click()
+   expect(form).to_be_visible();expect(email).to_have_value('');expect(email).to_be_focused()
+  # an error from Buttondown keeps the form and the address
+  answer.update(status=500,body={})
+  email.fill('reader@example.com');form.get_by_role('button',name='Subscribe').click()
+  expect(page.locator('[data-signup-error]')).to_contain_text('couldn’t sign you up')
+  expect(email).to_have_value('reader@example.com')
   page.get_by_role('button',name='Close signup').click()
   assert not dialog.evaluate('(e)=>e.open')
-  page.locator('body:not([data-signup-open])').wait_for(state='attached')
   expect(trigger).to_be_focused()
-  trigger.click()
-  expect(form).to_be_visible()  # reopening starts from the form again
-  page.get_by_role('button',name='Close signup').focus();page.keyboard.press('Escape')
-  assert not dialog.evaluate('(e)=>e.open')
-  expect(trigger).to_be_focused()
+  trigger.click();expect(form).to_be_visible()  # reopening starts from the form again
+  page.keyboard.press('Escape');assert not dialog.evaluate('(e)=>e.open')
   assert page.evaluate('document.getAnimations().length')==0
   page.screenshot(path=f'/tmp/eagles-signup-qa-{width}.png',full_page=True)
-  print(f'PASS {width}px: native form, nothing loaded from Buttondown until submit, validation, submit to Buttondown, sent state, close/focus, reduced motion',flush=True)
+  print(f'PASS {width}px: in-page signup, no redirect, validation, every Buttondown answer, error recovery, close/focus, reduced motion',flush=True)
   context.close()
  browser.close()

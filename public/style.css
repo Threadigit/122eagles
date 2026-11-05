@@ -461,6 +461,12 @@ input:focus-visible,select:focus-visible{outline-offset:2px}
 .signup-sent{margin:22px 0 10px;padding:20px 22px;border-radius:var(--radius);background:rgba(255,200,56,.22);outline:0}
 .signup-sent p{margin:0 0 8px}
 .signup-sent-title{font:500 1.35rem/1.2 var(--serif);margin-bottom:8px!important}
+.signup-error{margin:2px 0 0;padding:10px 14px;border-radius:12px;background:rgba(255,200,56,.3);font-size:.9rem;line-height:1.4}
+.signup-error[hidden]{display:none}
+.signup-form input[aria-invalid=true]{border-color:#231f20;box-shadow:0 0 0 2px #ffc838}
+.signup-form .button:disabled{opacity:.6;cursor:progress;transform:none}
+.signup-continue{width:100%;margin:6px 0 8px}
+.signup-continue[hidden]{display:none}
 .signup-consent{margin:12px 0 0;font-size:.78rem;line-height:1.5;color:#6c6567}
 .signup-again{background:transparent;border:0;color:#231f20;font:inherit;font-size:.88rem;text-decoration:underline;text-underline-offset:.14em;padding:6px 0;cursor:pointer}
 body[data-signup-open]{overflow:hidden}

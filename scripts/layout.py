@@ -161,16 +161,18 @@ def subscribe_dialog():
     <p id="subscribe-description">Free email when we publish a new brief or a follow-up. Unsubscribe anytime.</p>
     <form class="signup-form" data-subscribe-form action="https://buttondown.com/api/emails/embed-subscribe/eagles" method="post" target="_blank">
       <label for="signup-email">Email address</label>
-      <input id="signup-email" name="email" type="email" required autocomplete="email" inputmode="email" maxlength="254" placeholder="you@example.com">
+      <input id="signup-email" name="email" type="email" required autocomplete="email" inputmode="email" maxlength="254" placeholder="you@example.com" aria-describedby="signup-error">
+      <p class="signup-error" id="signup-error" data-signup-error role="alert" hidden></p>
       <input type="hidden" name="embed" value="1">
-      <button class="button" type="submit">Subscribe</button>
+      <button class="button" type="submit" data-signup-submit>Subscribe</button>
     </form>
     <div class="signup-sent" data-signup-sent hidden tabindex="-1">
-      <p class="signup-sent-title">Almost done.</p>
-      <p>Finish in the window or tab that just opened. Buttondown, our email provider, may ask you to confirm your address by email.</p>
+      <p class="signup-sent-title" data-sent-title></p>
+      <p data-sent-body></p>
+      <button class="button signup-continue" type="button" data-signup-continue hidden>Continue with Buttondown</button>
       <button class="signup-again" type="button" data-signup-again>Use a different address</button>
     </div>
-    <p class="signup-consent">Free email from Maryland Eagles Eyes. Your address goes straight to Buttondown, which sends the email. Unsubscribe at any time.</p>
+    <p class="signup-consent">Free email from Maryland Eagles Eyes, sent through Buttondown. Unsubscribe at any time.</p>
     </div>
   </dialog>'''
 
