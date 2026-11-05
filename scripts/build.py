@@ -6,6 +6,7 @@ Writes: homepage, About, the problem collection and its briefs (plus Word worksh
 the resource guides, the search script for the collection, and the sitemap.
 """
 import json
+import math
 import zipfile
 
 from layout import PLACES, PUBLIC, ROOT, SITE, band, county_options, e, eagle, page, place_img, typo
@@ -24,11 +25,18 @@ def write(path, text):
     path.write_text(text)
 
 
-def detect_button():
+def detect_only():
     return ('<button class="detect" type="button" data-detect-county><svg viewBox="0 0 20 20" width="15" height="15" fill="none" '
             'stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="10" cy="10" r="4.5"/>'
-            '<path d="M10 1.5v3M10 15.5v3M1.5 10h3M15.5 10h3"/></svg>Use my location</button>'
-            '<p class="detect-status" data-detect-status role="status" aria-live="polite"></p>')
+            '<path d="M10 1.5v3M10 15.5v3M1.5 10h3M15.5 10h3"/></svg>Use my location</button>')
+
+
+def detect_status():
+    return '<p class="detect-status" data-detect-status role="status" aria-live="polite"></p>'
+
+
+def detect_button():
+    return detect_only() + detect_status()
 
 
 def arrow():
@@ -165,30 +173,104 @@ def cases(level):
 
 
 # ------------------------------------------------------------------- homepage
-# A tile map of Maryland's 24 jurisdictions: (column, row), north at the top, west at the left.
-TILES = {
-    'Garrett': (0, 0), 'Allegany': (1, 0), 'Washington': (2, 0), 'Frederick': (3, 0), 'Carroll': (4, 0),
-    'Baltimore County': (5, 0), 'Harford': (6, 0), 'Cecil': (7, 0),
-    'Montgomery': (3, 1), 'Howard': (4, 1), 'Baltimore City': (5, 1), 'Kent': (7, 1),
-    "Prince George's": (4, 2), 'Anne Arundel': (5, 2), "Queen Anne's": (7, 2),
-    'Charles': (4, 3), 'Calvert': (5, 3), 'Talbot': (7, 3), 'Caroline': (8, 3),
-    "St. Mary's": (4, 4), 'Dorchester': (7, 4), 'Wicomico': (8, 4), 'Worcester': (9, 4),
-    'Somerset': (8, 5),
-}
+# A real map of Maryland's 24 jurisdictions, drawn from the simplified Census shapes
+# (public/assets/md-counties.json). Every county links to /guides?county=...
+def _inside(x, y, ring):
+    inside = False
+    j = len(ring) - 1
+    for i in range(len(ring)):
+        xi, yi = ring[i]
+        xj, yj = ring[j]
+        if (yi > y) != (yj > y) and x < (xj - xi) * (y - yi) / (yj - yi) + xi:
+            inside = not inside
+        j = i
+    return inside
 
 
-def tile_map():
-    tiles = ''.join(
-        f'<li class="tile c{c} r{r}"><a href="/guides?county={e(name).replace(chr(39), "%27")}" data-county="{e(name)}">'
-        f'<span class="tile-name">{e(typo(name))}</span></a></li>' for name, (c, r) in TILES.items())
+def _edge_distance(x, y, ring):
+    best = 1e9
+    for i in range(len(ring)):
+        (x1, y1), (x2, y2) = ring[i], ring[(i + 1) % len(ring)]
+        dx, dy = x2 - x1, y2 - y1
+        t = 0 if dx == dy == 0 else max(0, min(1, ((x - x1) * dx + (y - y1) * dy) / (dx * dx + dy * dy)))
+        best = min(best, math.hypot(x - (x1 + t * dx), y - (y1 + t * dy)))
+    return best
+
+
+def county_map():
+    shapes = json.loads((PUBLIC / 'assets' / 'md-counties.json').read_text())['counties']
+    xs = [x for c in shapes for poly in c['p'] for x in poly[0][0::2]]
+    ys = [y for c in shapes for poly in c['p'] for y in poly[0][1::2]]
+    lon0, lon1, lat0, lat1 = min(xs) - 0.2, max(xs) + 0.3, min(ys) - 0.14, max(ys) + 0.16
+    k = math.cos(math.radians((lat0 + lat1) / 2))
+    width = 1000.0
+    scale = width / ((lon1 - lon0) * k)
+    height = (lat1 - lat0) * scale
+
+    def project(lon, lat):
+        return ((lon - lon0) * k * scale, (lat1 - lat) * scale)
+
+    def to_ring(flat):
+        return [project(flat[i], flat[i + 1]) for i in range(0, len(flat), 2)]
+
+    groups = []
+    for index, county in enumerate(sorted(shapes, key=lambda c: c['n'])):
+        name = county['n']
+        rings = [[to_ring(r) for r in poly] for poly in county['p']]
+        d = ''.join('M' + ' '.join(f'{x:.1f} {y:.1f}' for x, y in r) + 'Z' for poly in rings for r in poly)
+        # the point deepest inside the largest piece, for the label and the "you are here" pin
+        outer = max((poly[0] for poly in rings), key=lambda r: abs(sum(r[i][0] * r[(i + 1) % len(r)][1] - r[(i + 1) % len(r)][0] * r[i][1] for i in range(len(r)))))
+        bx0, bx1 = min(p[0] for p in outer), max(p[0] for p in outer)
+        by0, by1 = min(p[1] for p in outer), max(p[1] for p in outer)
+        best = (0, (bx0 + bx1) / 2, (by0 + by1) / 2)
+        for i in range(1, 36):
+            for j in range(1, 36):
+                px, py = bx0 + (bx1 - bx0) * i / 36, by0 + (by1 - by0) * j / 36
+                if _inside(px, py, outer):
+                    dist = _edge_distance(px, py, outer)
+                    if dist > best[0]:
+                        best = (dist, px, py)
+        radius, cx, cy = best
+        lines = typo(name).split(' ')
+        label = ''
+        longest = max(len(line) for line in lines) * 5.9
+        if radius >= longest / 2 * 0.72 and radius >= 7:
+            first = cy - (len(lines) - 1) * 6.5 + 3.5
+            label = ''.join(f'<tspan x="{cx:.1f}" y="{first + n * 13:.1f}">{e(line)}</tspan>' for n, line in enumerate(lines))
+            label = f'<text class="county-name" text-anchor="middle">{label}</text>'
+        groups.append(
+            f'<a class="county" href="/guides?county={e(name).replace(chr(39), "%27")}" data-county="{e(name)}" tabindex="-1">'
+            f'<path d="{d}" fill-rule="evenodd"/>{label}'
+            f'<g class="pin"><circle class="pin-ring" cx="{cx:.1f}" cy="{cy - (11 if label else 0):.1f}" r="7"/><circle class="pin-dot" cx="{cx:.1f}" cy="{cy - (11 if label else 0):.1f}" r="5"/></g></a>')
+
+    context = [('PENNSYLVANIA', -77.3, 39.9, ''), ('WEST VIRGINIA', -79.55, 39.2, 'v'), ('VIRGINIA', -78.0, 38.05, ''),
+               ('DELAWARE', -75.45, 39.5, 'v'), ('ATLANTIC OCEAN', -74.93, 38.25, 'v')]
+    texts = ''
+    for label, lon, lat, mode in context:
+        x, y = project(lon, lat)
+        rotate = f' transform="rotate(-90 {x:.1f} {y:.1f})"' if mode == 'v' else ''
+        anchor = ' text-anchor="end"' if mode == 'r' else ''
+        texts += f'<text class="map-context" x="{x:.1f}" y="{y:.1f}"{anchor}{rotate}>{label}</text>'
+    bx, by = project(-76.33, 38.14)
+    bay = f'<text class="map-bay" x="{bx:.1f}" y="{by:.1f}" text-anchor="middle">Chesapeake Bay</text>'
+
+    names = sorted(TILE_NAMES)
+    links = ''.join(f'<li><a href="/guides?county={e(n).replace(chr(39), "%27")}" data-county="{e(n)}">{e(typo(n))}</a></li>' for n in names)
     return (
-        '<div class="tilemap-scroll"><div class="tilemap">'
-        '<div class="tilemap-intro"><p class="tilemap-title">Where are you?</p>'
-        '<p class="tilemap-caption" data-tile-caption>Choose your county or Baltimore City to see local help.</p>'
-        + detect_button() + '<p class="detect-note">Your location stays on your device.</p></div>'
-        '<p class="tilemap-bay" aria-hidden="true">Chesapeake Bay</p>'
-        f'<ul class="tilemap-grid" aria-label="Maryland counties">{tiles}</ul></div></div>'
+        '<div class="mapcard"><svg class="mdmap" viewBox="0 0 1000 %.0f" aria-hidden="true" focusable="false">%s<g class="county-layer">%s</g>%s</svg>'
+        '<div class="map-intro"><p class="map-title">Where are you?</p>'
+        '<p class="map-caption" data-tile-caption>Choose your county or Baltimore City to see local help.</p>'
+        % (height, texts, ''.join(groups), bay)
+        + detect_button() + '<p class="detect-note">Your location stays on your device.</p></div></div>'
+        f'<ul class="county-list" aria-label="All 24 places">{links}</ul>'
     )
+
+
+TILE_NAMES = [
+    'Allegany', 'Anne Arundel', 'Baltimore City', 'Baltimore County', 'Calvert', 'Caroline', 'Carroll', 'Cecil',
+    'Charles', 'Dorchester', 'Frederick', 'Garrett', 'Harford', 'Howard', 'Kent', 'Montgomery', "Prince George's",
+    "Queen Anne's", "St. Mary's", 'Somerset', 'Talbot', 'Washington', 'Wicomico', 'Worcester',
+]
 
 
 def build_home():
@@ -247,7 +329,7 @@ def build_home():
 <div class="section-head"><div><p class="label">Resource guides</p><h2 id="help-title">Already solved? <em>Find the help that exists.</em></h2></div>
 <div><p>Plenty of problems already have an answer. Our guides point you to it, with the questions worth asking and the limits worth knowing.</p>
 <p>Start with where you live, or with what is going on in your life.</p></div></div>
-{tile_map()}
+{county_map()}
 <div class="life"><h3>Or start with what is going on in your life</h3><ul class="chips">{chips}</ul></div>
 <ul class="guide-index">{index}</ul>
 </div></section>"""
@@ -372,9 +454,10 @@ def build_guides():
                 '<p class="band-note">Looking to work on a gap that is still open? Explore the <a href="/problems">problem collection</a>.</p>',
                 pos=1, place='annapolis')
     body = f'''<div class="page"><div class="wrap">
-<form class="directory-search guide-search" role="search" action="/guides" method="get"><div><label for="guide-query">Search the guides</label><input id="guide-query" name="q" type="search" placeholder="Try “electric bill” or “child care”" maxlength="160" autocomplete="off"></div><div><label for="guide-county">Your county</label><select id="guide-county" name="county">{county_options('Anywhere in Maryland')}</select>{detect_button()}</div><div><label for="guide-topic">What you need</label><select id="guide-topic" name="topic"><option value="">All needs</option>{options}</select></div><button class="button" type="submit">Search</button></form>
+<form class="directory-search guide-search" role="search" action="/guides" method="get"><div><label for="guide-query">Search the guides</label><input id="guide-query" name="q" type="search" placeholder="Try “electric bill” or “child care”" maxlength="160" autocomplete="off"></div><div><label for="guide-county">Your county</label><select id="guide-county" name="county">{county_options('Anywhere in Maryland')}</select></div><div><label for="guide-topic">What you need</label><select id="guide-topic" name="topic"><option value="">All needs</option>{options}</select></div><button class="button" type="submit">Search</button></form>
 <noscript><p>Search filters need JavaScript. All {len(guides)} guides are listed below for you to browse.</p></noscript>
-<div class="results-heading"><p id="result-count" role="status" aria-live="polite" aria-atomic="true">{len(guides)} guides</p><a id="clear-search" href="/guides">Clear filters</a></div>
+<div class="results-heading"><p id="result-count" role="status" aria-live="polite" aria-atomic="true">{len(guides)} guides</p><span class="results-actions">{detect_only()}<a id="clear-search" href="/guides">Clear filters</a></span></div>
+{detect_status()}
 <div id="guide-results" class="guide-list">{''.join(guide_row(g) for g in guides)}</div>
 <section id="no-results" class="empty-results" hidden><h2>No guide matches that search yet.</h2><p>Try a shorter phrase such as “rent,” “jobs” or “care.” You can also clear the filters and browse every guide.</p><a href="/guides">Browse all guides</a></section>
 <p class="directory-note">An initial collection of {len(guides)} resource guides, checked against the linked providers on November 4, 2026. Most services are delivered through local offices, so a county choice reminds you to ask for yours; it does not guarantee availability. Each guide explains its coverage and limits.</p></div></div>'''

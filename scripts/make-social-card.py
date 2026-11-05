@@ -48,7 +48,7 @@ for pts in ([(32, 38), (22, 26), (8, 22), (19, 37), (32, 45)],
 draw.text((64 + 48 * 2.6 + 22, 62), 'MD Eagles', font=font('instrument-serif.woff2', 46), fill=white)
 
 title = font('instrument-sans.woff2', 92)
-gold = (255, 107, 74, 255)
+gold = (79, 220, 196, 255)
 for i, line in enumerate(['Fix what’s missing.', 'Find what already works.']):
     draw.text((64, 316 + i * 100), line, font=title, fill=white if i == 0 else gold)
 draw.text((66, 540), 'Maryland problems with possible solutions, and the help that already exists.', font=font('instrument-sans.woff2', 28), fill=(201, 210, 212, 255))

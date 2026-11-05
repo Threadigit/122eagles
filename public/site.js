@@ -187,25 +187,41 @@
     navigator.permissions.query({ name: 'geolocation' }).then(result => { if (result.state === 'granted') detect.run({ silent: true }); }).catch(() => {});
   }
 
-  /* ---- the county tile map ---- */
-  const tiles = [...document.querySelectorAll('[data-county]')];
+  /* ---- the county map and list ---- */
+  const places = [...document.querySelectorAll('[data-county]')];
   const caption = document.querySelector('[data-tile-caption]');
-  if (tiles.length) {
+  if (places.length) {
     const fallback = caption ? caption.textContent : '';
+    const same = name => places.filter(el => el.dataset.county === name);
     const markSelected = () => {
       const chosen = county.get();
-      tiles.forEach(tile => (tile.dataset.county === chosen ? tile.setAttribute('aria-current', 'true') : tile.removeAttribute('aria-current')));
+      places.forEach(el => (el.dataset.county === chosen ? el.setAttribute('aria-current', 'true') : el.removeAttribute('aria-current')));
     };
-    tiles.forEach(tile => {
-      const show = () => { if (caption) caption.textContent = `${county.label(tile.dataset.county)}: see local help`; };
-      const hide = () => { if (caption) caption.textContent = fallback; };
-      tile.addEventListener('pointerenter', show);
-      tile.addEventListener('focus', show);
-      tile.addEventListener('pointerleave', hide);
-      tile.addEventListener('blur', hide);
-      tile.addEventListener('click', () => county.set(tile.dataset.county));
+    places.forEach(place => {
+      const show = () => {
+        same(place.dataset.county).forEach(el => el.classList.add('is-hover'));
+        if (caption) caption.textContent = `${county.label(place.dataset.county)}: see local help`;
+      };
+      const hide = () => {
+        same(place.dataset.county).forEach(el => el.classList.remove('is-hover'));
+        if (caption) caption.textContent = fallback;
+      };
+      place.addEventListener('pointerenter', show);
+      place.addEventListener('focus', show);
+      place.addEventListener('pointerleave', hide);
+      place.addEventListener('blur', hide);
+      place.addEventListener('click', () => county.set(place.dataset.county));
     });
     markSelected();
     window.addEventListener('mde:county', markSelected);
+
+    // The counties settle into place the first time the map scrolls into view.
+    const card = document.querySelector('.mapcard');
+    if (card && 'IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      card.classList.add('will-reveal');
+      new IntersectionObserver((entries, observer) => {
+        if (entries.some(entry => entry.isIntersecting)) { card.classList.add('is-in'); observer.disconnect(); }
+      }, { threshold: 0.25 }).observe(card);
+    }
   }
 })();

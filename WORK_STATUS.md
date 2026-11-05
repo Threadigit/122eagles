@@ -449,7 +449,7 @@ Published to main (commit: Animate the nav logo, detect county on-device, coral 
   location is already allowed. On-device point-in-polygon against 26 KB of simplified Census shapes;
   no coordinates leave the browser. Verified: 24/24 sample towns map to the right county, six out-of-state
   points return none, success/outside/denied flows update greeting, dropdown and tile map.
-- Accent changed from muted amber to steamed-crab coral (#ff6b4a on dark, #c23a1b ink on light);
+- (Superseded: coral was rejected by the user.) Accent was changed from muted amber to coral;
   one token set at the top of style.css (--hot, --hot-rgb, --hot-hover, --hot-ink). Amber was the
   assistant's own choice; user asked for something that pops.
 - Audit: non-breaking hyphen (missing from both fonts) replaced; county names use typographic
@@ -457,3 +457,20 @@ Published to main (commit: Animate the nav logo, detect county on-device, coral 
   edges of every major block at 1440 (all on the grid), and no clipped text or horizontal overflow
   at 1440/1024/390 on the home, problems, brief, guides and about pages. Surface polish added
   (inner highlights, glows, shadows). Playwright tests (incl. new detection test) NOT run here.
+
+## Colour, italics and a real Maryland map — November 5, 2026 (published to main)
+
+User rejected the coral ("terrible") and asked for research, a view on italics, and to turn the
+county tile region into a map of Maryland. Research is summarized in DESIGN_DIRECTION.md.
+- Accent is now Chesapeake sea-glass teal: --hot #4fdcc4, --hot-ink #0a6b5e (compared on the live
+  page against flag gold, coral and sage; sage was washed out, gold/coral clashed with the navy).
+  New navy/teal favicon (assets/favicon.svg); social card regenerated. eagle.svg is untouched.
+- Italics limited to one headline phrase per section (ink colour, not accent), the greeting, hero
+  second line, map Bay label and quotations; numerals, markers, footer tagline and menu are roman.
+- The tile map is replaced by a real SVG map built at build time from md-counties.json: cream land on
+  sea-glass water, county labels where they fit, hover linked to the county list, selected county
+  in teal with a pulsing pin, counties settle in on first view. The SVG is aria-hidden; the list of 24
+  links under it is the keyboard/screen-reader path. On phones the intro sits above the map and the
+  list is two columns. Guides page: the location button moved out of the filter row so fields align.
+- Verified in the browser pane at 1440, 1024 (earlier audit) and 390: map renders and reveals, list
+  hover highlights the map county, no horizontal overflow. Playwright tests not run.

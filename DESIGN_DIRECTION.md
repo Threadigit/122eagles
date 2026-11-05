@@ -35,15 +35,16 @@ product site: heavy sans headlines, gold accents, boxes inside boxes, one photog
 ## Decisions
 
 1. **Warm, not techy.** Parchment for reading, harbor navy for the collection and hero,
-   a steamed-crab coral as the only accent (changed from a muted amber, which did not pop). Fewer boxes: hairline rows and large type carry the page.
+   Chesapeake sea-glass teal (#4fdcc4 on dark, #0a6b5e ink on light) as the only accent. Amber looked washed out and coral read as an alarm against the navy; research favoured navy with a restrained cool accent, and sea glass is the bay's own colour. Fewer boxes: hairline rows and large type carry the page.
 2. **Type.** Instrument Serif for display (with italic for one emphasis per screen),
    Instrument Sans for interface and body.
 3. **The page knows what time it is.** A welcome greets the visitor by their local time and
    (once chosen) their county. A clock shows Maryland time, the visitor's own time when it
    differs, and today's sunrise and sunset. The bridge film is tinted to Maryland's actual
    sky: dawn, day, golden hour, dusk, night.
-4. **Neighborhood, literally.** A county tile map of Maryland's 24 jurisdictions replaces a
-   dropdown as the way into the resource guides. Public-domain Maryland photographs
+4. **Neighborhood, literally.** A real map of Maryland's 24 jurisdictions (drawn at build time from the
+   simplified Census shapes: cream land on sea-glass water, a pulsing pin on your county) is the way into the
+   resource guides, with a plain list of all 24 places as the keyboard and screen-reader path. Public-domain Maryland photographs
    (Library of Congress, Carol M. Highsmith) give places a face.
 5. **Premium navigation.** Floating island nav with a sliding highlight, hide on scroll
    down and show on scroll up, a full-screen mobile menu, and cross-page view transitions.
@@ -52,3 +53,11 @@ product site: heavy sans headlines, gold accents, boxes inside boxes, one photog
    drift on the bridge. All off under `prefers-reduced-motion`.
 7. **Honest data.** County choice never invents local availability; it reminds people to
    ask which office serves them. The time-of-day greeting never claims weather.
+
+## Emphasis and italics (reviewed November 5, 2026)
+
+Typography guidance ([Cambridge brand guide](https://brand.cambridge.org/guide/typography), [Practical Typography](https://practicaltypography.com/bold-or-italic.html))
+says display italics are fine when used sparingly, in a true italic, and that colour is wasted on
+headlines. So: italics only for one phrase in a headline (ink colour, not accent), the homepage
+greeting, the hero's second line, the Bay label on the map and quoted questions. Numerals, markers,
+the footer tagline and the menu are roman.
