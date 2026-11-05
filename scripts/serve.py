@@ -7,14 +7,14 @@ from vercel.json, including the Content-Security-Policy, so layout and script
 problems show up locally instead of in production.
 """
 import json
+import re
 import sys
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 PUBLIC = ROOT / 'public'
-HEADERS = [h for rule in json.loads((ROOT / 'vercel.json').read_text())['headers']
-           if rule['source'] == '/(.*)' for h in rule['headers']]
+RULES = json.loads((ROOT / 'vercel.json').read_text())['headers']
 
 
 class Handler(SimpleHTTPRequestHandler):
@@ -29,8 +29,12 @@ class Handler(SimpleHTTPRequestHandler):
         return str(resolved)
 
     def end_headers(self):
-        for header in HEADERS:
-            self.send_header(header['key'], header['value'])
+        path = self.path.split('?')[0]
+        for rule in RULES:
+            if re.fullmatch(rule['source'], path):
+                for header in rule['headers']:
+                    if header['key'] != 'Cache-Control':  # previews are never cached
+                        self.send_header(header['key'], header['value'])
         self.send_header('Cache-Control', 'no-store')
         super().end_headers()
 

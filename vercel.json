@@ -35,6 +35,15 @@
       ]
     },
     {
+      "source": "/assets/(.*)\\.woff2",
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "https://buttondown.com"
+        }
+      ]
+    },
+    {
       "source": "/downloads/(.*)",
       "headers": [
         {

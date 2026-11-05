@@ -66,7 +66,7 @@ provider-frame fixture to exercise the website's modal behavior independently.
 Set `EAGLES_LIVE_CONFIRMATION=1` for a read-only check of Buttondown's actual
 confirmation preview, including message/action separation and navy buttons.
 The provider owns colours inside its cross-origin frame: Settings → Design,
-Custom CSS `:root { --color-action: #172b36; }`. No paid plan was enabled.
+Custom CSS. The ready-to-paste stylesheet (one flat surface, Hanken Grotesk, near-black button) is `content/buttondown-custom.css`; keep it in sync with what is pasted there. The font loads from mdeagles.com, which `vercel.json` allows for buttondown.com only. No paid plan was enabled.
 The responsive frame has enough height for confirmation; the parent dialog
 scrolls on short screens with a sticky close toolbar. No outcome is auto-dismissed.
 

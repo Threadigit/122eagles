@@ -664,3 +664,17 @@ supervisor, paid a fair hourly rate, a few evening hours while parents are in cl
 Maryland's Office of Child Care first. It states no price or availability claim. Also updated the brief's first step ("work or study"; replaced a leftover "all four" with
 "every parent"), people (adds a college) and measure (adds classes missed and affordability). The page, index counts and Word worksheet were rebuilt; tests/seo.py passes.
 Not verified: the Maryland licensing rules for campus evening care (the brief says to confirm them; no rule is asserted).
+
+## Signup form look and font — November 5, 2026 (in working tree, not yet committed; needs an owner step)
+
+User sent a screenshot of the signup dialog: a grey panel inside a lighter panel ("alternating colour") and a pale tinted Subscribe button with white text, and asked
+for our font. Cause: the form is Buttondown's own page (https://buttondown.com/eagles?as_embed=true) shown in a cross-origin frame, so website CSS cannot reach it. Its page
+background (#fafafa) and card (#f3f3f3) differ, and the disabled button is 50% opacity on a gold tint. Embedding the real form directly is not an option: the
+embed-subscribe endpoint sends X-Frame-Options: DENY and the page uses a Turnstile challenge.
+- NEW content/buttondown-custom.css: Custom CSS for Buttondown (Settings -> Design -> Custom CSS), to be pasted by the account owner. Makes page, card and form transparent over the
+  site's parchment dialog, Hanken Grotesk everywhere, white input with a gold focus ring, near-black pill button. Tested by injecting it into Buttondown's live embed page in the
+  browser pane at the dialog's width (flat surface, near-black enabled button, label and input colours checked).
+- vercel.json: Access-Control-Allow-Origin: https://buttondown.com on /assets/*.woff2, so Buttondown's page can load our font. scripts/serve.py now applies every vercel.json header rule
+  (it only applied "/(.*)" before) and the preview server was restarted.
+Not verified: the font itself. It cannot load cross-origin until the vercel.json header is deployed, and the CSS is not live until pasted into Buttondown. Whether the account's plan allows
+Custom CSS is unknown (README noted "no paid plan"). After deploy and pasting, check document.fonts shows Hanken Grotesk loaded inside the frame.
