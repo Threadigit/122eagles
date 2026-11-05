@@ -15,7 +15,7 @@ python3 scripts/grade-photo.py        # only when the bridge photograph or its g
 python3 scripts/prepare-photos.py     # only when the Maryland place photographs change
 python3 scripts/prepare-counties.py  # only when the county boundary source changes
 python3 scripts/make-favicons.py     # only when the logo or favicon colours change (then bump ICON_VERSION in scripts/layout.py and the ?v= in site.webmanifest, or browsers keep showing the old icon)
-python3 scripts/make-logo-png.py      # transparent PNG logos into brand/ (lockup on dark and light, the eagle mark in gold, ink and white)
+python3 scripts/make-logo-png.py      # transparent PNG logos into brand/ (lockup on dark and light, the eagle mark in gold, ink and white, and square icons mdeagles-icon-512/128 (near-black) and -512-transparent for places that crop to a square, such as Buttondown's icon)
 python3 scripts/make-social-cards.py  # only when a page title or the social look changes (one 1200x630 card per page in public/assets/social/)
 python3 tests/seo.py                  # titles, descriptions, social cards, JSON-LD, sitemap lastmod (run after build.py)
 python3 scripts/indexnow.py           # dry run; add --send AFTER a deploy to ping Bing and other IndexNow engines

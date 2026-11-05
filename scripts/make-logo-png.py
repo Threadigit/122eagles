@@ -110,3 +110,34 @@ lockup(INK, INK, 'mdeagles-logo-on-light.png')
 mark_only(GOLD, 'mdeagles-mark-gold.png')
 mark_only(INK, 'mdeagles-mark-ink.png')
 mark_only(WHITE, 'mdeagles-mark-white.png')
+
+
+# ---- square icons (for places that crop to a square: Buttondown's icon, social avatars, app icons) ----
+# The bolder favicon drawing (scripts/make-favicons.py geometry) so the eagle stays legible small, fully inside the square
+# with about 20% margin on each side, so nothing is cropped.
+ICON_WINGS = [(8, 22), (22, 26), (32, 38), (42, 26), (56, 22), (45, 37), (32, 45), (19, 37)]
+ICON_BODY = [[(27, 32), (32, 24), (37, 32)], [(32, 38), (32, 45)]]
+ICON_STROKE, ICON_EDGE = 3.6, 2.6
+
+
+def icon(size, name, transparent):
+    big = size * 8
+    img = Image.new('RGBA', (big, big), (0, 0, 0, 0) if transparent else INK + (255,))
+    d = ImageDraw.Draw(img)
+    k = big * 0.60 / 48                      # the mark spans 48 units (x 8..56): 60% of the square
+    ox, oy = big / 2 - 32 * k, big / 2 - 33.5 * k  # centred on the mark (x 8..56, y 22..45)
+    layers = [(ICON_STROKE + ICON_EDGE, INK), (ICON_STROKE, GOLD)] if transparent else [(ICON_STROKE, GOLD)]
+    for width, colour in layers:
+        w = width * k
+        for path in [ICON_WINGS + [ICON_WINGS[0]]] + ICON_BODY:
+            pts = [(ox + x * k, oy + y * k) for x, y in path]
+            d.line(pts, fill=colour, width=round(w), joint='curve')
+            for cx, cy in pts:
+                d.ellipse([cx - w / 2, cy - w / 2, cx + w / 2, cy + w / 2], fill=colour)
+    img.resize((size, size), Image.LANCZOS).save(OUT / name, optimize=True)
+    print(f'{name}: {size} x {size}px, {"transparent" if transparent else "near-black background"}')
+
+
+icon(512, 'mdeagles-icon-512.png', transparent=False)
+icon(128, 'mdeagles-icon-128.png', transparent=False)
+icon(512, 'mdeagles-icon-512-transparent.png', transparent=True)

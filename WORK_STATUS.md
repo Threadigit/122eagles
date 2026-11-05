@@ -681,3 +681,18 @@ User: do not redirect readers to the Buttondown page (very important), and expor
   same geometry/spacing as the masthead) and mdeagles-mark-gold/-ink/-white.png (1784 x 1015). All RGBA with fully transparent backgrounds (corner alpha 0), checked on dark and light.
 Not verified: a real signup (does the live endpoint create the subscriber, send the confirmation email, or ask for a spam check from mdeagles.com?). The create-subscriber answer
 shapes are inferred from Buttondown's own script. If Buttondown returns something unexpected the reader sees the generic "couldn't sign you up" message.
+
+## Square icon PNGs — November 5, 2026 (in working tree, not yet committed)
+
+User showed Buttondown's icon upload cropping the wide logo (wings cut off) and asked for a favicon-size logo that is not too big. scripts/make-logo-png.py now also writes
+brand/mdeagles-icon-512.png and -128.png (gold eagle on near-black, the bold favicon geometry, mark spans 60% of the square, centred, 80 px side margins at 512) and
+mdeagles-icon-512-transparent.png (gold with a thin near-black edge so it reads on white). Checked visually on white, dark grey and near-black. Not checked: how Buttondown's own
+cropper treats it after upload.
+
+## 122eagles.com showed the home page unstyled — November 5, 2026 (fix in working tree, not yet deployed)
+
+Cause: the old-domain redirect rules used source "/:path*", which Vercel does not apply to the root path "/". So https://122eagles.com/ returned 200 with the home HTML while every
+asset (/style.css and the scripts, fonts, images) was redirected (308) to https://mdeagles.com/..., and the page's CSP (style-src/script-src/font-src 'self') blocks those cross-origin
+loads: unstyled, script-less page. Other paths (/about, /guides?county=...) already redirected correctly; www.122eagles.com redirects to 122eagles.com first. Fix: both host rules now use
+source "/(.*)" with destination https://mdeagles.com/$1, which includes "/". Verify after deploy: curl -sI https://122eagles.com/ should show 308 to https://mdeagles.com/.
+Not verified locally (the redirect only exists on Vercel).
