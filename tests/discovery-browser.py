@@ -12,11 +12,12 @@ with sync_playwright() as p:
   errors=[];page.on('pageerror',lambda e:errors.append(str(e)))
   page.goto(BASE+'/',wait_until='networkidle');page.evaluate('document.fonts.ready')
   assert page.locator('.home-hero [data-open-subscribe]').count()==0
-  assert page.locator('.need-card').count()==8
+  assert page.locator('.guide-result').count()==3
   assert page.evaluate('document.documentElement.scrollWidth<=innerWidth')
   assert page.evaluate('document.getAnimations().length')==0
   page.screenshot(path=f'/tmp/md-home-{width}.png',full_page=True)
-  page.get_by_label('What are you trying to figure out?').fill('electric bill')
+  page.goto(BASE+'/guides')
+  page.get_by_label('Search the guides',exact=True).fill('electric bill')
   page.get_by_role('button',name='Search',exact=True).click()
   expect(page.locator('.guide-result:visible')).to_have_count(1)
   assert 'utility-bills' in page.locator('.guide-result:visible h2 a').get_attribute('href')

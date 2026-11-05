@@ -1,3 +1,11 @@
+## Current direction: problems residents can help solve
+
+The primary entry point is `/problems`. Evidence-backed briefs distinguish published findings from proposed local projects, with a first conversation, existing services and a downloadable worksheet. `/guides` remains secondary support for people seeking help today. Subscription is secondary.
+
+Design follows plain service-directory conventions: readable sans serif type, underlined links, simple lists and no decorative cards or animated hero. The user explicitly superseded the earlier design-preservation instruction.
+
+Edit `content/problems.json`, then run `python3 scripts/build-problems.py` and `python3 scripts/build-guides.py`. Problem proposals are untested, not active projects or promised partnerships.
+
 # Maryland Eagles Eyes: editorial direction
 
 Publication first; email is how readers keep up. The user has expanded the site from a welcome page into a searchable resource

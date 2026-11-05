@@ -9,6 +9,7 @@
   };
   const openSignup = () => {
     dialog.showModal();
+    dialog.scrollTop = 0;
     document.body.setAttribute('data-signup-open', '');
     if (!frame.hasAttribute('src')) loadForm();
   };

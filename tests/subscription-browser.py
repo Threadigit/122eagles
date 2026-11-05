@@ -6,7 +6,7 @@ URL=os.environ.get('EAGLES_TEST_URL','http://127.0.0.1:8012/')
 EMBED='https://buttondown.com/eagles?as_embed=true'
 FIXTURE='''<!doctype html><html lang="en"><body><form><label>Email <input type="email" required></label><button type="submit">Subscribe</button></form></body></html>'''
 with sync_playwright() as p:
- executable=shutil.which('chromium')
+ executable=os.environ.get('EAGLES_BROWSER') or shutil.which('chromium')
  options={'headless':True}
  if executable:options.update(executable_path=executable,args=['--no-sandbox'])
  browser=p.chromium.launch(**options)
@@ -18,7 +18,7 @@ with sync_playwright() as p:
   assert requests==[],requests
   trigger=page.locator('[data-open-subscribe]')
   assert trigger.is_enabled()
-  assert page.get_by_role('heading',name='Maryland, made clear.').is_visible()
+  assert page.get_by_role('heading',name='Find a Maryland problem you can help solve.').is_visible()
   trigger.click();dialog=page.locator('#subscribe-dialog')
   assert dialog.evaluate('(e)=>e.open')
   assert page.evaluate('document.body.hasAttribute("data-signup-open")')
@@ -39,6 +39,7 @@ with sync_playwright() as p:
   assert not dialog.evaluate('(e)=>e.open')
   expect(trigger).to_be_focused()
   trigger.click()
+  page.get_by_role('button',name='Reload signup form').scroll_into_view_if_needed()
   with page.expect_request(EMBED):page.get_by_role('button',name='Reload signup form').click()
   assert len(requests)==2,requests
   assert page.evaluate('document.getAnimations().length')==0

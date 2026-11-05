@@ -6,7 +6,7 @@ guides=json.loads((ROOT/'content/guides.json').read_text())
 e=lambda v:html.escape(v,quote=True)
 base=(PUBLIC/'about.html').read_text()
 identity=re.search(r'<a class="identity".*?</a>',base,re.S)[0]
-nav=f'<header class="masthead">{identity}<nav class="site-nav" aria-label="Main navigation"><a href="/guides">Find help</a><a href="/about">About</a></nav></header>'
+nav=f'<header class="masthead">{identity}<nav class="site-nav" aria-label="Main navigation"><a href="/problems">Problems to solve</a><a href="/guides">Find help</a><a href="/about">About</a></nav></header>'
 footer='<footer><a href="/">Maryland Eagles Eyes</a><div class="footer-links"><a href="/guides">All guides</a><a href="/about">About</a><a href="/#subscribe">Email updates</a></div></footer>'
 def head(title,desc,path,kind='WebPage'):
  s=base[:base.index('<body')]
@@ -39,6 +39,6 @@ for g in guides:
  if g.get('phone'):
   page=page.replace('<h2>Your next steps</h2>',f'<p>Prefer to call? <a class="text-link" href="tel:{g["telephone"]}">{e(g["phone"])}</a> is Maryland Health Connection’s consumer support number.</p><h2>Your next steps</h2>')
  (PUBLIC/'guides'/f'{g["slug"]}.html').write_text(page)
-paths=['/','/about','/guides']+['/guides/'+g['slug'] for g in guides]
-(PUBLIC/'sitemap.xml').write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+''.join(f'  <url><loc>https://mdeagles.com{path}</loc><lastmod>2026-11-04</lastmod></url>\n' for path in paths)+'</urlset>\n')
-print(f'Generated directory and {len(guides)} resource guides.')
+paths=['/' if f.stem=='index' else '/'+str(f.relative_to(PUBLIC).with_suffix('')) for f in sorted(PUBLIC.rglob('*.html'))]
+(PUBLIC/'sitemap.xml').write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'+''.join(f'<url><loc>https://mdeagles.com{path}</loc></url>' for path in paths)+'</urlset>')
+print('Generated resource guides and sitemap.')

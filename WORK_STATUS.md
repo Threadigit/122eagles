@@ -297,4 +297,32 @@ removing residual headline animation from the new hero in reduced-motion mode.
 SEO/sitemap/internal links pass; homepage, directory and guide screenshots reviewed.
 Final natural-language queries and reduced-motion checks pass across all four
 viewports. Prefix/word search avoids matching rent inside parent. Production
-push and live verification pending.
+push complete: e3d19c8 on main, production deployment
+ dpl_C5DLw1R1pkKUbDdLTAdUbD2vVkya READY. Live files match the committed homepage,
+About, directory, discovery CSS/JS, sitemap and social preview. Discovery journeys
+pass on https://mdeagles.com at all four widths, including all eight guide routes
+and no-JavaScript browsing. Signup regression and actual Buttondown form validation
+pass without submission. Old-domain /guides?topic=work redirects correctly.
+The new discovery experience is live. This final verification note remains local.
+
+## Builder-first correction — November 5, 2026
+
+User rejected the prior visual design and explicitly superseded preserving it.
+Core is now documented Maryland problems and solutions residents can take up.
+Rebuilt with plain GOV.UK-inspired service-directory conventions: white background,
+Arial, underlined links, simple rows; no photo hero, animation or decorative cards.
+`/problems` is the first navigation item and homepage primary action. Three sourced
+briefs cover Baltimore child care/work, Maryland employer cash flow, and skilled
+immigrant career barriers. Proposals are explicitly untested; no implied partners.
+Each includes evidence limits, first steps, possible collaborators, measures,
+existing services and a real downloadable project worksheet. Source review date
+November 5, 2026. Resource guides and lazy Buttondown subscription remain secondary.
+Generators: build-problems.py then build-guides.py (which rebuilds full sitemap).
+Pending: finish browser QA, push, verify production.
+
+Local QA complete: problem search/filter/reload, no-JS browsing, all brief routes,
+worksheet download contents, resource search and all eight guide routes pass.
+Mobile/desktop layouts at 320/390/844/1440px have no overflow. Screenshots reviewed.
+Signup regression passes all four widths, including lazy load, validation,
+close/focus, reopening and reload. Dialog scroll now resets on reopening.
+SEO, sitemap and internal links pass. No email submitted or campaign sent.
